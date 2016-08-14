@@ -25,6 +25,7 @@ var gl = c.getContext('webgl') || c.getContext('experimental-webgl'),
   H = FH - 2 * GAME_Y_MARGIN,
   borderLength = 2*(W+H+2*GAME_INC_PADDING);
 
+
 // DOM setup
 d.style.webkitTransformOrigin = d.style.transformOrigin = "0 0";
 
@@ -52,6 +53,8 @@ gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([
 var glowShader = glCreateShader(STATIC_VERT, GLOW_FRAG);
 gl.uniform2f(glUniformLocation(glowShader, 'dim'), W, H);
 var copyShader = glCreateShader(STATIC_VERT, COPY_FRAG);
+var crtShader = glCreateShader(STATIC_VERT, CRT_FRAG);
+gl.uniform2f(glUniformLocation(crtShader, 'dim'), W, H);
 //var laserShader = glCreateShader( STATIC_VERT, LASER_FRAG);
 //var persistenceShader = glCreateShader(STATIC_VERT, PERSISTENCE_FRAG);
 //var glareShader = glCreateShader(STATIC_VERT, GLARE_FRAG);
