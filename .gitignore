@@ -40,3 +40,4 @@ target.zip
 target/
 .DS_Store
 build/
+scripts/total*

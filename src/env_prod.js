@@ -1,1 +1,1 @@
-var DEBUG = false; // eslint-disable-line no-unused-vars
+const DEBUG = false; // eslint-disable-line no-unused-vars

@@ -28,4 +28,5 @@ cd ..;
 
 # game
 
+cat src/gameLoop.js
 cat src/post.js
