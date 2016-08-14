@@ -13,7 +13,7 @@ fi;
 #cat src/lib/math.js
 #cat src/lib/path.js
 #cat src/lib/asteroids.font.js
-#cat src/lib/webgl.js
+cat src/lib/webgl.js
 #cat src/lib/jsfxr.js
 #cat src/lib/audio.js
 
@@ -30,5 +30,6 @@ cd ..;
 # game
 
 cat src/setup.js
+cat src/effects.js
 cat src/gameLoop.js
 cat src/post.js

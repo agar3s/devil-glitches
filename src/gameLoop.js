@@ -7,7 +7,15 @@ function update(){
 }
 
 function draw(){
-  
+  ctx.save();
+  ctx.clearRect(0, 0, FW, FH);
+  ctx.strokeStyle = '#FFF'
+  ctx.strokeRect(0,0,100,100);
+  ctx.strokeStyle = '#F00'
+  ctx.strokeRect(0,0,W,H);
+  ctx.strokeStyle = '#0F0'
+  ctx.strokeRect(200,200,200,200);
+  ctx.restore()
 }
 
 var lastTime;
@@ -24,11 +32,13 @@ function loop(t){
   lastTime = t;
 
   // check changes
-  read()
+  read();
   // update changes
-  update()
+  update();
   // draw changes
-  draw()
+  draw();
+  // webgl postprocessing
+  drawPostProcessing();
 
   if(DEBUG){
     _fps_.end();
