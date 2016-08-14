@@ -7,17 +7,17 @@ function update(){
 }
 
 function draw(){
-  ctx.save();
+  //ctx.save();
   ctx.clearRect(0, 0, FW, FH);
   ctx.strokeStyle = '#FFF'
   ctx.strokeRect(0,0,100,100);
   ctx.strokeStyle = '#F00'
   ctx.strokeRect(0,0,W,H);
-  ctx.strokeStyle = '#0F0'
+  ctx.strokeStyle = '#FFF'
   ctx.strokeRect(200,200,200,200);
   ctx.fillStyle = '#0F0'
   ctx.fillRect(200,200,40,40);
-  ctx.restore()
+  //ctx.restore()
 }
 
 var lastTime;

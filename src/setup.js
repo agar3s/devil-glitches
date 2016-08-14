@@ -11,12 +11,13 @@ if(DEBUG){
   document.body.appendChild(_fps_.dom);
   document.body.appendChild(_processing_.dom);
   document.body.appendChild(_memory_.dom);
+  console.log('new loaded', new Date())
 }
 
 var gl = c.getContext('webgl') || c.getContext('experimental-webgl'),
   ctx = g.getContext('2d'),
-  FW = 400,
-  FH = 400,
+  FW = 800,
+  FH = 600,
   GAME_MARGIN = 0,
   GAME_Y_MARGIN = GAME_MARGIN,
   GAME_INC_PADDING = 80,
@@ -32,11 +33,8 @@ g.height = c.height = H;
 c.style.top = GAME_Y_MARGIN + "px";
 c.style.left = GAME_MARGIN + "px";
 
-var uiScale = devicePixelRatio;
-
 
 // WebGL setup
-
 gl.viewport(0, 0, W, H);
 gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
 
