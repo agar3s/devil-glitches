@@ -4,7 +4,8 @@ cat src/pre.js
 if [ "$NODE_ENV" == "production" ]; then
   cat src/env_prod.js
 else
-  cat src/env_dev.js
+  cat src/env_dev.js 
+  cat src/lib/stats.min.js
 fi;
 
 # libs
@@ -28,5 +29,6 @@ cd ..;
 
 # game
 
+cat src/setup.js
 cat src/gameLoop.js
 cat src/post.js
