@@ -6,8 +6,8 @@ function update(){
 
 }
 
-function draw(){
-  //ctx.save();
+function draw(t){
+  ctx.save();
   ctx.clearRect(0, 0, FW, FH);
   ctx.strokeStyle = '#FFF'
   ctx.strokeRect(0,0,100,100);
@@ -17,7 +17,25 @@ function draw(){
   ctx.strokeRect(200,200,200,200);
   ctx.fillStyle = '#0F0'
   ctx.fillRect(200,200,40,40);
-  //ctx.restore()
+  ctx.restore()
+
+  ctx.save();
+  ctx.translate(150, 150);
+  ctx.fillStyle = "blue";
+  ctx.rotate((Math.PI/180)*25);
+  ctx.fillRect(-50, -50, 100, 100);
+  ctx.restore()
+  
+  ctx.save();
+  ctx.translate(150, 150);
+  ctx.fillStyle = "red";
+  ctx.rotate((Math.PI/180)*(t/60));
+  ctx.translate(-50, -50);
+  ctx.fillRect(0, 0, 100, 100);
+  ctx.strokeStyle = '#fff';
+  ctx.strokeRect(0,0,200,200);
+  ctx.restore()
+  
 }
 
 var lastTime;
@@ -38,7 +56,7 @@ function loop(t){
   // update changes
   update();
   // draw changes
-  draw();
+  draw(t);
   // webgl postprocessing
   drawPostProcessing();
 
