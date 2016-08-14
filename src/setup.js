@@ -51,8 +51,8 @@ gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([
   1.0,  1.0
 ]), gl.STATIC_DRAW);
 
-//var blur1dShader = glCreateShader(STATIC_VERT, BLUR1D_FRAG);
-//gl.uniform2f(glUniformLocation(blur1dShader, "dim"), W, H);
+var glowShader = glCreateShader(STATIC_VERT, GLOW_FRAG);
+gl.uniform2f(glUniformLocation(glowShader, 'dim'), W, H);
 var copyShader = glCreateShader(STATIC_VERT, COPY_FRAG);
 //var laserShader = glCreateShader( STATIC_VERT, LASER_FRAG);
 //var persistenceShader = glCreateShader(STATIC_VERT, PERSISTENCE_FRAG);
