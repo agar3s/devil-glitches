@@ -31,5 +31,7 @@ cd ..;
 
 cat src/setup.js
 cat src/effects.js
+cat src/clickEvents.js
+cat src/keyEvents.js
 cat src/gameLoop.js
 cat src/post.js

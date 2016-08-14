@@ -1,5 +1,12 @@
 
+var coso = [0, 0]
+
 function read(){
+  if((keyMap&keys[65])>0) coso[0]--
+  if((keyMap&keys[87])>0) coso[1]--
+  if((keyMap&keys[83])>0) coso[1]++
+  if((keyMap&keys[68])>0) coso[0]++
+  console.log(coords)
 }
 
 function update(){
@@ -20,20 +27,18 @@ function draw(t){
   ctx.restore()
 
   ctx.save();
-  ctx.translate(150, 150);
+  ctx.translate(coso[0], coso[1]);
   ctx.fillStyle = "blue";
   ctx.rotate((Math.PI/180)*25);
   ctx.fillRect(-50, -50, 100, 100);
   ctx.restore()
   
   ctx.save();
-  ctx.translate(150, 150);
-  ctx.fillStyle = "red";
+  ctx.translate(coords[0]+(coords[2]?(-5+Math.random()*10):0), coords[1]+(coords[2]?(-5+Math.random()*10):0));
+  ctx.strokeStyle = "red";
   ctx.rotate((Math.PI/180)*(t/60));
   ctx.translate(-50, -50);
-  ctx.fillRect(0, 0, 100, 100);
-  ctx.strokeStyle = '#fff';
-  ctx.strokeRect(0,0,200,200);
+  ctx.strokeRect(0,0,100,100);
   ctx.restore()
   
 }
