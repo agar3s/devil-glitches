@@ -7,20 +7,24 @@ function update(t){
   // move depending on keypressed
   if((keyMap&keys[65])>0){
     hero[0]-=t;
-    viewPort[0]+=t;
+    if(hero[0]<hero[3]) hero[0] = hero[3] // hero limit on x left
+    if(hero[0]>viewPort[2]&&hero[0]<mapPixels-viewPort[2]) viewPort[0]+=t;
   } 
   if((keyMap&keys[87])>0){
     hero[1]-=t;
-    viewPort[1]+=t;
+    if(hero[1]<hero[3]) hero[1] = hero[3]
+    if(hero[1]>viewPort[3]&&hero[1]<mapPixels-viewPort[3]) viewPort[1]+=t;
   }
 
   if((keyMap&keys[83])>0){
     hero[1]+=t;
-    viewPort[1]-=t;
+    if(hero[1]>mapPixels) hero[1] = mapPixels
+    if(hero[1]>viewPort[3]&&hero[1]<mapPixels-viewPort[3]) viewPort[1]-=t;
   }
   if((keyMap&keys[68])>0){
-   hero[0]+=t;
-    viewPort[0]-=t;
+    hero[0]+=t;
+    if(hero[0]>mapPixels) hero[0] = mapPixels
+    if(hero[0]>viewPort[2]&&hero[0]<mapPixels-viewPort[2]) viewPort[0]-=t;
   }
 
   // turn according to the pointer
@@ -46,18 +50,21 @@ function path(xpts, ypts){
 }
 
 function draw(t){
-  // draw map
+  // draw map 
   ctx.clearRect(0, 0, FW, FH);
+  ctx.fillRect(0,0,FW, FH);
   ctx.save()
   ctx.strokeStyle = "#545EB4";
-  var gridSize = H/mapHeight
+  var gridSize = H/mapSize
   ctx.beginPath();
   ctx.translate(shake(coords[2], 2), shake(coords[2], 2));
-  for(var i = 0; i <= mapHeight; i++){
+  ctx.fillStyle = 'rgba(12,27,46,0.2)';
+  ctx.fillRect(viewPort[0], viewPort[1], mapPixels, mapPixels)
+  for(var i = 0; i <= mapSize; i++){
     ctx.moveTo(viewPort[0]+i*tileset, viewPort[1]);
-    ctx.lineTo(viewPort[0]+i*tileset, viewPort[1]+mapHeight*tileset);
+    ctx.lineTo(viewPort[0]+i*tileset, viewPort[1]+mapPixels);
     ctx.moveTo(viewPort[0], viewPort[1]+i*tileset);
-    ctx.lineTo(viewPort[0]+mapHeight*tileset, viewPort[1]+i*tileset);
+    ctx.lineTo(viewPort[0]+mapPixels, viewPort[1]+i*tileset);
   }
   ctx.closePath();
   ctx.stroke()
