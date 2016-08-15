@@ -1,34 +1,49 @@
 /**
 * read the last events in game, update world 
 */
-function update(t){
+function update(dt){
   // apply speed to hero movement
-  t = t*hero[2];
+  t = dt*hero[2];
   // move depending on keypressed
   if((keyMap&keys[65])>0){
     hero[0]-=t;
-    if(hero[0]<hero[3]) hero[0] = hero[3] // hero limit on x left
+    if(hero[0]<hero[3]/2) hero[0] = hero[3]/2; // hero limit on x left
     if(hero[0]>viewPort[2]&&hero[0]<mapPixels-viewPort[2]) viewPort[0]+=t;
   } 
   if((keyMap&keys[87])>0){
     hero[1]-=t;
-    if(hero[1]<hero[3]) hero[1] = hero[3]
+    if(hero[1]<hero[3]/2) hero[1] = hero[3]/2;
     if(hero[1]>viewPort[3]&&hero[1]<mapPixels-viewPort[3]) viewPort[1]+=t;
   }
 
   if((keyMap&keys[83])>0){
     hero[1]+=t;
-    if(hero[1]>mapPixels) hero[1] = mapPixels
+    if(hero[1]>mapPixels - hero[3]/2) hero[1] = mapPixels - hero[3]/2;
     if(hero[1]>viewPort[3]&&hero[1]<mapPixels-viewPort[3]) viewPort[1]-=t;
   }
   if((keyMap&keys[68])>0){
     hero[0]+=t;
-    if(hero[0]>mapPixels) hero[0] = mapPixels
+    if(hero[0]>mapPixels - hero[3]/2) hero[0] = mapPixels - hero[3]/2;
     if(hero[0]>viewPort[2]&&hero[0]<mapPixels-viewPort[2]) viewPort[0]-=t;
   }
 
-  // turn according to the pointer
-  hero[4] = getAngle([hero[0]+viewPort[0], hero[1]+viewPort[1]], coords) + Math.PI/2;
+  // turn according to the pointer 
+  hero[4] = getAngle([hero[0]+viewPort[0], hero[1]+viewPort[1]], coords);
+
+  // if fire shots fire
+  if(coords[2]&&hero[6]<=0){
+    bullets.push([hero[0]+shake(1, 2), hero[1]+shake(1, 2), hero[4]+shake(1, 0.05)])
+    hero[6] = 1/hero[7]; //5bullets per second
+  }else{
+    hero[6]-=dt
+  }
+
+  for (var i = bullets.length-1; i >= 0; i--) {
+    var bullet = bullets[i];
+    bullet[0] += Math.cos(bullet[2])*t*2; // bullet speed *2
+    bullet[1] += Math.sin(bullet[2])*t*2;
+    if(bullet[0]<-20||bullet[0]>mapPixels+20||bullet[1]<-20||bullet[1]>mapPixels+20) bullets.splice(i,1);
+  }
 }
 
 function shake(cond, val){
@@ -75,7 +90,7 @@ function draw(t){
   ctx.save();
   ctx.translate(hero[0] + viewPort[0] + shake(coords[2], 1), hero[1] + viewPort[1]+ shake(coords[2], 1));
   ctx.strokeStyle = "#F952FF";
-  ctx.rotate(hero[4]);
+  ctx.rotate(hero[4]+Math.PI/2);
   path(heroShape[0], heroShape[1]);
   ctx.stroke()
   ctx.restore()
@@ -95,6 +110,19 @@ function draw(t){
   ctx.lineTo(10, 20)
   ctx.closePath();
   ctx.stroke();
+  ctx.restore();
+
+  // draw bullets
+  ctx.save();
+  ctx.fillStyle = '#37ACE7';
+  for (var i = 0; i < bullets.length; i++) {
+    var bullet = bullets[i];
+    if(bullet[0]+viewPort[0]<20||bullet[0]+viewPort[0]>W-20||bullet[1]+viewPort[1]<20||bullet[1]+viewPort[1]>H-20) continue
+    ctx.beginPath();
+    ctx.arc(bullet[0]+viewPort[0], bullet[1]+viewPort[1], 2, 0, 2 * Math.PI, false);
+    ctx.closePath();
+    ctx.fill();
+  }
   ctx.restore();
 
 }

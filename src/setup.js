@@ -33,6 +33,9 @@ g.width = c.width = W;
 g.height = c.height = H;
 c.style.top = GAME_Y_MARGIN + "px";
 c.style.left = GAME_MARGIN + "px";
+document.oncontextmenu = function (e) {
+  e.preventDefault();
+};
 
 
 // WebGL setup
