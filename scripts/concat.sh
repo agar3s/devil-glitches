@@ -10,7 +10,7 @@ fi;
 
 # libs
 
-#cat src/lib/math.js
+cat src/lib/geometry.js
 #cat src/lib/path.js
 #cat src/lib/asteroids.font.js
 cat src/lib/webgl.js
@@ -33,5 +33,6 @@ cat src/setup.js
 cat src/effects.js
 cat src/clickEvents.js
 cat src/keyEvents.js
+cat src/gameState.js
 cat src/gameLoop.js
 cat src/post.js
