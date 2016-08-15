@@ -28,7 +28,7 @@ function update(t){
   }
 
   // turn according to the pointer
-  hero[4] = getAngle([hero[0]+viewPort[0], hero[1]+viewPort[1]], coords)
+  hero[4] = getAngle([hero[0]+viewPort[0], hero[1]+viewPort[1]], coords) + Math.PI/2;
 }
 
 function shake(cond, val){
@@ -50,7 +50,7 @@ function path(xpts, ypts){
 }
 
 function draw(t){
-  // draw map 
+  // draw map
   ctx.clearRect(0, 0, FW, FH);
   ctx.fillRect(0,0,FW, FH);
   ctx.save()
@@ -67,23 +67,20 @@ function draw(t){
     ctx.lineTo(viewPort[0]+mapPixels, viewPort[1]+i*tileset);
   }
   ctx.closePath();
-  ctx.stroke()
-  ctx.restore()
+  ctx.stroke();
+  ctx.restore();
 
   // draw hero
+
   ctx.save();
   ctx.translate(hero[0] + viewPort[0] + shake(coords[2], 1), hero[1] + viewPort[1]+ shake(coords[2], 1));
-  ctx.fillStyle = 'rgba(13,89,140,0.6)';
   ctx.strokeStyle = "#F952FF";
-  ctx.translate(-hero[3]/2, -hero[3]/2);
   ctx.rotate(hero[4]);
-  path([-10, 10, 10, -10],[-10, -10, 10, 10])
-  //ctx.fillRect(0, 0, hero[3], hero[3]);
-  //ctx.strokeRect(0, 0, hero[3], hero[3]);
+  path(heroShape[0], heroShape[1]);
   ctx.stroke()
   ctx.restore()
   
-  // hit
+  // cross 
   ctx.save();
   ctx.translate(coords[0], coords[1]);
   ctx.strokeStyle = "#C36084";
