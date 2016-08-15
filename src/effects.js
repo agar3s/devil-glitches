@@ -13,7 +13,7 @@ function drawPostProcessing () {
   gl.uniform1i(glUniformLocation(crtShader, 't'), glBindTexture(glGetFBOTexture(fbo1), 0));
   gl.drawArrays(gl.TRIANGLES, 0, 6);
 
-
+ 
   // Final draw
   gl.bindFramebuffer(gl.FRAMEBUFFER, null);
   //glBindShader(gameShader);
@@ -29,4 +29,5 @@ function drawPostProcessing () {
   //  !gameOver && lifes>4 ? 0.5 * smoothstep(-1, 1, Math.cos(0.01*t)) : 0);
   //gl.uniform2f(glUniformLocation(gameShader, "k"), shaking[0], shaking[1]);
   gl.drawArrays(gl.TRIANGLES, 0, 6);
+  gl.flush();
 }
