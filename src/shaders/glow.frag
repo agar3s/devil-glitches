@@ -3,18 +3,20 @@ precision highp float;
 uniform vec2 dim;
 uniform sampler2D t;
 varying vec2 uv;
+uniform float time;
  
-void main (void){
+void main (void){ 
    vec2 pos = uv * dim;
    vec4 col = texture2D(t, uv);
    vec4 gws = vec4(0.0);
-   float rand = 0.3; 
-   float weight = 1.0 / (7.0) / (7.0);
-   vec4 col_r = texture2D(t, uv + vec2((7.5 / dim.x) * rand, 0));
-   vec4 col_l = texture2D(t, uv + vec2((5.0 / dim.x) * rand, 0));
+   float rand = 0.02*sin(time)+0.35;
+   float weight = 1.0 / (7.0) / (7.0); 
+  
+   vec4 col_r = texture2D(t, uv + vec2((-15.0 / dim.x) * rand, 0));
+   vec4 col_l = texture2D(t, uv + vec2((8.0 / dim.x) * rand, 0));
    vec4 col_g = texture2D(t, uv + vec2((-7.5 / dim.x) * rand, 0));
-   col.r = col.r + col_r.r * max(1.0, sin(uv.y * dim.y * 1.2) * 2.5) * rand;
-   col.b = col.b + col_l.b * max(1.0, sin(uv.y * dim.y * 1.2) * 2.5) * rand;
+   col.r = col.r + col_l.r * max(1.0, sin(uv.y * dim.y * 1.2) * 2.5) * rand;
+   col.b = col.b + col_r.b * max(1.0, sin(uv.y * dim.y * 1.2) * 2.5) * rand;
    col.g = col.g + col_g.g * max(1.0, sin(uv.y * dim.y * 1.2) * 2.5) * rand;
 
    for (int i = 0; i < 1024; i++) {

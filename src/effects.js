@@ -1,11 +1,12 @@
 
-function drawPostProcessing () {
+function drawPostProcessing (time) {
   glSetTexture(textureGame, g);
 
-  // glow
+  // glow 
   glBindFBO(fbo1);
   glBindShader(glowShader);
   gl.uniform1i(glUniformLocation(glowShader, 't'), glBindTexture(textureGame, 0));
+  gl.uniform1f(glUniformLocation(glowShader, 'time'), (frame));
   gl.drawArrays(gl.TRIANGLES, 0, 6);
 
   glBindFBO(fbo2);

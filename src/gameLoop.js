@@ -144,13 +144,14 @@ function loop(t){
   if(!lastTime) lastTime = t;
   dt = (Math.min(100, t-lastTime)/1000);
   lastTime = t;
+  frame++;
 
   // update changes
   update(dt);
   // draw changes 
   draw(dt);
 
-  drawPostProcessing();
+  drawPostProcessing(Math.floor(t));
 
   if(DEBUG){
     _fps_.end();
