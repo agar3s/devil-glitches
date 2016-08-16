@@ -66,8 +66,11 @@ function path(xpts, ypts){
 
 function draw(t){
   // draw map
-  ctx.clearRect(0, 0, FW, FH);
+  //ctx.clearRect(0, 0, FW, FH);
+  ctx.fillStyle= 'rgba(0,0,0,0.18)';
   ctx.fillRect(0,0,FW, FH);
+  ctx.fillStyle= `rgba(${Math.floor(Math.random()*180)},${Math.floor(Math.random()*185)}, ${Math.floor(Math.random()*185)},1)`;
+  for(var i=0;i<6;i++) ctx.fillRect(Math.random()*800, Math.random()*600, 2, 2)
   ctx.save()
   ctx.strokeStyle = "#545EB4";
   var gridSize = H/mapSize
@@ -75,10 +78,6 @@ function draw(t){
   ctx.translate(shake(coords[2], 2), shake(coords[2], 2));
   ctx.fillStyle = 'rgba(12,27,46,0.2)';
   ctx.translate(viewPort[0], viewPort[1])
-//  var transformMatrix = [0.7380267216, -0.2764502617, 16.9725400482, -0.0297613042, 0.6721493607, 7.0955019367, -0.0003478985, -0.0036805188, 1]
-  //ctx.transform(transformMatrix[0]-transformMatrix[6], transformMatrix[3]-transformMatrix[6],
-  //             transformMatrix[1]-transformMatrix[7], transformMatrix[1]-transformMatrix[7],
-  //             transformMatrix[2], transformMatrix[5])
   ctx.fillRect(0, 0, mapPixels, mapPixels)
   for(var i = 0; i <= mapSize; i++){
     ctx.moveTo(i*tileset, 0);

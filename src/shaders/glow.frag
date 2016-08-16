@@ -5,7 +5,7 @@ uniform sampler2D t;
 varying vec2 uv;
 uniform float time;
 
-void main (void){ 
+void main (){ 
    vec2 pos = uv * dim;
    vec4 col = texture2D(t, uv);
    vec4 gws = vec4(0.0);
