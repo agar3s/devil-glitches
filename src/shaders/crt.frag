@@ -20,5 +20,4 @@ void main() {
 
     gl_FragColor = color;
 
-    vec2 clampedCoord = clamp(coord, vec2(0.0), dim);
 }
