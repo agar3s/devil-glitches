@@ -74,12 +74,17 @@ function draw(t){
   ctx.beginPath();
   ctx.translate(shake(coords[2], 2), shake(coords[2], 2));
   ctx.fillStyle = 'rgba(12,27,46,0.2)';
-  ctx.fillRect(viewPort[0], viewPort[1], mapPixels, mapPixels)
+  ctx.translate(viewPort[0], viewPort[1])
+//  var transformMatrix = [0.7380267216, -0.2764502617, 16.9725400482, -0.0297613042, 0.6721493607, 7.0955019367, -0.0003478985, -0.0036805188, 1]
+  //ctx.transform(transformMatrix[0]-transformMatrix[6], transformMatrix[3]-transformMatrix[6],
+  //             transformMatrix[1]-transformMatrix[7], transformMatrix[1]-transformMatrix[7],
+  //             transformMatrix[2], transformMatrix[5])
+  ctx.fillRect(0, 0, mapPixels, mapPixels)
   for(var i = 0; i <= mapSize; i++){
-    ctx.moveTo(viewPort[0]+i*tileset, viewPort[1]);
-    ctx.lineTo(viewPort[0]+i*tileset, viewPort[1]+mapPixels);
-    ctx.moveTo(viewPort[0], viewPort[1]+i*tileset);
-    ctx.lineTo(viewPort[0]+mapPixels, viewPort[1]+i*tileset);
+    ctx.moveTo(i*tileset, 0);
+    ctx.lineTo(i*tileset, mapPixels);
+    ctx.moveTo(0, i*tileset);
+    ctx.lineTo(mapPixels, i*tileset);
   }
   ctx.closePath();
   ctx.stroke();
