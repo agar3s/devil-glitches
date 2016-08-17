@@ -1,3 +1,7 @@
+/*
+* original setup script from @gre 
+* https://github.com/gre/behind-asteroids/blob/master/src/setup.js
+*/
 if(DEBUG){
   var _fps_ = new Stats();
   var _processing_ = new Stats();

@@ -1,4 +1,7 @@
 #!/bin/bash
+# original script from @gre 
+# https://github.com/gre/behind-asteroids/blob/master/scripts/compileglsfiles.sh
+
 if [ "$#" -ne 2 ]; then
   echo "Invalid arguments. Usage: $0 fromDir toDir" >&2;
   exit 1;

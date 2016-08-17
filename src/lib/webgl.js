@@ -1,5 +1,7 @@
-/* global gl, W, H, DEBUG */
-
+/*
+* original script from @gre 
+* https://github.com/gre/behind-asteroids/blob/master/src/lib/webgl.sh
+*/
 function glCreateShader (vert, frag) {
   var handle, type = gl.VERTEX_SHADER, src = vert;
   handle = gl.createShader(type);

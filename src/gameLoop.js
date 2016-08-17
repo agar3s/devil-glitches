@@ -33,6 +33,7 @@ function update(dt){
   // if fire shots fire
   if(coords[2]&&hero[6]<=0){
     bullets.push([hero[0]+shake(1, 2), hero[1]+shake(1, 2), hero[4]+shake(1, 0.05)])
+    play(fireSound)
     hero[6] = 1/hero[7]; //5bullets per second
   }else{
     hero[6]-=dt

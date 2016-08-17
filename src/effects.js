@@ -1,4 +1,7 @@
-
+/*
+* original script from @gre 
+* https://github.com/gre/behind-asteroids/blob/master/src/effects.sh
+*/
 function drawPostProcessing (time) {
   glSetTexture(textureGame, g);
 

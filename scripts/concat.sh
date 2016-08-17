@@ -1,4 +1,6 @@
 #!/bin/bash
+# original script from @gre 
+# https://github.com/gre/behind-asteroids/blob/master/scripts/concat.sh
 cat src/pre.js
 
 if [ "$NODE_ENV" == "production" ]; then
@@ -14,8 +16,8 @@ cat src/lib/geometry.js
 #cat src/lib/path.js
 #cat src/lib/asteroids.font.js
 cat src/lib/webgl.js
-#cat src/lib/jsfxr.js
-#cat src/lib/audio.js
+cat src/lib/jsfxr.js
+cat src/lib/audio.js
 
 # shaders
 
@@ -34,5 +36,6 @@ cat src/effects.js
 cat src/clickEvents.js
 cat src/keyEvents.js
 cat src/gameState.js
+cat src/sounds.js
 cat src/gameLoop.js
 cat src/post.js
