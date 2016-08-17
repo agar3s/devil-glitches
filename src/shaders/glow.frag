@@ -12,18 +12,17 @@ void main (){
    float rand = 0.02*sin(time)+0.25;
    float weight = 0.03;
    
-   for (int i = 0; i < 1024; i++) {
-       if (i > 9) {break;}
-       float miw = float(mod(float(i), 4.0));
-       float idw = float(i / 3);
-       vec2 v1 = vec2(pos.x + miw, pos.y + idw);
-       vec2 v2 = vec2(pos.x - miw, pos.y + idw);
-       vec2 v3 = vec2(pos.x + miw, pos.y - idw);
-       vec2 v4 = vec2(pos.x - miw, pos.y - idw);
-       gws = gws + texture2D(t, v1 / dim) * weight * 1.8;
-       gws = gws + texture2D(t, v2 / dim) * weight * 1.3;
-       gws = gws + texture2D(t, v3 / dim) * weight * 1.5;
-       gws = gws + texture2D(t, v4 / dim) * weight * 1.3;
+   for (int i = 0; i <9; i++) {
+     float miw = float(mod(float(i), 4.0));
+     float idw = float(i / 3);
+     vec2 v1 = vec2(pos.x + miw, pos.y + idw);
+     vec2 v2 = vec2(pos.x - miw, pos.y + idw);
+     vec2 v3 = vec2(pos.x + miw, pos.y - idw);
+     vec2 v4 = vec2(pos.x - miw, pos.y - idw);
+     gws += texture2D(t, v1 / dim) * weight * 1.8;
+     gws += texture2D(t, v2 / dim) * weight * 1.3;
+     gws += texture2D(t, v3 / dim) * weight * 1.5;
+     gws += texture2D(t, v4 / dim) * weight * 1.3;
    }
    col = col + gws;
 

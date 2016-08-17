@@ -5,6 +5,7 @@
 function drawPostProcessing (time) {
   glSetTexture(textureGame, g);
 
+
   // glow 
   glBindFBO(fbo1);
   glBindShader(glowShader);
