@@ -3,6 +3,11 @@
 */
 
 var particleZ = Math.PI/2;
+
+function updateEnemy(enemy){
+
+}
+
 function update(dt){
   // apply speed to hero movement
   t = dt*hero[2];
@@ -29,37 +34,38 @@ function update(dt){
     if(hero[0]>viewPort[2]&&hero[0]<mapPixels-viewPort[2]) viewPort[0]-=t;
   }
 
-  // turn according to the pointer 
   hero[4] = getAngle([hero[0]+viewPort[0], hero[1]+viewPort[1]], coords);
 
   // if fire shots fire
   if(coords[2]&&hero[6]<=0){
-    bullets.push([hero[0]+shake(1, 2), hero[1]+shake(1, 2), hero[4]+shake(1, 0.05)])
+    bullets.push([hero[0]+shake(1, 2+hero[7]/30), hero[1]+shake(1, 2+hero[7]/30), hero[4]+shake(1, 0.05+0.001*hero[7])])
     play(fireSound);
-    hero[6] = 1/hero[7]; //5bullets per second
+    hero[6] = 1/hero[7]; //12bullets per second
   }else{
     hero[6]-=dt
   }
 
   // update bullets
-  for (var i = bullets.length-1; i >= 0; i--) {
+  bulletsCycle: for (var i = bullets.length-1; i >= 0; i--) {
     var bullet = bullets[i];
     bullet[0] += Math.cos(bullet[2])*t*2; // bullet speed *2
     bullet[1] += Math.sin(bullet[2])*t*2;
     if(bullet[0]<-20||bullet[0]>mapPixels+20||bullet[1]<-20||bullet[1]>mapPixels+20) bullets.splice(i,1);
 
 
-    // for (var j = enemies.length-1; j >=0 ; j--) {
-    //   if(Math.hypot(bullet[1]-enemies[j][1], bullet[0]-enemies[j][0])<10){
-    //     //testing
-    //     for (var h = -10; h < 10; h++) {
-    //       particles.push([bullet[0], bullet[1], bullet[2]+particleZ*h*Math.random(), 100])
-    //     }
-    //     enemies.splice(j,1);
-    //     bullets.splice(i,1);
-    //     play(enemyDie);
-    //   }
-    // }
+    for (var j = enemies.length-1; j >=0 ; j--) { 
+      
+      if(getHypo(bullet[1]-enemies[j][1], bullet[0]-enemies[j][0])>enemies[j][2]+5) continue;
+      bullets.splice(i,1);
+      // testing
+      // enemy hit
+      if(--enemies[j][8]>0) continue;
+      for (var h = -10; h < 10; h++) {
+        particles.push([bullet[0], bullet[1], bullet[2]+particleZ*h*Math.random(), 100])
+      }
+      enemies.splice(j,1);
+      continue bulletsCycle;
+    }
 
   }
 
@@ -74,46 +80,19 @@ function update(dt){
   // update enemies
   for (var i = 0; i < enemies.length; i++) {
     var enemy = enemies[i];
-    if(Math.abs(enemy[2+2]-enemy[3+2])<0.005){
-      enemy[3+2] = getAngle(enemy, hero);
-      enemy[4+2] = (enemy[3+2]-enemy[2+2])/30;
+    if(Math.abs(enemy[2+1]-enemy[3+1])<0.005){
+      enemy[3+1] = getAngle(enemy, hero);
+      enemy[4+1] = (enemy[3+1]-enemy[2+1])/30;
     }
+    enemy[2+1] += enemy[4+1];
+    enemy[0] += Math.cos(enemy[2+1])*t;
+    enemy[1] += Math.sin(enemy[2+1])*t;
 
-    if(enemy[8+2]==0){
-      enemy[2+2] += enemy[4+2];
-      enemy[0] += Math.cos(enemy[2+2])*t;
-      enemy[1] += Math.sin(enemy[2+2])*t;
-    }else{
-      enemy[8]--;
-      continue;
-    }
-    // glitch mutation simple concept...
-    // let test = Math.random()
-    // if(test<0.0001&&enemy[5+2].length<15){
-    //   let angle = Math.random()*Math.PI*2;
-    //   enemy[5+2].splice(0,1);
-    //   enemy[6+2].splice(0,1);
-    //   let x = Math.cos(angle)*(Math.random()*18+6);
-    //   let y = Math.sin(angle)*(Math.random()*18+6);
-    //   enemy[5+2].push(x);
-    //   enemy[6+2].push(y);
-    //   enemy[8+2] = 15;
-    // }else if(test<0.0002&&enemy[5+2].length>4){ //remove a part
-    //   enemy[5+2].splice(0,1);
-    //   enemy[6+2].splice(0,1);
-    //   enemy[8+2] = 15;
-    // }else if(test<(0.0001+enemy[9+2])){ //lag
-    //   let lag = Math.random()*20;
-    //   enemy[0] -= Math.cos(enemy[2+2])*t*lag;
-    //   enemy[1] -= Math.sin(enemy[2+2])*t*lag;
-    //   enemy[8+2] = 12;
-    //   if(enemy[9+2]<0.01)
-    //     enemy[9+2]+=0.001;  //increase lag probability 
-    // }else {
-    // }
+    
+    if(getHypo(hero[1]-enemy[1], hero[0]-enemy[0])>enemy[2]+10) continue;
+    console.log('die')
     
   }
-  checkUpdateQuad(quadTree);
 
 }
 
@@ -142,13 +121,13 @@ function pathEnemy(enemy){
   
   ctx.beginPath();
   ctx.translate(offsetX, offsetY)
-  ctx.rotate(enemy[2+2])
-  ctx.moveTo(enemy[5+2][0], enemy[6+2][0]);
-  for (var i = 1; i<enemy[5+2].length; i++) {
-    ctx.lineTo(enemy[5+2][i], enemy[6+2][i]);
+  ctx.rotate(enemy[2+1])
+  ctx.moveTo(enemy[5+1][0], enemy[6+1][0]);
+  for (var i = 1; i<enemy[5+1].length; i++) {
+    ctx.lineTo(enemy[5+1][i], enemy[6+1][i]);
   }
   ctx.closePath();
-  ctx.rotate(-enemy[2+2])
+  ctx.rotate(-enemy[2+1])
   ctx.translate(-offsetX, -offsetY)
   
 }
@@ -251,12 +230,6 @@ function draw(t){
   ctx.stroke();
   ctx.restore();
 
-  if(DEBUG){
-    ctx.save();
-    drawQuad(quadTree, ctx);
-    ctx.restore()
-  }
-
 }
 
 var lastTime;
@@ -297,11 +270,10 @@ requestAnimationFrame(loop);
 
 function summon(){
 
-setTimeout(function(){
-  if(enemies.length>200) return
-          enemies.push([Math.floor(Math.random()*mapPixels),Math.floor(Math.random()*mapPixels), 10,10,0, 0, 3, [-10,10,10,-10], [-10,-10,10,10],3,0,0.001])
-          insertQuad(enemies[enemies.length-1], quadTree)
-          summon()
-        }, 100)
-}
+  setTimeout(function(){
+    if(enemies.length>200) return
+            enemies.push([Math.floor(Math.random()*mapPixels),Math.floor(Math.random()*mapPixels), 10,0, 0, 3, [-10,10,10,-10], [-10,-10,10,10],3,0,0.001])
+            summon()
+          }, 1000)
+  }
 summon()

@@ -16,6 +16,7 @@ document.onkeydown = function(e){
 
 document.onkeyup = function(e){
   let key = e.keyCode ? e.keyCode : e.which;
+  console.log(key);
   if(keyMap&keys[key]){
     keyMap^=keys[key];
     e.preventDefault();
