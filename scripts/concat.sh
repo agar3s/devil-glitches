@@ -18,6 +18,7 @@ cat src/lib/geometry.js
 cat src/lib/webgl.js
 cat src/lib/jsfxr.js
 cat src/lib/audio.js
+cat src/lib/quadTree.js
 
 # shaders
 

@@ -78,27 +78,40 @@ function update(dt){
       enemy[3] = getAngle(enemy, hero);
       enemy[4] = (enemy[3]-enemy[2])/30;
     }
-    enemy[2] += enemy[4];
-    enemy[0] += Math.cos(enemy[2])*t;
-    enemy[1] += Math.sin(enemy[2])*t;
 
+    if(enemy[8]==0){
+      enemy[2] += enemy[4];
+      enemy[0] += Math.cos(enemy[2])*t;
+      enemy[1] += Math.sin(enemy[2])*t;
+    }else{
+      enemy[8]--;
+      continue;
+    }
     // glitch mutation simple concept...
     let test = Math.random()
-    if(test<0.01){
-      console.log('Freeze')
-      // freezing glitch 
-      return
-    }
-    if(test<0.08&&enemy[5].length<15){
+    if(test<0.0001&&enemy[5].length<15){
       let angle = Math.random()*Math.PI*2;
+      enemy[5].splice(0,1);
+      enemy[6].splice(0,1);
       let x = Math.cos(angle)*(Math.random()*18+6);
       let y = Math.sin(angle)*(Math.random()*18+6);
       enemy[5].push(x);
       enemy[6].push(y);
-    }else if(test<0.09&&enemy[5].length>4){
+      enemy[8] = 15;
+    }else if(test<0.0002&&enemy[5].length>4){ //remove a part
       enemy[5].splice(0,1);
       enemy[6].splice(0,1);
+      enemy[8] = 15;
+    }else if(test<(0.0001+enemy[9])){ //lag
+      let lag = Math.random()*20;
+      enemy[0] -= Math.cos(enemy[2])*t*lag;
+      enemy[1] -= Math.sin(enemy[2])*t*lag;
+      enemy[8] = 12;
+      if(enemy[9]<0.01)
+        enemy[9]+=0.001;  //increase lag probability 
+    }else {
     }
+    
   }
 
 }
@@ -168,6 +181,7 @@ function draw(t){
   // draw hero
 
   ctx.save();
+  ctx.lineWidth = 3;
   ctx.translate(hero[0] + viewPort[0] + shake(coords[2], 1), hero[1] + viewPort[1]+ shake(coords[2], 1));
   ctx.strokeStyle = "#F952FF";
   ctx.rotate(hero[4]+Math.PI/2);
@@ -178,13 +192,14 @@ function draw(t){
 
   ctx.save();
   ctx.strokeStyle = '#07000A';
+  ctx.lineWidth = 3;
   for (var i = 0; i < enemies.length; i++) {
     let enemy = enemies[i];
     if(enemy[0]+viewPort[0]<20||enemy[0]+viewPort[0]>W-20||enemy[1]+viewPort[1]<20||enemy[1]+viewPort[1]>H-20) continue
     //ctx.rotate(enemy[2]);
-    ctx.fillStyle= `rgba(${Math.floor(Math.random()*125)+50},${Math.floor(Math.random()*125)+50}, ${Math.floor(Math.random()*125)+50},1)`;
+    ctx.strokeStyle= `rgba(${Math.floor(Math.random()*125)+50},${Math.floor(Math.random()*125)+50}, ${Math.floor(Math.random()*125)+50},1)`;
     pathEnemy(enemy);
-    ctx.fill();
+    //ctx.fill();
     ctx.stroke()
   }
   ctx.restore()
@@ -204,27 +219,27 @@ function draw(t){
   ctx.restore();
 
 
-  //draw particles
+  //draw particles 
   ctx.save();
   ctx.fillStyle= `rgba(${Math.floor(Math.random()*125)+50},${Math.floor(Math.random()*125)+50}, ${Math.floor(Math.random()*125)+50},1)`;
   for (var i = 0; i < particles.length; i++) {
     var particle = particles[i];
     if(particle[0]+viewPort[0]<5||particle[0]+viewPort[0]>W-5||particle[1]+viewPort[1]<5||particle[1]+viewPort[1]>H-5) continue
     ctx.beginPath();
-    ctx.fillStyle= `rgba(${Math.floor(Math.random()*125)+50},${Math.floor(Math.random()*125)}, ${Math.floor(Math.random()*125)+50},${particle[3]/100})`;
-    ctx.arc(particle[0]+viewPort[0], particle[1]+viewPort[1], 1, 0, 2 * Math.PI, false);
+    ctx.fillStyle= `rgba(${Math.floor(Math.random()*125)},${Math.floor(Math.random()*125)+100}, ${Math.floor(Math.random()*125)+100},${particle[3]/100})`;
+    ctx.arc(particle[0]+viewPort[0], particle[1]+viewPort[1], 2, 0, 2 * Math.PI, false);
     ctx.closePath();
     ctx.fill();
   }
   ctx.restore();
 
-  // cross 
+  // cross  
   ctx.save();
+  ctx.lineWidth = 1;
   ctx.translate(coords[0], coords[1]);
-  ctx.strokeStyle = "#C36084";
+  ctx.strokeStyle = "#F952FF";
   hero[5]+=(t*25*(coords[2]*8+1))
   hero[5]%=360
-  ctx.rotate((Math.PI/180)*hero[5]);
   ctx.translate(-10, -10);
   ctx.beginPath();
   ctx.moveTo(0, 10)
@@ -234,11 +249,19 @@ function draw(t){
   ctx.closePath();
   ctx.stroke();
   ctx.restore();
+
+  if(DEBUG){
+    ctx.save();
+    ctx.strokeStyle='green';
+    drawQuad(quadTree, ctx);
+    ctx.restore()
+  }
+
 }
 
 var lastTime;
 function loop(t){
-  // webgl postprocessing 
+  // webgl postprocessing  
   if(DEBUG){
     _fps_.begin();
     _processing_.begin();
@@ -275,11 +298,9 @@ requestAnimationFrame(loop);
 function summon(){
 
 setTimeout(function(){
-          enemies.push([Math.floor(Math.random()*mapPixels),Math.floor(Math.random()*mapPixels), 0, 0, 3, [-10,10,10,-10], [-10,-10,10,10],3])
-          enemies.push([Math.floor(Math.random()*mapPixels),Math.floor(Math.random()*mapPixels), 0, 0, 3, [-10,10,10,-10], [-10,-10,10,10],3])
-          enemies.push([Math.floor(Math.random()*mapPixels),Math.floor(Math.random()*mapPixels), 0, 0, 3, [-10,10,10,-10], [-10,-10,10,10],3])
-          enemies.push([Math.floor(Math.random()*mapPixels),Math.floor(Math.random()*mapPixels), 0, 0, 3, [-10,10,10,-10], [-10,-10,10,10],3])
-          enemies.push([Math.floor(Math.random()*mapPixels),Math.floor(Math.random()*mapPixels), 0, 0, 3, [-10,10,10,-10], [-10,-10,10,10],3])
+  if(enemies.length>8) return
+          enemies.push([Math.floor(Math.random()*mapPixels),Math.floor(Math.random()*mapPixels), 0, 0, 3, [-10,10,10,-10], [-10,-10,10,10],3,0,0.001])
+          enemies.push([Math.floor(Math.random()*mapPixels),Math.floor(Math.random()*mapPixels), 0, 0, 3, [-10,10,10,-10], [-10,-10,10,10],3,0,0.001])
           summon()
         }, 2000)
 }
