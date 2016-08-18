@@ -18,7 +18,7 @@ function insertQuad(element, quad, deep){
   // insert the element
   quad[4].push(element);
   // if quad exced capacity split
-  if(quad[4].length>5&&!deep){
+  if(quad[4].length>25&&!deep){
     // x, y, width/2
     let half = [quad[0]/2+quad[2]/2, quad[1]/2+quad[3]/2];
     quad[5] = createQuad([quad[0], quad[1], half[0], half[1]])
@@ -76,43 +76,52 @@ function getTotal(quad){
   return total;
 }
 
-function removeQuad(element, quad){
-  if(!isInQuad(quad, element)) return false;
+function removeQuad(element, quad, force){
+  if(!force&&!isInQuad(quad, element)) return false;
   if(!!quad[5]){
     // for each children check where is the position
     for (var i = 5; i < quad.length; i++) {
-      removeQuad(element, quad[i]);
+      removeQuad(element, quad[i], force);
     }
-    if(getTotal(quad)==0) quad[5]=quad[6]=quad[7]=quad[8]=undefined;
+    if(getTotal(quad)==0){
+      quad[5]=quad[6]=quad[7]=quad[8]=undefined;
+    } 
+
     return true;
   }
   let index = quad[4].indexOf(element);
   if(index==-1) return false;
-  console.log('eliminado', quad);
+  //console.log('eliminado', quad);
   quad[4].splice(index, 1);
 }
 
 function updateQuad(quad){
-  let removed = []
-  for (var i = quad[4].length-1; i >=0; i--) {
-    // if element move to another quad remove it
-    if(!isInQuad(quad, quad[4][i])){
-      removeQuad(quad[4][i], quad);
-      removed.push(quad[4][i]);
-    }
-  }
+  let removed = [];
   if(!!quad[5]){
     for (var i = 5; i < quad.length; i++) {
       removed = removed.concat(updateQuad(quad[i]));
+    }
+    if(getTotal(quad)==0){
+      quad[5]=quad[6]=quad[7]=quad[8]=undefined;
+    }
+    return removed;
+  }
+  for (var i = quad[4].length-1; i >=0; i--) {
+    // if element move to another quad remove it
+    if(!isInQuad(quad, quad[4][i])){
+      removed.push(quad[4][i]);
+      removeQuad(quad[4][i], quad, true);
     }
   }
   return removed;
 }
 function checkUpdateQuad(root){
   let removed = updateQuad(root);
+  
   for (var i = 0; i < removed.length; i++) {
     insertQuad(removed[i], root);
   }
+  
 }
 
 if(DEBUG){ 
