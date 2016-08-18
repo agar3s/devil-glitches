@@ -82,11 +82,11 @@ function update(dt){
     var enemy = enemies[i];
     if(Math.abs(enemy[2+1]-enemy[3+1])<0.005){
       enemy[3+1] = getAngle(enemy, hero);
-      enemy[4+1] = (enemy[3+1]-enemy[2+1])/30;
+      enemy[4+1] = (enemy[3+1]-enemy[2+1])/40;
     }
     enemy[2+1] += enemy[4+1];
-    enemy[0] += Math.cos(enemy[2+1])*t;
-    enemy[1] += Math.sin(enemy[2+1])*t;
+    enemy[0] += Math.cos(enemy[2+1])*t*1.4;
+    enemy[1] += Math.sin(enemy[2+1])*t*1.4;
 
     
     if(getHypo(hero[1]-enemy[1], hero[0]-enemy[0])>enemy[2]+10) continue;
@@ -272,7 +272,7 @@ function summon(){
 
   setTimeout(function(){
     if(enemies.length>200) return
-            enemies.push([Math.floor(Math.random()*mapPixels),Math.floor(Math.random()*mapPixels), 10,0, 0, 3, [-10,10,10,-10], [-10,-10,10,10],3,0,0.001])
+            enemies.push([500,420, 10,0, 0, 3, [-10,10,10,-10], [-10,-10,10,10],3,0,0.001])
             summon()
           }, 1000)
   }
