@@ -145,6 +145,11 @@ function drawLetter14Segments(letter, x, y, size){
   }
 }
 
+function die(){
+  // not implemented yet
+  console.log('you die');
+}
+
 function update(dt){
   // apply speed to hero movement
   t = dt*hero[2];
@@ -204,6 +209,19 @@ function update(dt){
       continue bulletsCycle;
     }
 
+    for (var j = totems.length-1; j >=0 ; j--) { 
+      
+      if(getHypo(bullet[1]-totems[j][1], bullet[0]-totems[j][0])>totems[j][2]+5) continue;
+      bullets.splice(i,1);
+      // totem hit 
+      if(--totems[j][6]>0) continue;
+      for (var h = -10; h < 10; h++) {
+        particles.push([bullet[0], bullet[1], bullet[2]+particleZ*h*Math.random(), 100])
+      }
+      totems.splice(j,1);
+      continue bulletsCycle;
+    }
+
   }
 
   //update particles
@@ -212,6 +230,16 @@ function update(dt){
     particle[0] += Math.cos(particle[2])*(2+Math.random()*3);
     particle[1] += Math.sin(particle[2])*(2+Math.random()*3);
     if(--particle[3]<0) particles.splice(i,1)
+  }
+
+
+  // update totems
+  for (var i = 0; i < totems.length; i++) {
+    var totem = totems[i];
+    
+    if(getHypo(hero[1]-totem[1], hero[0]-totem[0])>totem[2]+10) continue;
+    die();
+    
   }
 
   // update enemies 
@@ -227,7 +255,7 @@ function update(dt){
 
     
     if(getHypo(hero[1]-enemy[1], hero[0]-enemy[0])>enemy[2]+10) continue;
-    //console.log('die')
+    die();
     
   }
 
@@ -284,7 +312,6 @@ function pathTotem(totem){
 function drawFace(xPath, yPath, size, index){
   ctx.beginPath();
   ctx.fillStyle = `rgba(${Math.floor(Math.random()*(125-index*20))+50},${Math.floor(Math.random()*(125-index*20))+50}, ${Math.floor(Math.random()*(125-index*20))+50},1)`;
-  console.log(xPath, yPath)
   ctx.moveTo(xPath[0]*size, yPath[0]*size);
   for (var i = 1; i<xPath.length; i++) {
     ctx.lineTo(xPath[i]*size, yPath[i]*size);
@@ -479,7 +506,6 @@ function summon(){
   if(letterIndex>=messages.length)
     letterIndex=0;
   message = messages[Math.floor(letterIndex)]
-console.log(message)
   setTimeout(function(){
     if(enemies.length>200) return
             enemies.push([500,420, 10,0, 0, 3, [-10,10,10,-10], [-10,-10,10,10],3,0,0.001])
