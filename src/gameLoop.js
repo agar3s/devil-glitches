@@ -236,13 +236,22 @@ function update(dt){
   // update totems
   for (var i = 0; i < totems.length; i++) {
     var totem = totems[i];
+    totem[7]-=dt;
+
+    if(totem[7]<0){
+      for (var j = 0; j<9; j++) {
+        if(j==4) continue;  //summon especial 
+        enemies.push([totem[0]+(j%3-1)*tileset,totem[1]+(Math.floor(j/3)-1)*tileset, 10, 0, 0, 3, [-10,10,10,-10], [-10,-10,10,10],2,0,0.001])
+      }
+      totem[7]=20;  // time to summon again
+    }
     
     if(getHypo(hero[1]-totem[1], hero[0]-totem[0])>totem[2]+10) continue;
     die();
     
   }
 
-  // update enemies 
+  // update enemies  
   for (var i = 0; i < enemies.length; i++) {
     var enemy = enemies[i];
     if(Math.abs(enemy[2+1]-enemy[3+1])<0.005){
@@ -250,8 +259,8 @@ function update(dt){
       enemy[4+1] = (enemy[3+1]-enemy[2+1])/25;
     }
     enemy[2+1] += enemy[4+1];
-    enemy[0] += Math.cos(enemy[2+1])*t*1.4;
-    enemy[1] += Math.sin(enemy[2+1])*t*1.4;
+    enemy[0] += Math.cos(enemy[2+1])*t*1.2;
+    enemy[1] += Math.sin(enemy[2+1])*t*1.2;
 
     
     if(getHypo(hero[1]-enemy[1], hero[0]-enemy[0])>enemy[2]+10) continue;
@@ -282,7 +291,7 @@ function path(xpts, ypts, offsetX, offsetY){
 
 function pathEnemy(enemy){
   let offsetX = enemy[0]+viewPort[0]+shakeScreen[0]; // 20 /2 width/2
-  let offsetY = enemy[1]+viewPort[1]+shakeScreen[1]; // 
+  let offsetY = enemy[1]+viewPort[1]+shakeScreen[1]; //  
   
   ctx.beginPath();
   ctx.translate(offsetX, offsetY)
@@ -292,6 +301,7 @@ function pathEnemy(enemy){
     ctx.lineTo(enemy[5+1][i], enemy[6+1][i]);
   }
   ctx.closePath();
+  ctx.stroke();
   ctx.rotate(-enemy[2+1])
   ctx.translate(-offsetX, -offsetY) 
 }
@@ -299,10 +309,7 @@ function pathEnemy(enemy){
 function pathTotem(totem){
   let offsetX = totem[0]+viewPort[0]+shakeScreen[0]; // 20 /2 width/2
   let offsetY = totem[1]+viewPort[1]+shakeScreen[1]; //   
-  ctx.fillStyle='#7f7';
   ctx.translate(offsetX, offsetY);
-  ctx.fillRect(-totem[2], -totem[2], totem[2]*2, totem[2]*2);
-  ctx.fill();
   for (var i = 0; i < totem[4].length; i++) {
     drawFace(totem[4][i], totem[5][i], totem[2], i);
   }
@@ -324,12 +331,13 @@ function drawFace(xPath, yPath, size, index){
 
 function draw(t){
   // draw map
-  //ctx.clearRect(0, 0, FW, FH);
+  //some random points
   ctx.fillStyle= 'rgba(0,0,0,0.18)';
   ctx.fillRect(0,0,FW, FH);
   ctx.fillStyle= `rgba(${Math.floor(Math.random()*180)},${Math.floor(Math.random()*185)}, ${Math.floor(Math.random()*185)},1)`;
   for(var i=0;i<6;i++) ctx.fillRect(Math.random()*800, Math.random()*600, 2, 2)
   ctx.save()
+
   ctx.strokeStyle = "#545EB4";
   var gridSize = H/mapSize
   ctx.beginPath();
@@ -344,13 +352,32 @@ function draw(t){
     ctx.moveTo(0, i*tileset);
     ctx.lineTo(mapPixels, i*tileset);
   }
+
   ctx.closePath();
   ctx.stroke();
   ctx.restore();
 
+  ctx.save();
+  ctx.beginPath();
+  ctx.fillStyle='#6a6';
+  // fill corruption 
+  for (var j = 0; j < mapSize; j++) {
+    for (var i = 0; i < mapSize; i++) {
+      if(map[j][i]==0) continue;
+      ctx.fillRect(i*tileset+viewPort[0]+shakeScreen[0], j*tileset+viewPort[1]+shakeScreen[1], tileset, tileset);
+    }
+  }
+  ctx.fill();
+  ctx.closePath();
+  ctx.stroke();
+  ctx.restore();
+
+
+
   // draw hero
 
   ctx.save();
+  ctx.beginPath();
   ctx.lineWidth = 3;
   ctx.translate(hero[0] + viewPort[0] + shake(coords[2], 1), hero[1] + viewPort[1]+ shake(coords[2], 1));
   ctx.strokeStyle = "#F952FF";
@@ -370,9 +397,9 @@ function draw(t){
     ctx.strokeStyle= `rgba(${Math.floor(Math.random()*125)+50},${Math.floor(Math.random()*125)+50}, ${Math.floor(Math.random()*125)+50},1)`;
     pathEnemy(enemy);
     //ctx.fill();
-    ctx.stroke()
+    
   }
-  ctx.restore()
+  ctx.restore();
 
   // sacred geometry 
   ctx.save();
@@ -506,10 +533,9 @@ function summon(){
   if(letterIndex>=messages.length)
     letterIndex=0;
   message = messages[Math.floor(letterIndex)]
+  totems.push([tileset*(Math.floor(Math.random()*mapSize)+0.5),tileset*(Math.floor(Math.random()*mapSize)+0.5), tileset/2, 0, [[-1,0,0],[0,0,1],[-1,1,0]], [[-1.5,-0.5,0.5],[-0.5,0.5,-1.5],[-1.5,-1.5,-0.5]], 15,1]);
   setTimeout(function(){
-    if(enemies.length>200) return
-            enemies.push([500,420, 10,0, 0, 3, [-10,10,10,-10], [-10,-10,10,10],3,0,0.001])
-            summon()
-          }, 1000)
+    summon()
+    }, 8000)
   }
 summon()
