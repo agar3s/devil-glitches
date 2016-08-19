@@ -265,9 +265,35 @@ function pathEnemy(enemy){
   }
   ctx.closePath();
   ctx.rotate(-enemy[2+1])
-  ctx.translate(-offsetX, -offsetY)
-  
+  ctx.translate(-offsetX, -offsetY) 
 }
+
+function pathTotem(totem){
+  let offsetX = totem[0]+viewPort[0]+shakeScreen[0]; // 20 /2 width/2
+  let offsetY = totem[1]+viewPort[1]+shakeScreen[1]; //   
+  ctx.fillStyle='#7f7';
+  ctx.translate(offsetX, offsetY);
+  ctx.fillRect(-totem[2], -totem[2], totem[2]*2, totem[2]*2);
+  ctx.fill();
+  for (var i = 0; i < totem[4].length; i++) {
+    drawFace(totem[4][i], totem[5][i], totem[2], i);
+  }
+  ctx.translate(-offsetX, -offsetY);
+}
+
+function drawFace(xPath, yPath, size, index){
+  ctx.beginPath();
+  ctx.fillStyle = `rgba(${Math.floor(Math.random()*(125-index*20))+50},${Math.floor(Math.random()*(125-index*20))+50}, ${Math.floor(Math.random()*(125-index*20))+50},1)`;
+  console.log(xPath, yPath)
+  ctx.moveTo(xPath[0]*size, yPath[0]*size);
+  for (var i = 1; i<xPath.length; i++) {
+    ctx.lineTo(xPath[i]*size, yPath[i]*size);
+  }
+  ctx.closePath();
+  ctx.fill()
+  ctx.stroke()
+}
+
 
 function draw(t){
   // draw map
@@ -321,10 +347,19 @@ function draw(t){
   }
   ctx.restore()
 
-
+  // sacred geometry 
+  ctx.save();
+  ctx.strokeStyle = '#07000A';
+  ctx.lineWidth = 1;
+  for (var i = 0; i < totems.length; i++) {
+    let totem = totems[i];
+    if(totem[0]+viewPort[0]<20||totem[0]+viewPort[0]>W-20||totem[1]+viewPort[1]<20||totem[1]+viewPort[1]>H-20) continue
+    pathTotem(totem)
+  }
+  ctx.restore()
   
 
-  // draw bullets
+  // draw bullets 
   ctx.save();
   ctx.fillStyle = '#37ACE7';
   for (var i = 0; i < bullets.length; i++) {
