@@ -2,50 +2,20 @@
 * read the last events in game, update world 
 */
 
+var messages = [
+ 'here we are',
+ 'we are the sacred geometry',
+ 'we are perfect',
+ 'after us. nothing',
+ 'you cant understand our power',
+ 'you are in a limited space'
+]
+
 var particleZ = Math.PI/2;
 var score = 0;
-var letters = {
-'0':8767,
-'1':518,
-'2':1115,
-'3':1039,
-'4':1126,
-'5':1133,
-'6':1149,
-'7':7,
-'8':1151,
-'9':1135,
-'?':5123,
-a:1143,
-b:5391,
-c:57,
-d:4367,
-e:121,
-f:113,
-g:1085,
-h:1142,
-i:4361,
-j:30,
-k:2672,
-l:56,
-m:694,
-n:2230,
-o:63,
-p:1139,
-q:2111,
-r:3187,
-s:1133,
-t:4353,
-u:62,
-v:8752,
-w:10294,
-x:10880,
-y:4736,
-z:8713,
-' ':0,
-'.':16
-}
-let character = letters['a']
+let mapLetters = '0123456789?abcdefghijklmnopqrstuvwxyz .';
+var letters = [8767,518,1115,1039,1126,1133,1149,7,1151,1135,5123,1143,5391,57,4367,121,113,1085,1142,4361,30,2672,56,694,2230,63,1139,2111,3187,1133,4353,62,8752,10294,10880,4736,8713,0,16];
+var message = 'behold our majesty';
 function drawLetter14Segments(letter, x, y, size){
   // *****
   // |\|/|
@@ -350,6 +320,8 @@ function draw(t){
     ctx.stroke()
   }
   ctx.restore()
+
+
   
 
   // draw bullets
@@ -397,23 +369,36 @@ function draw(t){
   ctx.stroke();
   ctx.restore();
 
-  // ui 
+  // ui
   ctx.save();
-  ctx.strokeStyle='#FFFFFF';
   ctx.beginPath();
+  ctx.strokeStyle='#2F2';
   drawWord(score.toFixed(0), 750, 60,16);
-  //drawWord('hello human', 300, 60,16);  
+  ctx.stroke();
+  ctx.strokeStyle='#FFFFFF';
+  drawWord(score.toFixed(0), 751, 61,16);
   ctx.closePath();
   ctx.stroke();
+  ctx.beginPath();
+  ctx.strokeStyle='#90702F';
+  drawWordCenter(message, 401, 501,14);
+  ctx.stroke();
+  ctx.strokeStyle='#D6AE45';
+  drawWordCenter(message, 402, 502,14);
+  ctx.stroke();
+  ctx.closePath();
   ctx.restore();
 
 }
 
-function drawWord(word, x, y){
-  let size = 16;
+function drawWord(word, x, y, size){
   for (var i = 0; i < word.length; i++) {
-    drawLetter14Segments(letters[word[i]], x-(size+10)*(word.length-i), y, size);
+    drawLetter14Segments(letters[mapLetters.indexOf(word[i])], shakeScreen[0]+x-(size+10)*(word.length-i), shakeScreen[1]+y, size);
   }
+}
+function drawWordCenter(word, x, y, size){
+  x += (size+10)*word.length/2
+  drawWord(word, x, y, size)
 }
 
 var lastTime;
@@ -455,10 +440,11 @@ requestAnimationFrame(loop);
 
 var letterIndex = 0;
 function summon(){
-  a = 'abcdefghijklmnopqrstuvwxyz0123456789?'.split('')[letterIndex]
-  letterIndex++;
-  if(letterIndex>37){a = 'a'; letterIndex=0}
-  character = letters[a]
+  letterIndex+=0.1;
+  if(letterIndex>=messages.length)
+    letterIndex=0;
+  message = messages[Math.floor(letterIndex)]
+console.log(message)
   setTimeout(function(){
     if(enemies.length>200) return
             enemies.push([500,420, 10,0, 0, 3, [-10,10,10,-10], [-10,-10,10,10],3,0,0.001])
