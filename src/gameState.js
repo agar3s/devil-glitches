@@ -1,9 +1,9 @@
-var mapSize = 25,
+var mapSize = 21,
 tileset = 40,
 frame=0,
 mapPixels = mapSize*tileset,
 map = [],
-viewPort = [0, 0, 380, 265], // [x, y, leftOffset, topOffset]
+viewPort = [0, 0, 380, 265], // [x, y, leftOffset, topOffset] 
 // [x, y, speed, size, angle, crossFireAngle, countDown, bulletRatio]
 hero = [400, 300, 150, 32, 0, 0, 0, 12],  
 heroShape = [[0,16,0,-16],[-16,16,8,16]]

@@ -13,7 +13,7 @@ var messages = [
 
 var particleZ = Math.PI/2;
 var score = 0;
-let mapLetters = '0123456789?abcdefghijklmnopqrstuvwxyz .';
+var mapLetters = '0123456789?abcdefghijklmnopqrstuvwxyz .';
 var letters = [8767,518,1115,1039,1126,1133,1149,7,1151,1135,5123,1143,5391,57,4367,121,113,1085,1142,4361,30,2672,56,694,2230,63,1139,2111,3187,1133,4353,62,8752,10294,10880,4736,8713,0,16];
 var message = 'behold our majesty';
 function drawLetter14Segments(letter, x, y, size){
@@ -226,7 +226,7 @@ function update(dt){
 
   //update particles
   for(var i=0;i<particles.length;i++){
-    let particle = particles[i];
+    var particle = particles[i];
     particle[0] += Math.cos(particle[2])*(2+Math.random()*3);
     particle[1] += Math.sin(particle[2])*(2+Math.random()*3);
     if(--particle[3]<0) particles.splice(i,1)
@@ -234,7 +234,7 @@ function update(dt){
 
 
   // update totems
-  for (var i = 0; i < totems.length; i++) {
+  for (var i = 0; i < totems.length&&enemies.length<1000; i++) {
     var totem = totems[i];
     totem[7]-=dt;
 
@@ -290,25 +290,27 @@ function path(xpts, ypts, offsetX, offsetY){
 }
 
 function pathEnemy(enemy){
-  let offsetX = enemy[0]+viewPort[0]+shakeScreen[0]; // 20 /2 width/2
-  let offsetY = enemy[1]+viewPort[1]+shakeScreen[1]; //  
+  var offsetX = enemy[0]+viewPort[0]+shakeScreen[0]; // 20 /2 width/2
+  var offsetY = enemy[1]+viewPort[1]+shakeScreen[1]; //  
   
-  ctx.beginPath();
   ctx.translate(offsetX, offsetY)
-  ctx.rotate(enemy[2+1])
-  ctx.moveTo(enemy[5+1][0], enemy[6+1][0]);
-  for (var i = 1; i<enemy[5+1].length; i++) {
-    ctx.lineTo(enemy[5+1][i], enemy[6+1][i]);
-  }
-  ctx.closePath();
-  ctx.stroke();
-  ctx.rotate(-enemy[2+1])
+  ctx.rotate(enemy[3])
+  //ctx.beginPath();
+ // ctx.moveTo(enemy[6][0], enemy[7][0]);
+ // for (var i = 1; i<enemy[6].length; i++) {
+ //   ctx.lineTo(enemy[6][i], enemy[7][i]);
+ // }
+  //ctx.lineTo(enemy[6][0], enemy[7][0]);
+  //ctx.stroke();
+  //ctx.closePath();
+  ctx.strokeRect(enemy[6][0]-enemy[2], enemy[7][1]-enemy[2], enemy[2]*2, enemy[2]*2)
+  ctx.rotate(-enemy[3])
   ctx.translate(-offsetX, -offsetY) 
 }
 
 function pathTotem(totem){
-  let offsetX = totem[0]+viewPort[0]+shakeScreen[0]; // 20 /2 width/2
-  let offsetY = totem[1]+viewPort[1]+shakeScreen[1]; //   
+  var offsetX = totem[0]+viewPort[0]+shakeScreen[0]; //  20 /2 width/2
+  var offsetY = totem[1]+viewPort[1]+shakeScreen[1]; //   
   ctx.translate(offsetX, offsetY);
   for (var i = 0; i < totem[4].length; i++) {
     drawFace(totem[4][i], totem[5][i], totem[2], i);
@@ -316,9 +318,14 @@ function pathTotem(totem){
   ctx.translate(-offsetX, -offsetY);
 }
 
+function getRandomColor(r,r2,g,g2,b,b2,a,a2){
+  return 'rgba('+(Math.floor(Math.random()*r)+r2)+','+(Math.floor(Math.random()*g)+g2)+','+(Math.floor(Math.random()*b)+b2)+','+(Math.floor(Math.random()*a)+a2)+')';
+}
+
 function drawFace(xPath, yPath, size, index){
   ctx.beginPath();
-  ctx.fillStyle = `rgba(${Math.floor(Math.random()*(125-index*20))+50},${Math.floor(Math.random()*(125-index*20))+50}, ${Math.floor(Math.random()*(125-index*20))+50},1)`;
+  var value = 125-index*20;
+  ctx.fillStyle = getRandomColor(value,50, value,50,value,50,0,1);
   ctx.moveTo(xPath[0]*size, yPath[0]*size);
   for (var i = 1; i<xPath.length; i++) {
     ctx.lineTo(xPath[i]*size, yPath[i]*size);
@@ -334,7 +341,7 @@ function draw(t){
   //some random points
   ctx.fillStyle= 'rgba(0,0,0,0.18)';
   ctx.fillRect(0,0,FW, FH);
-  ctx.fillStyle= `rgba(${Math.floor(Math.random()*180)},${Math.floor(Math.random()*185)}, ${Math.floor(Math.random()*185)},1)`;
+  ctx.fillStyle = getRandomColor(180,0, 185,0,185,0,0,1);
   for(var i=0;i<6;i++) ctx.fillRect(Math.random()*800, Math.random()*600, 2, 2)
   ctx.save()
 
@@ -390,14 +397,13 @@ function draw(t){
   ctx.save();
   ctx.strokeStyle = '#07000A';
   ctx.lineWidth = 3;
+  ctx.strokeStyle = getRandomColor(125,50, 125,50,125,50,0,1);
   for (var i = 0; i < enemies.length; i++) {
-    let enemy = enemies[i];
+    var enemy = enemies[i];
     if(enemy[0]+viewPort[0]<20||enemy[0]+viewPort[0]>W-20||enemy[1]+viewPort[1]<20||enemy[1]+viewPort[1]>H-20) continue
     //ctx.rotate(enemy[2]);
-    ctx.strokeStyle= `rgba(${Math.floor(Math.random()*125)+50},${Math.floor(Math.random()*125)+50}, ${Math.floor(Math.random()*125)+50},1)`;
     pathEnemy(enemy);
-    //ctx.fill();
-    
+    //ctx.fill(); 
   }
   ctx.restore();
 
@@ -405,12 +411,14 @@ function draw(t){
   ctx.save();
   ctx.strokeStyle = '#07000A';
   ctx.lineWidth = 1;
+  ctx.beginPath();
   for (var i = 0; i < totems.length; i++) {
-    let totem = totems[i];
+    var totem = totems[i];
     if(totem[0]+viewPort[0]<20||totem[0]+viewPort[0]>W-20||totem[1]+viewPort[1]<20||totem[1]+viewPort[1]>H-20) continue
-    pathTotem(totem)
+    pathTotem(totem);
   }
-  ctx.restore()
+  ctx.closePath();
+  ctx.restore();
   
 
   // draw bullets 
@@ -429,12 +437,12 @@ function draw(t){
 
   //draw particles 
   ctx.save();
-  ctx.fillStyle= `rgba(${Math.floor(Math.random()*125)+50},${Math.floor(Math.random()*125)+50}, ${Math.floor(Math.random()*125)+50},1)`;
+  ctx.fillStyle = getRandomColor(125,50, 125,50,125,50,0,1);
   for (var i = 0; i < particles.length; i++) {
     var particle = particles[i];
     if(particle[0]+viewPort[0]<5||particle[0]+viewPort[0]>W-5||particle[1]+viewPort[1]<5||particle[1]+viewPort[1]>H-5) continue
     ctx.beginPath();
-    ctx.fillStyle= `rgba(${Math.floor(Math.random()*125)},${Math.floor(Math.random()*125)+100}, ${Math.floor(Math.random()*125)+100},${particle[3]/100})`;
+    ctx.fillStyle = getRandomColor(125,0, 125,100,125,100,0,particle[3]/100);
     ctx.arc(particle[0]+viewPort[0], particle[1]+viewPort[1], 2, 0, 2 * Math.PI, false);
     ctx.closePath();
     ctx.fill();
