@@ -3,32 +3,199 @@
 */
 
 var particleZ = Math.PI/2;
-
-function updateEnemy(enemy){
-
+var score = 0;
+var letters = {
+'0':8767,
+'1':518,
+'2':1115,
+'3':1039,
+'4':1126,
+'5':1133,
+'6':1149,
+'7':7,
+'8':1151,
+'9':1135,
+'?':5123,
+a:1143,
+b:5391,
+c:57,
+d:4367,
+e:121,
+f:113,
+g:1085,
+h:1142,
+i:4361,
+j:30,
+k:2672,
+l:56,
+m:694,
+n:2230,
+o:63,
+p:1139,
+q:2111,
+r:3187,
+s:1133,
+t:4353,
+u:62,
+v:8752,
+w:10294,
+x:10880,
+y:4736,
+z:8713,
+' ':0,
+'.':16
+}
+let character = letters['a']
+function drawLetter14Segments(letter, x, y, size){
+  // *****
+  // |\|/|
+  // -- --
+  // |\|/|
+  // *****
+  if(letter&1){
+    ctx.moveTo(x+2, y-1)
+    ctx.lineTo(size+x-2, y-1)
+  }
+  // ---
+  // |\/*
+  //  --
+  // |\/|
+  // ---
+  if(letter&2){
+    ctx.moveTo(size+x+1, y)
+    ctx.lineTo(size+x+1, size+y-1)
+  }
+  // ---
+  // |\/|
+  //  --
+  // |\/*
+  // ---
+  if(letter&4){
+    ctx.moveTo(size+x+1, size+y+1)
+    ctx.lineTo(size+x+1, size*2+y)
+  }
+  // ---
+  // |\/|
+  //  --
+  // |\/|
+  // ***
+  if(letter&8){
+    ctx.moveTo(x+2, size*2+y+1)
+    ctx.lineTo(size+x-2, size*2+y+1)
+  }
+  // ---
+  // |\/|
+  //  --
+  // *\/|
+  // ---
+  if(letter&16){
+    ctx.moveTo(x-1, y+size+1)
+    ctx.lineTo(x-1, y+size*2)
+  }
+  // ---
+  // *\/|
+  //  --
+  // |\/|
+  // ---
+  if(letter&32){
+    ctx.moveTo(x-1, y)
+    ctx.lineTo(x-1, size+y-1)
+  }
+  // ---
+  // |\/|
+  //  *-
+  // |\/|
+  // ---
+  if(letter&64){
+    ctx.moveTo(x+2, size+y)
+    ctx.lineTo(x+size/2-2, size+y)
+  }
+  // ---
+  // |*/|
+  //  --
+  // |/|\|
+  // ---
+  if(letter&128){
+    ctx.moveTo(x+2, y+2)
+    ctx.lineTo(x+size/2-2, size+y-2)
+  }
+  // -----
+  // |\*/|
+  // -- --
+  // |/|\|
+  // -----
+  if(letter&256){
+    ctx.moveTo(size/2+x, y+2)
+    ctx.lineTo(size/2+x, size+y-2)
+  }
+  // -----
+  // |\|*|
+  // -- --
+  // |/|\|
+  // -----
+  if(letter&512){
+    ctx.moveTo(size/2+x+2, size+y-2)
+    ctx.lineTo(size+x-2, y+2)
+  }
+  // -----
+  // |\|/|
+  // -- **
+  // |/|\|
+  // -----
+  if(letter&1024){
+    ctx.moveTo(size/2+x+2, size+y)
+    ctx.lineTo(size+x-2, size+y)
+  }
+  // -----
+  // |\|/|
+  // -- --
+  // |/|*|
+  // -----
+  if(letter&2048){
+    ctx.moveTo(size/2+x+2, size+y+2)
+    ctx.lineTo(size+x-2, size*2+y-2)
+  }
+  // -----
+  // |\|/|
+  // -- --
+  // |/*\|
+  // -----
+  if(letter&4096){
+    ctx.moveTo(size/2+x, size+y+2)
+    ctx.lineTo(size/2+x, size*2+y-2)
+  }
+  // -----
+  // |\|/|
+  // -- --
+  // |*|\|
+  // -----
+  if(letter&8192){
+    ctx.moveTo(x+2, size*2+y-2)
+    ctx.lineTo(size/2+x-2, size+y+2)
+  }
 }
 
 function update(dt){
   // apply speed to hero movement
   t = dt*hero[2];
   // move depending on keypressed
-  if((keyMap&keys[65])>0){
+  if(keyMap&keys[65]){
     hero[0]-=t;
     if(hero[0]<hero[3]/2) hero[0] = hero[3]/2; // hero limit on x left
     if(hero[0]>viewPort[2]&&hero[0]<mapPixels-viewPort[2]) viewPort[0]+=t;
   } 
-  if((keyMap&keys[87])>0){
+  if(keyMap&keys[87]){
     hero[1]-=t;
     if(hero[1]<hero[3]/2) hero[1] = hero[3]/2;
     if(hero[1]>viewPort[3]&&hero[1]<mapPixels-viewPort[3]) viewPort[1]+=t;
   }
 
-  if((keyMap&keys[83])>0){
+  if(keyMap&keys[83]){
     hero[1]+=t;
     if(hero[1]>mapPixels - hero[3]/2) hero[1] = mapPixels - hero[3]/2;
     if(hero[1]>viewPort[3]&&hero[1]<mapPixels-viewPort[3]) viewPort[1]-=t;
   }
-  if((keyMap&keys[68])>0){
+  if(keyMap&keys[68]){
     hero[0]+=t;
     if(hero[0]>mapPixels - hero[3]/2) hero[0] = mapPixels - hero[3]/2;
     if(hero[0]>viewPort[2]&&hero[0]<mapPixels-viewPort[2]) viewPort[0]-=t;
@@ -77,12 +244,12 @@ function update(dt){
     if(--particle[3]<0) particles.splice(i,1)
   }
 
-  // update enemies
+  // update enemies 
   for (var i = 0; i < enemies.length; i++) {
     var enemy = enemies[i];
     if(Math.abs(enemy[2+1]-enemy[3+1])<0.005){
       enemy[3+1] = getAngle(enemy, hero);
-      enemy[4+1] = (enemy[3+1]-enemy[2+1])/40;
+      enemy[4+1] = (enemy[3+1]-enemy[2+1])/25;
     }
     enemy[2+1] += enemy[4+1];
     enemy[0] += Math.cos(enemy[2+1])*t*1.4;
@@ -90,7 +257,7 @@ function update(dt){
 
     
     if(getHypo(hero[1]-enemy[1], hero[0]-enemy[0])>enemy[2]+10) continue;
-    console.log('die')
+    //console.log('die')
     
   }
 
@@ -215,7 +382,7 @@ function draw(t){
 
   // cross  
   ctx.save();
-  ctx.lineWidth = 1;
+  ctx.lineWidth = 2;
   ctx.translate(coords[0], coords[1]);
   ctx.strokeStyle = "#F952FF";
   hero[5]+=(t*25*(coords[2]*8+1))
@@ -230,6 +397,23 @@ function draw(t){
   ctx.stroke();
   ctx.restore();
 
+  // ui 
+  ctx.save();
+  ctx.strokeStyle='#FFFFFF';
+  ctx.beginPath();
+  drawWord(score.toFixed(0), 750, 60,16);
+  //drawWord('hello human', 300, 60,16);  
+  ctx.closePath();
+  ctx.stroke();
+  ctx.restore();
+
+}
+
+function drawWord(word, x, y){
+  let size = 16;
+  for (var i = 0; i < word.length; i++) {
+    drawLetter14Segments(letters[word[i]], x-(size+10)*(word.length-i), y, size);
+  }
 }
 
 var lastTime;
@@ -255,6 +439,7 @@ function loop(t){
   ctx.restore()
 
   drawPostProcessing(Math.floor(t));
+  score += dt*1000;
 
   if(DEBUG){
     _fps_.end();
@@ -268,8 +453,12 @@ function loop(t){
 
 requestAnimationFrame(loop);
 
+var letterIndex = 0;
 function summon(){
-
+  a = 'abcdefghijklmnopqrstuvwxyz0123456789?'.split('')[letterIndex]
+  letterIndex++;
+  if(letterIndex>37){a = 'a'; letterIndex=0}
+  character = letters[a]
   setTimeout(function(){
     if(enemies.length>200) return
             enemies.push([500,420, 10,0, 0, 3, [-10,10,10,-10], [-10,-10,10,10],3,0,0.001])
