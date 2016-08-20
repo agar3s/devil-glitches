@@ -4,12 +4,15 @@ frame=0,
 mapPixels = mapSize*tileset,
 map = [],
 viewPort = [0, 0, 380, 265], // [x, y, leftOffset, topOffset] 
-// [x, y, speed, size, angle, crossFireAngle, countDown, bulletRatio]
-hero = [400, 300, 150, 32, 0, 0, 0, 12],  
-heroShape = [[0,16,0,-16],[-16,16,8,16]]
+// [0x, 1y, 2speed, 3size, 4angle, 5crossFireAngle, 6countDown, 7bulletRatio]
+// [0x, 1y, 2size, 3angle, 4speed, 5crossFireAngle, 6countDown, 7bulletRatio]
+hero = [400, 300, 32, 0, 150, 0, 0, 12],
+heroShape = [[0,16,0,-16],[-16,16,8,16]],
+//0x, 1y, 2size, 3angle
 bullets = [],
 // enemy description 
-// 0x, 1y, 2size, 3angleIncrement, 4angle, 5angleMomentum, 6xpath, 7ypath, 8hit
+// 0x, 1y, 2size, 4angleIncrement, 3angle, 5angleMomentum, 6xpath, 7ypath, 8hit
+// 0x, 1y, 2size, 3angle, 4index, 5type, 6hits, 7path, 8path, 9customdata
 enemies = [],
 // totem description
 // totem spawns enemies
@@ -37,3 +40,9 @@ for(var i=0;i<mapSize;i++){
 }
 //map[5][5]=1;
 
+// enemy type movement, 
+/*types
+0-5 enemies that moves
+enemy[9][angleIncrement, angleMomentun]
+>5 totems
+*/

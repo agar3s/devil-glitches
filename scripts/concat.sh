@@ -20,6 +20,7 @@ cat src/lib/jsfxr.js
 cat src/lib/audio.js
 cat src/lib/font.js
 #cat src/lib/quadTree.js // it doesnt going to work :(
+cat src/lib/spatialhashing.js
 
 # shaders
 

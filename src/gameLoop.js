@@ -9,35 +9,35 @@ function die(){
 
 function update(dt){
   // apply speed to hero movement
-  t = dt*hero[2];
+  t = dt*hero[4];
   // move depending on keypressed
   if(keyMap&keys[65]){
     hero[0]-=t;
-    if(hero[0]<hero[3]/2) hero[0] = hero[3]/2; // hero limit on x left
+    if(hero[0]<hero[2]) hero[0] = hero[2]; // hero limit on x left
     if(hero[0]>viewPort[2]&&hero[0]<mapPixels-viewPort[2]) viewPort[0]+=t;
   } 
   if(keyMap&keys[87]){
     hero[1]-=t;
-    if(hero[1]<hero[3]/2) hero[1] = hero[3]/2;
+    if(hero[1]<hero[2]) hero[1] = hero[2];
     if(hero[1]>viewPort[3]&&hero[1]<mapPixels-viewPort[3]) viewPort[1]+=t;
   }
 
   if(keyMap&keys[83]){
     hero[1]+=t;
-    if(hero[1]>mapPixels - hero[3]/2) hero[1] = mapPixels - hero[3]/2;
+    if(hero[1]>mapPixels - hero[2]) hero[1] = mapPixels - hero[2];
     if(hero[1]>viewPort[3]&&hero[1]<mapPixels-viewPort[3]) viewPort[1]-=t;
   }
   if(keyMap&keys[68]){
     hero[0]+=t;
-    if(hero[0]>mapPixels - hero[3]/2) hero[0] = mapPixels - hero[3]/2;
+    if(hero[0]>mapPixels - hero[2]) hero[0] = mapPixels - hero[2];
     if(hero[0]>viewPort[2]&&hero[0]<mapPixels-viewPort[2]) viewPort[0]-=t;
   }
 
-  hero[4] = getAngle([hero[0]+viewPort[0], hero[1]+viewPort[1]], coords);
+  hero[3] = getAngle([hero[0]+viewPort[0], hero[1]+viewPort[1]], coords);
 
   // if fire shots fire
   if(coords[2]&&hero[6]<=0){
-    bullets.push([hero[0]+shake(1, 2+hero[7]/30), hero[1]+shake(1, 2+hero[7]/30), hero[4]+shake(1, 0.05+0.001*hero[7])])
+    bullets.push([hero[0]+shake(1, 2+hero[7]/30), hero[1]+shake(1, 2+hero[7]/30), 2, hero[3]+shake(1, 0.05+0.001*hero[7])])
     play(fireSound);
     hero[6] = 1/hero[7]; //12bullets per second
   }else{
@@ -47,11 +47,11 @@ function update(dt){
   // update bullets
   bulletsCycle: for (var i = bullets.length-1; i >= 0; i--) {
     var bullet = bullets[i];
-    bullet[0] += Math.cos(bullet[2])*t*2; // bullet speed *2
-    bullet[1] += Math.sin(bullet[2])*t*2;
+    bullet[0] += Math.cos(bullet[3])*t*bullet[2]; // bullet speed *2
+    bullet[1] += Math.sin(bullet[3])*t*bullet[2];
     if(bullet[0]<-20||bullet[0]>mapPixels+20||bullet[1]<-20||bullet[1]>mapPixels+20) bullets.splice(i,1);
 
-
+/*
     for (var j = enemies.length-1; j >=0 ; j--) { 
       
       if(getHypo(bullet[1]-enemies[j][1], bullet[0]-enemies[j][0])>enemies[j][2]+5) continue;
@@ -78,7 +78,7 @@ function update(dt){
       totems.splice(j,1);
       continue bulletsCycle;
     }
-
+*/
   }
 
   //update particles
@@ -91,38 +91,50 @@ function update(dt){
 
 
   // update totems
+  spatialhashing = {};
+
   for (var i = 0; i < totems.length&&enemies.length<1000; i++) {
     var totem = totems[i];
-    totem[7]-=dt;
+    totem[9][0]-=dt;
 
-    if(totem[7]<0){
+    if(totem[9][0]<0){
       for (var j = 0; j<9; j++) {
         if(j==4) continue;  //summon especial 
-        enemies.push([totem[0]+(j%3-1)*tileset,totem[1]+(Math.floor(j/3)-1)*tileset, 10, 0, 0, 3, [-10,10,10,-10], [-10,-10,10,10],2,0,0.001])
+        enemies.push([totem[0]+(j%3-1)*tileset,totem[1]+(Math.floor(j/3)-1)*tileset, 10, 0,0,0,1, [-10,10,10,-10], [-10,-10,10,10],[0,3]])
       }
-      totem[7]=20;  // time to summon again
+      totem[9][0]=20;  // time to summon again
     }
     
-    if(getHypo(hero[1]-totem[1], hero[0]-totem[0])>totem[2]+10) continue;
-    die();
+    addItem(enemy);
     
   }
 
   // update enemies  
   for (var i = 0; i < enemies.length; i++) {
     var enemy = enemies[i];
-    if(Math.abs(enemy[2+1]-enemy[3+1])<0.005){
-      enemy[3+1] = getAngle(enemy, hero);
-      enemy[4+1] = (enemy[3+1]-enemy[2+1])/25;
+    if(enemy[5]<5){
+      if(Math.abs(enemy[9][0]-enemy[3])<0.005){
+        enemy[3] = getAngle(enemy, hero);
+        enemy[9][1] = (enemy[3]-enemy[9][0])/25;
+      }
+      enemy[9][0] += enemy[9][1];
+      enemy[0] += Math.cos(enemy[9][0])*t*1.2;
+      enemy[1] += Math.sin(enemy[9][0])*t*1.2;
+      /*
+      if(Math.abs(enemy[3]-enemy[4])<0.005){
+        enemy[4] = getAngle(enemy, hero);
+        enemy[5] = (enemy[4]-enemy[3])/25;
+      }
+      enemy[3] += enemy[5];
+      enemy[0] += Math.cos(enemy[3])*t*1.2;
+      enemy[1] += Math.sin(enemy[3])*t*1.2;
+      */
     }
-    enemy[2+1] += enemy[4+1];
-    enemy[0] += Math.cos(enemy[2+1])*t*1.2;
-    enemy[1] += Math.sin(enemy[2+1])*t*1.2;
 
     
-    if(getHypo(hero[1]-enemy[1], hero[0]-enemy[0])>enemy[2]+10) continue;
-    die();
-    
+    //if(getHypo(hero[1]-enemy[1], hero[0]-enemy[0])>enemy[2]+10) continue;
+    //die();
+    addItem(enemy);
   }
 
 }
@@ -151,7 +163,7 @@ function pathEnemy(enemy){
   var offsetY = enemy[1]+viewPort[1]+shakeScreen[1]; //  
   
   ctx.translate(offsetX, offsetY)
-  ctx.rotate(enemy[3])
+  ctx.rotate(enemy[9][0])
   //ctx.beginPath();
  // ctx.moveTo(enemy[6][0], enemy[7][0]);
  // for (var i = 1; i<enemy[6].length; i++) {
@@ -160,8 +172,8 @@ function pathEnemy(enemy){
   //ctx.lineTo(enemy[6][0], enemy[7][0]);
   //ctx.stroke();
   //ctx.closePath();
-  ctx.strokeRect(enemy[6][0]-enemy[2], enemy[7][1]-enemy[2], enemy[2]*2, enemy[2]*2)
-  ctx.rotate(-enemy[3])
+  ctx.strokeRect(enemy[7][0]-enemy[2], enemy[8][1]-enemy[2], enemy[2]*2, enemy[2]*2)
+  ctx.rotate(-enemy[9][0])
   ctx.translate(-offsetX, -offsetY) 
 }
 
@@ -169,8 +181,8 @@ function pathTotem(totem){
   var offsetX = totem[0]+viewPort[0]+shakeScreen[0]; //  20 /2 width/2
   var offsetY = totem[1]+viewPort[1]+shakeScreen[1]; //   
   ctx.translate(offsetX, offsetY);
-  for (var i = 0; i < totem[4].length; i++) {
-    drawFace(totem[4][i], totem[5][i], totem[2], i);
+  for (var i = 0; i < totem[7].length; i++) {
+    drawFace(totem[7][i], totem[8][i], totem[2], i);
   }
   ctx.translate(-offsetX, -offsetY);
 }
@@ -245,7 +257,7 @@ function draw(t){
   ctx.lineWidth = 3;
   ctx.translate(hero[0] + viewPort[0] + shake(coords[2], 1), hero[1] + viewPort[1]+ shake(coords[2], 1));
   ctx.strokeStyle = "#F952FF";
-  ctx.rotate(hero[4]+Math.PI/2);
+  ctx.rotate(hero[3]+Math.PI/2);
   path(heroShape[0], heroShape[1]);
   ctx.restore()
 
@@ -378,7 +390,7 @@ function summon(){
   if(letterIndex>=messages.length)
     letterIndex=0;
   message = messages[Math.floor(letterIndex)]
-  totems.push([tileset*(Math.floor(Math.random()*mapSize)+0.5),tileset*(Math.floor(Math.random()*mapSize)+0.5), tileset/2, 0, [[-1,0,0],[0,0,1],[-1,1,0]], [[-1.5,-0.5,0.5],[-0.5,0.5,-1.5],[-1.5,-1.5,-0.5]], 15,1]);
+  totems.push([tileset*(Math.floor(Math.random()*mapSize)+0.5),tileset*(Math.floor(Math.random()*mapSize)+0.5), tileset/2, 0,0,6,15, [[-1,0,0],[0,0,1],[-1,1,0]], [[-1.5,-0.5,0.5],[-0.5,0.5,-1.5],[-1.5,-1.5,-0.5]], [1]]);
   setTimeout(function(){
     summon()
     }, 8000)
