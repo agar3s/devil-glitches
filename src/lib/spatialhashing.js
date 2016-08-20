@@ -7,7 +7,7 @@ function getHashItem(item){
 }
 /* add element to spatialhash*/
 function addItem(item){
-  var hash = getHash(item);
+  var hash = getHashItem(item);
   spatialhashing[hash]=spatialhashing[hash]||[];
   spatialhashing[hash].push(item);
 }
@@ -25,7 +25,7 @@ function collideElements(item){
     if(!list[hash]){
       list[hash]=1;
       var elements = spatialhashing[hash];
-      for (var i = 0; i < elements.length; i++) {
+      for (var i = 0; elements&&i < elements.length; i++) {
         if(getHypo(item[1]-elements[i][1], item[0]-elements[i][0])<elements[i][2]+item[2]){
           return elements[i]
         }
