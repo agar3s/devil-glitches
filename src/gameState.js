@@ -15,7 +15,18 @@ enemies = [],
 // totem spawns enemies
 // 0x, 1y, 2size, 3angle, 4xpath, 5ypath, 6hitpoints, 7nextInvocation
 totems = [],
-particles = [[300,300,45,100]]
+particles = [[300,300,45,100]],
+messages = [
+ 'here we are',
+ 'we are the sacred geometry',
+ 'we are perfect',
+ 'after us. nothing',
+ 'you cant understand our power',
+ 'you are in a limited space'
+],
+message = 'behold our majesty',
+particleZ = Math.PI/2,
+score = 0
 ;
 
 for(var i=0;i<mapSize;i++){
