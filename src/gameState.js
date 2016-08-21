@@ -7,7 +7,7 @@ viewPort = [0, 0, 380, 265], // [x, y, leftOffset, topOffset]
 // [0x, 1y, 2speed, 3size, 4angle, 5crossFireAngle, 6countDown, 7bulletRatio]
 // [0x, 1y, 2size, 3angle, 4speed, 5crossFireAngle, 6countDown, 7bulletRatio]
 hero = [400, 300, 16, 0, 150, 0, 0, 12],
-heroShape = [[0,16,0,-16],[-16,16,8,16]],
+heroShape = [[0,1,0,-1],[-1,1,0.5,1]],
 //0x, 1y, 2size, 3angle
 bullets = [],
 // enemy description 

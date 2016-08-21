@@ -40,5 +40,6 @@ cat src/clickEvents.js
 cat src/keyEvents.js
 cat src/gameState.js
 cat src/sounds.js
+cat src/enemies.js
 cat src/gameLoop.js
 cat src/post.js
