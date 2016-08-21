@@ -72,6 +72,7 @@ function update(dt){
   // update enemies  
   for (var i = enemies.length-1; i >=0; i--) {
     var enemy = enemies[i];
+    // have zero life
     if(enemy[6]<=0){
       enemies.splice(i,1);
       for (var h = -10; h < 10; h++) {
@@ -79,23 +80,31 @@ function update(dt){
       }
       continue;
     }
-    if(enemy[5]<5){
-      if(Math.abs(enemy[9][0]-enemy[3])<0.005){
-        enemy[3] = getAngle(enemy, hero);
-        enemy[9][1] = (enemy[3]-enemy[9][0])/25;
-      }
-      enemy[9][0] += enemy[9][1];
-      enemy[0] += Math.cos(enemy[9][0])*t*1.2;
-      enemy[1] += Math.sin(enemy[9][0])*t*1.2;
-    }else{
-      enemy[9][0]-=dt;
 
-      if(enemy[9][0]<0){
+    // miniom 
+    if(enemy[5]<5){
+      if(enemy[10]*(enemy[9]-enemy[3])>0){
+        enemy[3] = getAngle(enemy, hero);
+        enemy[10] = enemy[3]>enemy[9]?0.1:-0.1;
+      }
+
+      var otherEnemy = collideElements(enemy);
+      enemy[9] +=(otherEnemy?-1:1)*enemy[10];
+
+      enemy[0] += Math.cos(enemy[9])*t*1.2;
+      enemy[1] += Math.sin(enemy[9])*t*1.2;
+
+    // spawner
+    }else{
+      enemy[9]-=dt;
+
+      if(enemy[9]<0){
         for (var j = 0; j<9; j++) {
           if(j==4) continue;  //summon especial 
-          enemies.push([enemy[0]+(j%3-1)*tileset,enemy[1]+(Math.floor(j/3)-1)*tileset, 10, 0,0,0,2, [-10,10,10,-10], [-10,-10,10,10],[0,3]])
+          var newEnemy = createEnemy(enemy[0]+(j%3-1)*tileset,enemy[1]+(Math.floor(j/3)-1)*tileset, 0)
+          enemies.push(newEnemy);
         }
-        enemy[9][0]=20;  // time to summon again
+        enemy[9]=20;  // time to summon again
       }
     }
     addItem(enemy);
@@ -118,9 +127,9 @@ function path(xpts, ypts, offsetX, offsetY){
 }
 
 function pathEnemy(enemy){
-  ctx.rotate(enemy[9][0])
+  ctx.rotate(enemy[9])
   ctx.strokeRect(enemy[7][0], enemy[8][1], enemy[2]*2, enemy[2]*2)
-  ctx.rotate(-enemy[9][0])
+  ctx.rotate(-enemy[9])
 }
 
 function pathTotem(totem){
@@ -328,13 +337,32 @@ function loop(t){
 
 requestAnimationFrame(loop);
 
+var necronomicon = [
+//size, angle, index, type, hits, xpoints, ypoints, customData:angleTarget, customData: angleMomentum
+[10, 0,0,0,2, [-10,10,10,-10], [-10,-10,10,10],0,3]
+,
+,
+,
+,
+,
+,
+
+//size, angle, index, type, hits, xpoints, ypoints, customData:nextInvocation
+[tileset/2, 0, 0, 6, 15, [[-1,0,0],[0,0,1],[-1,1,0]], [[-1.5,-0.5,0.5],[-0.5,0.5,-1.5],[-1.5,-1.5,-0.5]], 1]
+]
+
+function createEnemy(x, y, type){
+  return [x, y].concat(necronomicon[type].slice(0))
+}
+
 var letterIndex = 0;
 function summon(){
   letterIndex+=0.1;
   if(letterIndex>=messages.length)
     letterIndex=0;
   message = messages[Math.floor(letterIndex)]
-  enemies.push([tileset*(Math.floor(Math.random()*mapSize)+0.5),tileset*(Math.floor(Math.random()*mapSize)+0.5), tileset/2, 0,0,6,15, [[-1,0,0],[0,0,1],[-1,1,0]], [[-1.5,-0.5,0.5],[-0.5,0.5,-1.5],[-1.5,-1.5,-0.5]], [1]]);
+  var newSpawner = createEnemy(tileset*(Math.floor(Math.random()*mapSize)+0.5), tileset*(Math.floor(Math.random()*mapSize)+0.5), 6);
+  enemies.push(newSpawner);
   setTimeout(function(){
     summon()
     }, 8000)
