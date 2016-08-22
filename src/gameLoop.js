@@ -67,10 +67,16 @@ function update(dt){
     if(--particle[3]<0) particles.splice(i,1)
   }
 
-  // update enemies  
+  // update enemies
   spatialhashing = {};
   for (var i = enemies.length-1; i >=0; i--) {
     updateEnemy(enemies[i], i);
+  }
+
+  if(times.length>0&&score>times[0]){
+    enemies.push(createEnemy(summons[times.splice(0,1)[0]]))
+  }else if(times.length==0&&score%10000){
+    //enemies.push(createEnemy([Math.random()*]))
   }
 
 }
@@ -231,7 +237,7 @@ function loop(t){
   lastTime = t;
   frame++;
 
-  // update changes
+  // update changes 
   update(dt);
   // draw changes 
   ctx.save()
@@ -261,8 +267,6 @@ function summon(){
   if(letterIndex>=messages.length)
     letterIndex=0;
   message = messages[Math.floor(letterIndex)]
-  var newSpawner = createEnemy(tileset*(Math.floor(Math.random()*mapSize)+0.5), tileset*(Math.floor(Math.random()*mapSize)+0.5), 6);
-  enemies.push(newSpawner);
   setTimeout(function(){
     summon()
     }, 8000)

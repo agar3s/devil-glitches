@@ -15,8 +15,9 @@ var necronomicon = [
 [tileset/2, 0, 0, 6, 15, [[-1,0,0],[0,0,1],[-1,1,0]], [[-1.5,-0.5,0.5],[-0.5,0.5,-1.5],[-1.5,-1.5,-0.5]], 1]
 ]
 
-function createEnemy(x, y, type){
-  return [x, y].concat(necronomicon[type].slice(0))
+// values: x, y, type
+function createEnemy(values){
+  return values.slice(0,2).concat(necronomicon[values[2]].slice(0))
 }
 
 //draw methods
@@ -98,7 +99,7 @@ function updateEnemy(enemy,index){
     if(enemy[9]<0){
       for (var j = 0; j<9; j++) {
         if(j==4) continue;  //summon especial 
-        var newEnemy = createEnemy(enemy[0]+(j%3-1)*tileset,enemy[1]+(Math.floor(j/3)-1)*tileset, j==1?1:0)
+        var newEnemy = createEnemy([enemy[0]+(j%3-1)*tileset,enemy[1]+(Math.floor(j/3)-1)*tileset, j==1?1:0])
         enemies.push(newEnemy);
       }
       enemy[9]=20;  // time to summon again

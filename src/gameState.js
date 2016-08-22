@@ -3,10 +3,10 @@ tileset = 40,
 frame=0,
 mapPixels = mapSize*tileset,
 map = [],
-viewPort = [0, 0, 380, 265], // [x, y, leftOffset, topOffset] 
+viewPort = [-60, -160, 390, 275], // [x, y, leftOffset, topOffset] 
 // [0x, 1y, 2speed, 3size, 4angle, 5crossFireAngle, 6countDown, 7bulletRatio]
 // [0x, 1y, 2size, 3angle, 4speed, 5crossFireAngle, 6countDown, 7bulletRatio]
-hero = [400, 300, 16, 0, 150, 0, 0, 12],
+hero = [460, 460, 16, 0, 150, 0, 0, 12],
 heroShape = [[0,1,0,-1],[-1,1,0.5,1]],
 //0x, 1y, 2size, 3angle
 bullets = [],
@@ -17,7 +17,7 @@ bullets = [],
 // totem spawns enemies
 // 0x, 1y, 2size, 3angle, 4xpath, 5ypath, 6hitpoints, 7nextInvocation
 enemies = [],
-particles = [[300,300,45,100]],
+particles = [],
 messages = [
  'here we are',
  'we are the sacred geometry',
@@ -28,7 +28,15 @@ messages = [
 ],
 message = 'behold our majesty',
 particleZ = Math.PI/2,
-score = 0
+score = 0,
+summons = {
+ 1000:[11.5*tileset,6.5*tileset,6],
+ 10000:[5.5*tileset,5.5*tileset,6],
+ 18000:[16.5*tileset,16.5*tileset,6],
+ 25000:[16.5*tileset,5.5*tileset,6],
+ 31000:[5.5*tileset,16.5*tileset,6]
+},
+times=Object.keys(summons).map(function(element){return parseInt(element)})
 ;
 
 for(var i=0;i<mapSize;i++){
