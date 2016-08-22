@@ -74,7 +74,12 @@ function updateEnemy(enemy,index){
   if(enemy[6]<=0){
     enemies.splice(index,1);
     for (var h = -10; h < 10; h++) {
-      particles.push([enemy[0], enemy[1], enemy[2]+particleZ*h*Math.random(), 100])
+      particles.push([enemy[0], enemy[1], enemy[2]+particleZ*h*Math.random(), 100]);
+    }
+    if(enemy[5]>4){
+      play(totemDestroyed);
+    }else{
+      play(enemyDie);
     }
     return;
   }

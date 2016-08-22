@@ -4,32 +4,40 @@
 
 function die(killer){
   // not implemented yet
+  play(heroDie);
+  for (var h = -10; h < 10; h++) {
+    particles.push([hero[0], hero[1], hero[2]+particleZ*h*Math.random(), 100]);
+  }
+  heroShape=[[], []]
+  gameOver = true;
 }
 
-function update(dt){
+function playerUdate(dt){
+  
   // apply speed to hero movement
-  t = dt*hero[4];
-  // move depending on keypressed
+  t = dt*hero[4]*(hero[8]>0?slowMotion:1);
+  // move depending on keypressed 
+  var speed = dt*hero[4]*(hero[8]>0?1.4:1);
   if(keyMap&keys[65]){
-    hero[0]-=t;
+    hero[0]-=speed;
     if(hero[0]<hero[2]) hero[0] = hero[2]; // hero limit on x left
-    if(hero[0]>viewPort[2]&&hero[0]<mapPixels-viewPort[2]) viewPort[0]+=t;
+    if(hero[0]>viewPort[2]&&hero[0]<mapPixels-viewPort[2]) viewPort[0]+=speed;
   } 
   if(keyMap&keys[87]){
-    hero[1]-=t;
+    hero[1]-=speed;
     if(hero[1]<hero[2]) hero[1] = hero[2];
-    if(hero[1]>viewPort[3]&&hero[1]<mapPixels-viewPort[3]) viewPort[1]+=t;
+    if(hero[1]>viewPort[3]&&hero[1]<mapPixels-viewPort[3]) viewPort[1]+=speed;
   }
 
   if(keyMap&keys[83]){
-    hero[1]+=t;
+    hero[1]+=speed;
     if(hero[1]>mapPixels - hero[2]) hero[1] = mapPixels - hero[2];
-    if(hero[1]>viewPort[3]&&hero[1]<mapPixels-viewPort[3]) viewPort[1]-=t;
+    if(hero[1]>viewPort[3]&&hero[1]<mapPixels-viewPort[3]) viewPort[1]-=speed;
   }
   if(keyMap&keys[68]){
-    hero[0]+=t;
+    hero[0]+=speed;
     if(hero[0]>mapPixels - hero[2]) hero[0] = mapPixels - hero[2];
-    if(hero[0]>viewPort[2]&&hero[0]<mapPixels-viewPort[2]) viewPort[0]-=t;
+    if(hero[0]>viewPort[2]&&hero[0]<mapPixels-viewPort[2]) viewPort[0]-=speed;
   }
 
   hero[3] = getAngle([hero[0]+viewPort[0], hero[1]+viewPort[1]], coords);
@@ -37,13 +45,27 @@ function update(dt){
   var killer = collideElements(hero);
   if(killer)die(killer);
   // if fire shots fire
-  if(coords[2]&&hero[6]<=0){
+  if(coords[2]&&hero[6]<=0&&hero[8]<=0){
     bullets.push([hero[0]+shake(1, 2+hero[7]/30), hero[1]+shake(1, 2+hero[7]/30), 2, hero[3]+shake(1, 0.05+0.001*hero[7])])
     play(fireSound);
-    hero[6] = 1/hero[7]; //12bullets per second
+    hero[6] = 1/hero[7]; //12bullets per second  
   }else{
-    hero[6]-=dt
+    hero[6]-=dt;
   }
+
+  if(coords[3]&&hero[8]<=0&&hero[9]<=0){
+    play(heroSpeedUp);
+    hero[8] = 0.55;
+    hero[9] = 1.2;
+  }else{
+    hero[8]-=dt;
+    hero[9]-=dt;
+  }
+}
+
+function update(dt){
+
+  if(!gameOver) playerUdate(dt);
 
   // update bullets
   bulletsCycle: for (var i = bullets.length-1; i >= 0; i--) {
@@ -105,7 +127,7 @@ function getRandomColor(r,r2,g,g2,b,b2,a,a2){
 function draw(t){
   // draw map
   //some random points
-  ctx.fillStyle= 'rgba(0,0,0,0.18)';
+  ctx.fillStyle= 'rgba(0,0,0,'+ (0.18) +')';
   ctx.fillRect(0,0,FW, FH);
   ctx.fillStyle = getRandomColor(180,0, 185,0,185,0,0,1);
   for(var i=0;i<6;i++) ctx.fillRect(Math.random()*800, Math.random()*600, 2, 2)
@@ -115,9 +137,9 @@ function draw(t){
   ctx.strokeStyle = "#545EB4";
   var gridSize = H/mapSize
   ctx.beginPath();
-  shakeScreen = [shake(coords[2], 2), shake(coords[2], 2)]
+  shakeScreen = !gameOver?[shake(coords[2], 2), shake(coords[2], 2)]:[0,0];
   ctx.translate(shakeScreen[0], shakeScreen[1]);
-  ctx.fillStyle = 'rgba(12,27,46,0.2)';
+  ctx.fillStyle = 'rgba(12,27,46,'+ (0.2-(hero[8]>0?0.1:0)) +')';
   ctx.translate(viewPort[0], viewPort[1])
   ctx.fillRect(0, 0, mapPixels, mapPixels)
   for(var i = 0; i <= mapSize; i++){
@@ -245,7 +267,7 @@ function loop(t){
   ctx.restore()
 
   drawPostProcessing(Math.floor(t));
-  score += dt*1000;
+  if(!gameOver) score += dt*1000*(hero[8]>0?slowMotion:1);
 
   if(DEBUG){
     _fps_.end();

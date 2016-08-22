@@ -1,12 +1,13 @@
 var mapSize = 21,
 tileset = 40,
+gameOver = false,
 frame=0,
 mapPixels = mapSize*tileset,
 map = [],
+slowMotion = 0.3,
 viewPort = [-60, -160, 390, 275], // [x, y, leftOffset, topOffset] 
-// [0x, 1y, 2speed, 3size, 4angle, 5crossFireAngle, 6countDown, 7bulletRatio]
-// [0x, 1y, 2size, 3angle, 4speed, 5crossFireAngle, 6countDown, 7bulletRatio]
-hero = [460, 460, 16, 0, 150, 0, 0, 12],
+// [0x, 1y, 2size, 3angle, 4speed, 5crossFireAngle, 6countDown, 7bulletRatio, 8dashCountDown, 9dashcolddown]
+hero = [460, 460, 16, 0, 150, 0, 0, 12,0,0],
 heroShape = [[0,1,0,-1],[-1,1,0.5,1]],
 //0x, 1y, 2size, 3angle
 bullets = [],

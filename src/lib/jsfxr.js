@@ -469,7 +469,7 @@ function jsfxr (settings, audioCtx, cb) {
   dv[5] = 0x00010001; // Mono: 1 channel, PCM format
   dv[6] = 0x0000AC44; // 44,100 samples per second
   dv[7] = 0x00015888; // byte rate: two bytes per sample
-  dv[8] = !!window.chrome?0x00010002:0x00100002; // 16 bits per sample, aligned on every two bytes
+  dv[8] = !!window.chrome?0x00100002:0x00100002; // 16 bits per sample, aligned on every two bytes
   dv[9] = 0x61746164; // "data"
   dv[10] = used;      // put number of samples here
 
