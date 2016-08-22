@@ -20,6 +20,7 @@ bullets = [],
 enemies = [],
 particles = [],
 messages = [
+ 'devil glitches',
  'here we are',
  'we are the sacred geometry',
  'we are perfect',

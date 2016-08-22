@@ -233,12 +233,20 @@ function draw(t){
   ctx.stroke();
   ctx.restore();
 
-  // ui
+  // ui 
   ctx.save();
-  drawWord(score.toFixed(0), 750, 60,16, '#2F2');
-  drawWord(score.toFixed(0), 751, 61,16, '#FFF');
   drawWordCenter(message, 401, 501,14, '#90702F');
   drawWordCenter(message, 402, 502,14, '#D6AE45');
+  if(gameOver){
+    ctx.fillStyle='rgba(0,0,0,0.6)';
+    ctx.fillRect(0,0,mapPixels, mapPixels);
+    drawWordCenter('game over', 400, 240,20, '#FFF');
+    drawWordCenter('game over', 401, 240,20, '#2FF');
+    drawWordCenter('press f5', 400, 290, 16, '#FFF');
+    drawWordCenter('press f5', 401, 290, 16, '#2FF');
+  }
+  drawWord(score.toFixed(0), 750, 60,16, '#2F2');
+  drawWord(score.toFixed(0), 751, 61,16, '#FFF');
   ctx.restore();
 
 }
