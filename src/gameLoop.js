@@ -1,5 +1,5 @@
 /**
-* read the last events in game, update world 
+* read the last events in game, update world  
 */
 
 function die(killer){
@@ -17,7 +17,7 @@ function playerUdate(dt){
   t = dt*hero[4]*(hero[8]>0?slowMotion:1);
   // move depending on keypressed 
   var speed = dt*hero[4]*(hero[8]>0?1.4:1);
-  if(map[Math.round(hero[1]/tileset)][Math.round(hero[0]/tileset)]==1){
+  if(map[Math.round(hero[1]/tileset)]&&map[Math.round(hero[1]/tileset)][Math.round(hero[0]/tileset)]==1){
     speed-=0.8;
   }
   if(keyMap&keys[65]){
@@ -134,9 +134,9 @@ function draw(t){
   ctx.fillStyle = getRandomColor(180,0, 185,0,185,0,0,1);
   for(var i=0;i<6;i++) ctx.fillRect(Math.random()*800, Math.random()*600, 2, 2)
   
-  // draw map
+  // draw map 
   ctx.save()
-  ctx.strokeStyle = "#545EB4";
+  ctx.strokeStyle = "#516ABC";
   var gridSize = H/mapSize
   ctx.beginPath();
   shakeScreen = !gameOver?[shake(coords[2], 2), shake(coords[2], 2)]:[0,0];
@@ -157,11 +157,13 @@ function draw(t){
   // draw corruption
   ctx.save();
   ctx.beginPath();
-  ctx.fillStyle='rgba(10,40,10,0.3)';
+  ctx.fillStyle='rgba(0,0,0,0.5)';
+  ctx.strokeStyle='rgba(255,0,0,0.5)';
   for (var j = 0; j < mapSize; j++) {
     for (var i = 0; i < mapSize; i++) {
       if(map[j][i]==0) continue;
       ctx.fillRect(i*tileset+viewPort[0]+shakeScreen[0], j*tileset+viewPort[1]+shakeScreen[1], tileset, tileset);
+      ctx.strokeRect(i*tileset+viewPort[0]+shakeScreen[0], j*tileset+viewPort[1]+shakeScreen[1], tileset, tileset);
     }
   }
   ctx.fill();

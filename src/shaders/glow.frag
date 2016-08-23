@@ -10,8 +10,9 @@ void main (){
    vec4 col = texture2D(t, uv);
    vec4 gws = vec4(0.0);
    float rand = 0.02*sin(time)+0.25;
-   float weight = 0.03;
+   float weight = 0.035;
    
+   //glow
    for (int i = 0; i <9; i++) {
      float miw = float(mod(float(i), 4.0));
      float idw = float(i / 3);

@@ -66,6 +66,8 @@ var glowShader = glCreateShader(STATIC_VERT, GLOW_FRAG);
 gl.uniform2f(glUniformLocation(glowShader, 'dim'), W, H);
 var crtShader = glCreateShader(STATIC_VERT, CRT_FRAG);
 gl.uniform2f(glUniformLocation(crtShader, 'dim'), W, H);
+var invertShader = glCreateShader(STATIC_VERT, INVERT_FRAG);
+gl.uniform2f(glUniformLocation(invertShader, 'dim'), W, H);
 //var laserShader = glCreateShader( STATIC_VERT, LASER_FRAG);
 //var persistenceShader = glCreateShader(STATIC_VERT, PERSISTENCE_FRAG);
 //var glareShader = glCreateShader(STATIC_VERT, GLARE_FRAG);

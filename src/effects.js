@@ -5,11 +5,18 @@
 function drawPostProcessing (time) {
   glSetTexture(textureGame, g);
 
+  // invert test
+  glBindFBO(fbo2);
+  glBindShader(invertShader);
+  gl.uniform1i(glUniformLocation(invertShader, 't'), glBindTexture(textureGame, 0));
+  gl.uniform1f(glUniformLocation(invertShader, 'time'), (frame));
+  gl.drawArrays(gl.TRIANGLES, 0, 6);
+
 
   // glow 
   glBindFBO(fbo1);
   glBindShader(glowShader);
-  gl.uniform1i(glUniformLocation(glowShader, 't'), glBindTexture(textureGame, 0));
+  gl.uniform1i(glUniformLocation(glowShader, 't'), glBindTexture(glGetFBOTexture(fbo2), 0));
   gl.uniform1f(glUniformLocation(glowShader, 'time'), (frame));
   gl.drawArrays(gl.TRIANGLES, 0, 6);
 

@@ -12,7 +12,7 @@ var necronomicon = [
 // spawners
 //size, angle, summonTime, type, hits, xpoints, ypoints, customData:nextInvocation, corruptionPower, corruptionRatio
 //basic totem pyramid solid
-[tileset/2, 0, 0, 6, 15, [[-1,0,0],[0,0,1],[-1,1,0]], [[-1.5,-0.5,0.5],[-0.5,0.5,-1.5],[-1.5,-1.5,-0.5]], 1, 0,1.6]
+[tileset/2, 0, 0, 6, 15, [[-1,0,0],[0,0,1],[-1,1,0]], [[-1.5,-0.5,0.5],[-0.5,0.5,-1.5],[-1.5,-1.5,-0.5]], 1, 0,2]
 ]
 
 // values: x, y, type
@@ -60,10 +60,6 @@ function drawEnemy(enemy){
   }else{
     ctx.strokeStyle = '#07000A';
     ctx.lineWidth = 1;
-    if(DEBUG){
-      ctx.arc(0, 0, enemy[10], 0, Math.PI*2);
-      ctx.stroke();
-    }
     pathTotem(enemy);
   }
   ctx.closePath();
