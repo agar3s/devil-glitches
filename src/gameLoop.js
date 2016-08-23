@@ -3,7 +3,6 @@
 */
 
 function die(killer){
-  // not implemented yet
   play(heroDie);
   for (var h = -10; h < 10; h++) {
     particles.push([hero[0], hero[1], hero[2]+particleZ*h*Math.random(), 100]);
@@ -18,6 +17,9 @@ function playerUdate(dt){
   t = dt*hero[4]*(hero[8]>0?slowMotion:1);
   // move depending on keypressed 
   var speed = dt*hero[4]*(hero[8]>0?1.4:1);
+  if(map[Math.round(hero[1]/tileset)][Math.round(hero[0]/tileset)]==1){
+    speed-=0.8;
+  }
   if(keyMap&keys[65]){
     hero[0]-=speed;
     if(hero[0]<hero[2]) hero[0] = hero[2]; // hero limit on x left
@@ -152,10 +154,10 @@ function draw(t){
   ctx.stroke();
   ctx.restore();
 
-  // draw corruption 
+  // draw corruption
   ctx.save();
   ctx.beginPath();
-  ctx.fillStyle='#6a6';
+  ctx.fillStyle='rgba(10,40,10,0.3)';
   for (var j = 0; j < mapSize; j++) {
     for (var i = 0; i < mapSize; i++) {
       if(map[j][i]==0) continue;

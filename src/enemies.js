@@ -10,9 +10,9 @@ var necronomicon = [
 ,
 ,
 // spawners
-//size, angle, summonTime, type, hits, xpoints, ypoints, customData:nextInvocation
+//size, angle, summonTime, type, hits, xpoints, ypoints, customData:nextInvocation, corruptionPower, corruptionRatio
 //basic totem pyramid solid
-[tileset/2, 0, 0, 6, 15, [[-1,0,0],[0,0,1],[-1,1,0]], [[-1.5,-0.5,0.5],[-0.5,0.5,-1.5],[-1.5,-1.5,-0.5]], 1]
+[tileset/2, 0, 0, 6, 15, [[-1,0,0],[0,0,1],[-1,1,0]], [[-1.5,-0.5,0.5],[-0.5,0.5,-1.5],[-1.5,-1.5,-0.5]], 1, 0,1.6]
 ]
 
 // values: x, y, type
@@ -48,7 +48,7 @@ function pathTotem(totem){
 
 function drawEnemy(enemy){
   if(enemy[0]+viewPort[0]<20||enemy[0]+viewPort[0]>W-20||enemy[1]+viewPort[1]<20||enemy[1]+viewPort[1]>H-20) return;
-  //ctx.rotate(enemy[2]);
+  //ctx.rotate(enemy[2]); 
   var offsetX = enemy[0]+viewPort[0]+shakeScreen[0]; // 20 /2 width/2
   var offsetY = enemy[1]+viewPort[1]+shakeScreen[1]; //
   ctx.translate(offsetX, offsetY)
@@ -60,6 +60,10 @@ function drawEnemy(enemy){
   }else{
     ctx.strokeStyle = '#07000A';
     ctx.lineWidth = 1;
+    if(DEBUG){
+      ctx.arc(0, 0, enemy[10], 0, Math.PI*2);
+      ctx.stroke();
+    }
     pathTotem(enemy);
   }
   ctx.closePath();
@@ -77,6 +81,7 @@ function updateEnemy(enemy,index){
       particles.push([enemy[0], enemy[1], enemy[2]+particleZ*h*Math.random(), 100]);
     }
     if(enemy[5]>4){
+      removeCorruption(enemy[0], enemy[1], enemy[10]);
       play(totemDestroyed);
     }else{
       play(enemyDie);
@@ -97,7 +102,7 @@ function updateEnemy(enemy,index){
     enemy[0] += Math.cos(enemy[9])*t*enemy[12];
     enemy[1] += Math.sin(enemy[9])*t*enemy[12];
 
-  // spawner
+  // spawner 
   }else{
     enemy[9]-=dt;
 
@@ -109,6 +114,8 @@ function updateEnemy(enemy,index){
       }
       enemy[9]=20;  // time to summon again
     }
+    enemy[10]+=dt*enemy[11];
+    corruptZone(enemy[0], enemy[1], enemy[10]);
   }
   addItem(enemy);
 }
