@@ -66,19 +66,18 @@ var glowShader = glCreateShader(STATIC_VERT, GLOW_FRAG);
 gl.uniform2f(glUniformLocation(glowShader, 'dim'), W, H);
 var crtShader = glCreateShader(STATIC_VERT, CRT_FRAG);
 gl.uniform2f(glUniformLocation(crtShader, 'dim'), W, H);
-var invertShader = glCreateShader(STATIC_VERT, INVERT_FRAG);
-gl.uniform2f(glUniformLocation(invertShader, 'dim'), W, H);
-//var laserShader = glCreateShader( STATIC_VERT, LASER_FRAG);
-//var persistenceShader = glCreateShader(STATIC_VERT, PERSISTENCE_FRAG);
-//var glareShader = glCreateShader(STATIC_VERT, GLARE_FRAG);
-//var playerShader = glCreateShader(STATIC_VERT, PLAYER_FRAG);
-//gl.uniform1f(glUniformLocation(playerShader, "S"), SEED);
-//var gameShader = glCreateShader(STATIC_VERT, GAME_FRAG);
+var badColorShader = glCreateShader(STATIC_VERT, BADCOLOR_FRAG);
+gl.uniform2f(glUniformLocation(badColorShader, 'dim'), W, H);
+var cutShader = glCreateShader(STATIC_VERT, CUT_FRAG);
+gl.uniform2f(glUniformLocation(cutShader, 'dim'), W, H);
+var twistShader = glCreateShader(STATIC_VERT, TWIST_FRAG);
+gl.uniform2f(glUniformLocation(twistShader, 'dim'), W, H);
+var swellShader = glCreateShader(STATIC_VERT, SWELL_FRAG);
+gl.uniform2f(glUniformLocation(swellShader, 'dim'), W, H);
+var slitShader = glCreateShader(STATIC_VERT, SLIT_FRAG);
+gl.uniform2f(glUniformLocation(slitShader, 'dim'), W, H);
 
-//var persistenceFbo = glCreateFBO();
-//var playerFbo = glCreateFBO();
-//var glareFbo = glCreateFBO();
-//var laserFbo = glCreateFBO();
+
 var fbo1 = glCreateFBO();
 var fbo2 = glCreateFBO();
 

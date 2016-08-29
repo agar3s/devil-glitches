@@ -31,6 +31,7 @@ messages = [
 message = 'behold our majesty',
 particleZ = Math.PI/2,
 score = 0,
+glitchTime = 0,
 summons = {
  1000:[11.5*tileset,6.5*tileset,6],
  10000:[5.5*tileset,5.5*tileset,6],

@@ -98,7 +98,9 @@ function update(dt){
   }
 
   if(times.length>0&&score>times[0]){
-    enemies.push(createEnemy(summons[times.splice(0,1)[0]]))
+    enemies.push(createEnemy(summons[times.splice(0,1)[0]]));
+    glitchTime = 10;
+    play(totemAppears);
   }else if(times.length==0&&score%10000){
     //enemies.push(createEnemy([Math.random()*]))
   }
@@ -120,9 +122,10 @@ function path(xpts, ypts, size){
   ctx.lineTo(xpts[0]*size, ypts[0]*size);
 }
 
-
+/**enemies must have colors? */
 function getRandomColor(r,r2,g,g2,b,b2,a,a2){
-  return 'rgba('+(Math.floor(Math.random()*r)+r2)+','+(Math.floor(Math.random()*g)+g2)+','+(Math.floor(Math.random()*b)+b2)+','+(Math.floor(Math.random()*a)+a2)+')';
+  return '#C36084';
+  //return 'rgba('+(Math.floor(Math.random()*r)+r2)+','+(Math.floor(Math.random()*g)+g2)+','+(Math.floor(Math.random()*b)+b2)+','+(Math.floor(Math.random()*a)+a2)+')';
 }
 
 

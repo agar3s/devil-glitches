@@ -1,45 +1,57 @@
 /*
-* original script from @gre 
+* original script from @gre
 * https://github.com/gre/behind-asteroids/blob/master/src/effects.sh
 */
 function drawPostProcessing (time) {
   glSetTexture(textureGame, g);
+  glitchTime--;
 
-  // invert test
-  glBindFBO(fbo2);
-  glBindShader(invertShader);
-  gl.uniform1i(glUniformLocation(invertShader, 't'), glBindTexture(textureGame, 0));
-  gl.uniform1f(glUniformLocation(invertShader, 'time'), (frame));
+  glBindFBO(fbo1);
+  glBindShader(badColorShader);
+  gl.uniform1i(glUniformLocation(badColorShader, 't'), glBindTexture(textureGame, 0));
+  gl.uniform1f(glUniformLocation(badColorShader, 'time'), (frame/60)%180);
+  gl.uniform3fv(glUniformLocation(badColorShader, 'colors'), [glitchTime+1>0?1:0,glitchTime+2>0?1:0,glitchTime>0?1:0]);
   gl.drawArrays(gl.TRIANGLES, 0, 6);
 
+  glBindFBO(fbo2);
+  glBindShader(cutShader); 
+  gl.uniform1i(glUniformLocation(cutShader, 't'), glBindTexture(glGetFBOTexture(fbo1), 0));
+  gl.uniform1f(glUniformLocation(cutShader, 'time'), glitchTime>0?15:0); // instantes cortos 
+  gl.drawArrays(gl.TRIANGLES, 0, 6);
+
+  glBindFBO(fbo1);
+  glBindShader(twistShader);
+  gl.uniform1i(glUniformLocation(twistShader, 't'), glBindTexture(glGetFBOTexture(fbo2), 0));
+  gl.uniform1f(glUniformLocation(twistShader, 'time'), glitchTime+1>0?1:0); // instantes cortos 
+  gl.drawArrays(gl.TRIANGLES, 0, 6);
+
+  glBindFBO(fbo2);
+  glBindShader(swellShader);
+  gl.uniform1i(glUniformLocation(swellShader, 't'), glBindTexture(glGetFBOTexture(fbo1), 0));
+  gl.uniform1f(glUniformLocation(swellShader, 'rand'), glitchTime>0?0.55:-0.5); // instantes cortos
+  gl.drawArrays(gl.TRIANGLES, 0, 6);
+
+  glBindFBO(fbo1);
+  glBindShader(slitShader);
+  gl.uniform1i(glUniformLocation(slitShader, 't'), glBindTexture(glGetFBOTexture(fbo2), 0));
+  gl.uniform1f(glUniformLocation(slitShader, 'slit_h'), glitchTime>0?9:1); //instantes cortos
+  gl.drawArrays(gl.TRIANGLES, 0, 6);
 
   // glow 
-  glBindFBO(fbo1);
+  glBindFBO(fbo2);
   glBindShader(glowShader);
-  gl.uniform1i(glUniformLocation(glowShader, 't'), glBindTexture(glGetFBOTexture(fbo2), 0));
+  gl.uniform1i(glUniformLocation(glowShader, 't'), glBindTexture(glGetFBOTexture(fbo1), 0));
   gl.uniform1f(glUniformLocation(glowShader, 'time'), (frame));
   gl.drawArrays(gl.TRIANGLES, 0, 6);
 
-  glBindFBO(fbo2);
+  glBindFBO(fbo1);
   glBindShader(crtShader);
-  gl.uniform1i(glUniformLocation(crtShader, 't'), glBindTexture(glGetFBOTexture(fbo1), 0));
+  gl.uniform1i(glUniformLocation(crtShader, 't'), glBindTexture(glGetFBOTexture(fbo2), 0));
   gl.drawArrays(gl.TRIANGLES, 0, 6);
 
  
   // Final draw
   gl.bindFramebuffer(gl.FRAMEBUFFER, null);
-  //glBindShader(gameShader);
-  //gl.uniform1i(glUniformLocation(gameShader, "G"), glBindTexture(glGetFBOTexture(laserFbo), 0));
-  //gl.uniform1i(glUniformLocation(gameShader, "R"), glBindTexture(glGetFBOTexture(persistenceFbo), 1));
-  //gl.uniform1i(glUniformLocation(gameShader, "B"), glBindTexture(glGetFBOTexture(fbo2), 2));
-  //gl.uniform1i(glUniformLocation(gameShader, "L"), glBindTexture(glGetFBOTexture(glareFbo), 3));
-  //gl.uniform1i(glUniformLocation(gameShader, "E"), glBindTexture(glGetFBOTexture(playerFbo), 4));
-  //gl.uniform1f(glUniformLocation(gameShader, "s"),
-  //  !player ? smoothstep(-4000, -3000, playingSince) : 1);
-  //gl.uniform1f(glUniformLocation(gameShader, "F"),
-  //  smoothstep(300, 0, t-lastLoseShot) +
-  //  !gameOver && lifes>4 ? 0.5 * smoothstep(-1, 1, Math.cos(0.01*t)) : 0);
-  //gl.uniform2f(glUniformLocation(gameShader, "k"), shaking[0], shaking[1]);
   gl.drawArrays(gl.TRIANGLES, 0, 6);
   gl.flush();
 }
