@@ -91,7 +91,7 @@ function update(dt){
     if(--particle[3]<0) particles.splice(i,1)
   }
 
-  // update enemies
+  // update enemies 
   spatialhashing = {};
   for (var i = enemies.length-1; i >=0; i--) {
     updateEnemy(enemies[i], i);
@@ -101,8 +101,10 @@ function update(dt){
     enemies.push(createEnemy(summons[times.splice(0,1)[0]]));
     glitchTime = 10;
     play(totemAppears);
-  }else if(times.length==0&&score%10000){
-    //enemies.push(createEnemy([Math.random()*]))
+  }else if(times.length==0){  // to infinite mode
+    summons[score+7500] = [(Math.random()*21)*tileset,(Math.random()*21)*tileset,6]
+    glitchTime = 5;
+    times.push(score+7500)
   }
 
 }
