@@ -2,28 +2,28 @@ var necronomicon = [
 // normal enemies 
 //size, angle, summonTime, type, hits, xpoints, ypoints, customData:angleTarget, customData: angleMomentum, anglediff, speed
 // 0: basic square
-[10,    0,     0,          0,    2, [-1,1,1,-1], [-1,-1,1,1],                 0, 3,0.1,1.2],
+[10,    0,     0,          0,    2, [-1,1,1,-1], [-1,-1,1,1],                 0, 3,0.1,1.1],
 // 1: simple killer
-[15,    0,     0,          1,    6, [1,0.3,0,-2,0,0.3], [0,1,0.3,0,-0.3,-1], 0, 3,0.05,0.8],
+[15,    0,     0,          1,    5, [1,0.3,0,-2,0,0.3], [0,1,0.3,0,-0.3,-1], 0, 3,0.05,0.8],
 // 2: follower 
 [8,    0,     0,           2,    2, [1,0.25,-1,0.25],[0,-0.5,0,0.5],0, 3.5,0.15,1.6],
 // 3: heavy killer
-[20,    0,     0,          3,    20, [0,0.25,0.75,0.75,1,0.75,0.75,0.25,0,-0.25,-0.75,-0.75,-1,-0.75,-0.75,-0.25], [-1,-0.75,-0.75,-0.25,0,0.25,0.75,0.75,1,0.75,0.75,0.25,0,-0.25,-0.75,-0.75], 0, 1,0.12,1.05],
+[20,    0,     0,          3,    12, [0,0.25,0.75,0.75,1,0.75,0.75,0.25,0,-0.25,-0.75,-0.75,-1,-0.75,-0.75,-0.25], [-1,-0.75,-0.75,-0.25,0,0.25,0.75,0.75,1,0.75,0.75,0.25,0,-0.25,-0.75,-0.75], 0, 1,0.12,1.05],
 //4: guardian
 [12,    0,     0,          4,    5, [0,0.25,1,0.25,0,-0.25,-1,-0.25], [-1,-0.25,0,0.25,1,0.25,0,-0.25],                 0, 3,0.03,2.5, 0,0,100], // last two parameters, x y to turnon radiis
 //5: bullet basic triangle
-[3,    0,     0,          5,    250, [1,-1,-1], [0,1,-1],0, 0,0,1.4], // last two parameters, x y to turnon radiis
+[3,    0,     0,          5,    150, [1,-1,-1], [0,1,-1],0, 0,0,1.4], // last two parameters, x y to turnon radiis
 // spawners 6
 //size, angle, summonTime, type, hits, xpoints, ypoints, customData:nextInvocation, corruptionPower, corruptionRatio
-//pyramid solid  
-[tileset/2, 0, 0, 6, 15, [[-1,0,0],[0,0,1],[-1,1,0]], [[-1.5,-0.5,0.5],[-0.5,0.5,-1.5],[-1.5,-1.5,-0.5]], 1, 0,2],
+//pyramid solid
+[tileset/2, 0, 0, 6, 8, [[-1,0,0],[0,0,1],[-1,1,0]], [[-1.5,-0.5,0.5],[-0.5,0.5,-1.5],[-1.5,-1.5,-0.5]], 1, 0,7],
 //cube solid 
-[tileset/2, 0, 0, 7, 20, [[-1,0,0,-1],[1,0,0,1],[-1,0,1,0],[-1,0,1,0],[-1,0,0,-1],[1,0,0,1]], [[-1.25,-0.5,0.8,0.25],[-1.25,-0.5,0.8,0.25],[-1.25,-0.5,-1.25,-1.8],[0.25,-0.5,0.25,0.8],[0.25,-0.5,-1.8,-1.25],[0.25,-0.5,-1.8,-1.25]], 0.9, 0,2.5],
+[tileset/2, 0, 0, 7, 11, [[-1,0,0,-1],[1,0,0,1],[-1,0,1,0],[-1,0,1,0],[-1,0,0,-1],[1,0,0,1]], [[-1.25,-0.5,0.8,0.25],[-1.25,-0.5,0.8,0.25],[-1.25,-0.5,-1.25,-1.8],[0.25,-0.5,0.25,0.8],[0.25,-0.5,-1.8,-1.25],[0.25,-0.5,-1.8,-1.25]], 0.9, 0,6],
 //prism solid 
-[tileset/2, 0, 0, 8, 16, [[-1,0,0],[0,0,1],[-1,1,0]], [[-1.5,-0.5,0.5],[-0.5,0.5,-1.5],[-1.5,-1.5,-0.5]], 0.9, 0,2.5]
+[tileset/2, 0, 0, 8, 16, [[-1,0,0],[0,0,1],[-1,1,0]], [[-1.5,-0.5,0.5],[-0.5,0.5,-1.5],[-1.5,-1.5,-0.5]], 0.9, 0,4]
 ]
 
-// values: x, y, type 
+// values: x, y, type
 function createEnemy(values){
   var enemy = values.slice(0,2).concat(necronomicon[values[2]].slice(0));
 
@@ -98,16 +98,16 @@ var spawns = {
       var newEnemy = createEnemy([enemy[0]+(j%3-1)*tileset,enemy[1]+(Math.floor(j/3)-1)*tileset, j==1?1:0])
       enemies.push(newEnemy);
     }
-    enemy[9]=2000;  // time to summon again
+    enemy[9]=2800;  // time to summon again 
   },
   '7': function(enemy){
     for (var j = 0; j<12; j++) {
-      if(j==4) continue;  //summon especial 
+      if(j==4) continue;  //summon especial  
       var newEnemy = createEnemy([enemy[0]+(j%3-1)*tileset,enemy[1]+(Math.floor(j/3)-1)*tileset, j==1?3:2])
       if(j==1) bigKiller = newEnemy;
       enemies.push(newEnemy);
     }
-    enemy[9]=2000;
+    enemy[9]=2600;
   },
   '8': function(enemy){ // 
     for (var i = 0; i < 2; i++) {
@@ -115,7 +115,7 @@ var spawns = {
       newEnemy[9] = enemy[3]+i*Math.PI;
       enemies.push(newEnemy);
     }
-    enemy[9]=60; //crazy  0.3 
+    enemy[9]=60; //crazy  0.3
   }
 }
 

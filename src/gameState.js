@@ -32,13 +32,36 @@ message = 'behold our majesty',
 particleZ = Math.PI/2,
 score = 0,
 glitchTime = 0,
-summons = { 
-  1000:[11.5*tileset, 1.5*tileset,8],
-  5000:[1.5*tileset, 11.5*tileset,8],
-  9000:[20.5*tileset, 11.5*tileset,8],
-  13000:[11.5*tileset, 20.5*tileset,8],
-  100000:[12.5*tileset,6.5*tileset,6],
-  //20000:[15.5*tileset, 6.5*tileset,7]
+summons = {
+  //1st wave 
+  1000:[11.5*tileset,6.5*tileset,6], 
+  //2st wave
+  10000:[5.5*tileset,5.5*tileset,6],
+  18000:[16.5*tileset,16.5*tileset,6],
+  25000:[16.5*tileset,5.5*tileset,6],
+  31000:[5.5*tileset,16.5*tileset,6],
+  37000:[11.5*tileset,10.5*tileset,7],
+  // some cool effect
+  //3st wave
+  51000:[4.5*tileset,12.5*tileset,7],
+  53000:[17.5*tileset,10.5*tileset,6],
+  61000:[13.5*tileset,10.5*tileset,7],
+  63000:[3.5*tileset,19.5*tileset,6],
+  70000:[6.5*tileset,3.5*tileset,7],
+  72000:[6.5*tileset,16.5*tileset,6],
+  78000:[18.5*tileset,18.5*tileset,7],
+  // some cool effect for the summon in the middle 
+  92000:[11.5*tileset,11.5*tileset,8],
+  //4st wave 
+  // some cool effect
+ 111000:[11.5*tileset, 1.5*tileset,8],
+ 116000:[1.5*tileset, 11.5*tileset,8],
+ 121000:[20.5*tileset, 11.5*tileset,8],
+ 126000:[11.5*tileset, 20.5*tileset,8],
+  // some cool effect
+  // summon  
+1100000:[12.5*tileset,6.5*tileset,6],
+  //200000:[15.5*tileset, 6.5*tileset,7]   
 },
 bigKiller = undefined,  // reference for enemy followers
 // summons = {

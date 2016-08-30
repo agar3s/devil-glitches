@@ -18,7 +18,7 @@ function playerUdate(dt){
   // move depending on keypressed 
   var speed = dt*hero[4]*(hero[8]>0?1.4:1);
   if(map[Math.round(hero[1]/tileset)]&&map[Math.round(hero[1]/tileset)][Math.round(hero[0]/tileset)]==1){
-    speed-=0.8;
+    speed-=0.5;
   }
   if(keyMap&keys[65]){
     hero[0]-=speed;
