@@ -163,7 +163,7 @@ function draw(t){
   ctx.save();
   ctx.beginPath();
   ctx.fillStyle='rgba(30,30,30,1)';
-  ctx.strokeStyle='rgba(0,0,0,0.5)';
+  ctx.strokeStyle = "#A16AFC";
   for (var j = 0; j < mapSize; j++) {
     for (var i = 0; i < mapSize; i++) {
       if(map[j][i]==0) continue;

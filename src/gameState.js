@@ -32,11 +32,14 @@ message = 'behold our majesty',
 particleZ = Math.PI/2,
 score = 0,
 glitchTime = 0,
-summons = {
-  1000:[11.5*tileset, 6.5*tileset,7]
+summons = { 
+  1000:[11.5*tileset, 6.5*tileset,8],
+  10000:[12.5*tileset,6.5*tileset,6],
+  20000:[15.5*tileset, 6.5*tileset,7]
 },
+bigKiller = undefined,  // reference for enemy followers
 // summons = {
-//  1000:[11.5*tileset,6.5*tileset,6],
+//  1000:[11.5*tileset,6.5*tileset,6], 
 //  10000:[5.5*tileset,5.5*tileset,6],
 //  18000:[16.5*tileset,16.5*tileset,6],
 //  25000:[16.5*tileset,5.5*tileset,6],
