@@ -33,12 +33,15 @@ particleZ = Math.PI/2,
 score = 0,
 glitchTime = 0,
 summons = {
- 1000:[11.5*tileset,6.5*tileset,6],
- 10000:[5.5*tileset,5.5*tileset,6],
- 18000:[16.5*tileset,16.5*tileset,6],
- 25000:[16.5*tileset,5.5*tileset,6],
- 31000:[5.5*tileset,16.5*tileset,6]
+  1000:[11.5*tileset, 6.5*tileset,7]
 },
+// summons = {
+//  1000:[11.5*tileset,6.5*tileset,6],
+//  10000:[5.5*tileset,5.5*tileset,6],
+//  18000:[16.5*tileset,16.5*tileset,6],
+//  25000:[16.5*tileset,5.5*tileset,6],
+//  31000:[5.5*tileset,16.5*tileset,6]
+// },
 times=Object.keys(summons).map(function(element){return parseInt(element)})
 ;
 

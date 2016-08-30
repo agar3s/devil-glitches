@@ -25,12 +25,13 @@ function drawPostProcessing (time) {
   gl.uniform1f(glUniformLocation(twistShader, 'time'), glitchTime+1>0?1:0); // instantes cortos 
   gl.drawArrays(gl.TRIANGLES, 0, 6);
 
+// swell for effects
   glBindFBO(fbo2);
   glBindShader(swellShader);
   gl.uniform1i(glUniformLocation(swellShader, 't'), glBindTexture(glGetFBOTexture(fbo1), 0));
-  gl.uniform1f(glUniformLocation(swellShader, 'rand'), glitchTime>0?0.55:-0.5); // instantes cortos
+  gl.uniform1f(glUniformLocation(swellShader, 'rand'), -0.5); // instantes cortos
   gl.drawArrays(gl.TRIANGLES, 0, 6);
-
+//
   glBindFBO(fbo1);
   glBindShader(slitShader);
   gl.uniform1i(glUniformLocation(slitShader, 't'), glBindTexture(glGetFBOTexture(fbo2), 0));

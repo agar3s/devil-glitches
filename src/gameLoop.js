@@ -141,12 +141,12 @@ function draw(t){
   
   // draw map 
   ctx.save()
-  ctx.strokeStyle = "#516ABC";
+  ctx.strokeStyle = "#516AFC";
   var gridSize = H/mapSize
   ctx.beginPath();
   shakeScreen = !gameOver?[shake(coords[2], 2), shake(coords[2], 2)]:[0,0];
   ctx.translate(shakeScreen[0], shakeScreen[1]);
-  ctx.fillStyle = 'rgba(12,27,46,'+ (0.2-(hero[8]>0?0.1:0)) +')';
+  ctx.fillStyle = 'rgba(12,12,12,'+ (0.2-(hero[8]>0?0.1:0)) +')';
   ctx.translate(viewPort[0], viewPort[1])
   ctx.fillRect(0, 0, mapPixels, mapPixels)
   for(var i = 0; i <= mapSize; i++){
@@ -159,11 +159,11 @@ function draw(t){
   ctx.stroke();
   ctx.restore();
 
-  // draw corruption
+  // draw corruption 
   ctx.save();
   ctx.beginPath();
-  ctx.fillStyle='rgba(0,0,0,0.5)';
-  ctx.strokeStyle='rgba(255,0,0,0.5)';
+  ctx.fillStyle='rgba(30,30,30,1)';
+  ctx.strokeStyle='rgba(0,0,0,0.5)';
   for (var j = 0; j < mapSize; j++) {
     for (var i = 0; i < mapSize; i++) {
       if(map[j][i]==0) continue;

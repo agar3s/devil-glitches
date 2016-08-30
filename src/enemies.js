@@ -11,8 +11,9 @@ var necronomicon = [
 ,
 // spawners
 //size, angle, summonTime, type, hits, xpoints, ypoints, customData:nextInvocation, corruptionPower, corruptionRatio
-//basic totem pyramid solid
-[tileset/2, 0, 0, 6, 15, [[-1,0,0],[0,0,1],[-1,1,0]], [[-1.5,-0.5,0.5],[-0.5,0.5,-1.5],[-1.5,-1.5,-0.5]], 1, 0,2]
+//basic totem pyramid solid 
+[tileset/2, 0, 0, 6, 15, [[-1,0,0],[0,0,1],[-1,1,0]], [[-1.5,-0.5,0.5],[-0.5,0.5,-1.5],[-1.5,-1.5,-0.5]], 1, 0,2],
+[tileset/2, 0, 0, 7, 20, [[-1,0,0,-1],[1,0,0,1],[-1,0,1,0],[-1,0,1,0],[-1,0,0,-1],[1,0,0,1]], [[-1.25,-0.5,0.8,0.25],[-1.25,-0.5,0.8,0.25],[-1.25,-0.5,-1.25,-1.8],[0.25,-0.5,0.25,0.8],[0.25,-0.5,-1.8,-1.25],[0.25,-0.5,-1.8,-1.25]], 0.9, 0,10],
 ]
 
 // values: x, y, type
@@ -25,7 +26,7 @@ function createEnemy(values){
 function drawFace(xPath, yPath, size, index){
   ctx.beginPath();
   var value = 125-index*20;
-  ctx.fillStyle = getRandomColor(value,50, value,50,value,50,0,1);
+  ctx.fillStyle = 'rgba(60,60,60,0.05)';
   path(xPath, yPath,size)
   ctx.closePath();
   ctx.fill()
@@ -48,7 +49,7 @@ function pathTotem(totem){
 
 function drawEnemy(enemy){
   if(enemy[0]+viewPort[0]<20||enemy[0]+viewPort[0]>W-20||enemy[1]+viewPort[1]<20||enemy[1]+viewPort[1]>H-20) return;
-  //ctx.rotate(enemy[2]); 
+  //ctx.rotate(enemy[2]);  
   var offsetX = enemy[0]+viewPort[0]+shakeScreen[0]; // 20 /2 width/2
   var offsetY = enemy[1]+viewPort[1]+shakeScreen[1]; //
   ctx.translate(offsetX, offsetY)
@@ -58,7 +59,7 @@ function drawEnemy(enemy){
     ctx.lineWidth = 3;
     pathEnemy(enemy);
   }else{
-    ctx.strokeStyle = '#07000A';
+    ctx.strokeStyle='rgba(230,175,69,1)';
     ctx.lineWidth = 1;
     pathTotem(enemy);
   }
