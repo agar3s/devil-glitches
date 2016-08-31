@@ -5,7 +5,7 @@ frame=0,
 mapPixels = mapSize*tileset,
 map = [],
 slowMotion = 0.3,
-viewPort = [-60, -160, 390, 275], // [x, y, leftOffset, topOffset] 
+viewPort = [-60, -160, 350, 275], // [x, y, leftOffset, topOffset] 
 // [0x, 1y, 2size, 3angle, 4speed, 5crossFireAngle, 6countDown, 7bulletRatio, 8dashCountDown, 9dashcolddown]
 hero = [460, 460, 16, 0, 150, 0, 0, 12,0,0],
 heroShape = [[0,1,0,-1],[-1,1,0.5,1]],
@@ -33,6 +33,9 @@ particleZ = Math.PI/2,
 score = 0,
 glitchTime = 0,
 summons = {
+  1000:[11.5*tileset,2.5*tileset,9], 
+1100000:[12.5*tileset,6.5*tileset,6],
+/*
   //1st wave 
   1000:[11.5*tileset,6.5*tileset,6], 
   //2st wave
@@ -62,6 +65,7 @@ summons = {
   // summon  
 1100000:[12.5*tileset,6.5*tileset,6],
   //200000:[15.5*tileset, 6.5*tileset,7]   
+*/
 },
 bigKiller = undefined,  // reference for enemy followers
 // summons = {

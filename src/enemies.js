@@ -20,18 +20,19 @@ var necronomicon = [
 //cube solid 
 [tileset/2, 0, 0, 7, 11, [[-1,0,0,-1],[1,0,0,1],[-1,0,1,0],[-1,0,1,0],[-1,0,0,-1],[1,0,0,1]], [[-1.25,-0.5,0.8,0.25],[-1.25,-0.5,0.8,0.25],[-1.25,-0.5,-1.25,-1.8],[0.25,-0.5,0.25,0.8],[0.25,-0.5,-1.8,-1.25],[0.25,-0.5,-1.8,-1.25]], 0.9, 0,6],
 //prism solid 
-[tileset/2, 0, 0, 8, 16, [[-1,0,0],[0,0,1],[-1,1,0]], [[-1.5,-0.5,0.5],[-0.5,0.5,-1.5],[-1.5,-1.5,-0.5]], 0.9, 0,4]
+[tileset*0.8, 0, 0, 8, 16, [[-0.5,0,0.5,0],[-0.5,0,0],[0.5,0,0],[-0.5,0,0],[0.5,0,0]], [[-0.75,-1,-0.75,-0.5],[-0.75,-0.5,0.25],[-0.75,-0.5,0.25],[-0.75,-1.75,-0.5],[-0.75,-1.75,-0.5]], 0.9, 0,4,0.004],
+// st
+[tileset*1.5, 0, 0, 9, 80, [[0,-0.75,0],[0,0.75,0],[-0.75,0.75,0],[-0.75,0.75,0],[-0.35,0.35,0]], [[-1,0.5,0],[-1,0.5,0],[0.5,0.5,0],[-0.5,-0.5,1],[0.25,0.25,-0.5]], 0.9, 0,4,0.1]
 ]
 
 // values: x, y, type
 function createEnemy(values){
   var enemy = values.slice(0,2).concat(necronomicon[values[2]].slice(0));
 
-  if(enemy[5]==8){
+  if(enemy[5]>=8){
     for (var j = 0; j<6; j++) {
       var newEnemy = createEnemy([enemy[0]+Math.cos(Math.PI*j/3)*10,enemy[1]+Math.sin(Math.PI*j/3)*10, 4])
-      newEnemy[13] = enemy[0];
-      newEnemy[14] = enemy[1];
+      newEnemy[13] = enemy;
       newEnemy[9] = getAngle(newEnemy, enemy); 
       newEnemy[3] = newEnemy[9]+enemy[11];
       newEnemy[15]=0;
@@ -39,8 +40,8 @@ function createEnemy(values){
       enemies.push(newEnemy);
     }
   }
-//        for (var j = 0; j<12; j++) { for the last enemy
-      //var newEnemy = createEnemy([enemy[0]+Math.cos(Math.PI*2*j/12+0.1)*10,enemy[1]+Math.sin(Math.PI*2*j/12+0.1)*10, 4])
+// for (var j = 0; j<12; j++) { for the last enemy 
+//var newEnemy = createEnemy([enemy[0]+Math.cos(Math.PI*2*j/12+0.1)*10,enemy[1]+Math.sin(Math.PI*2*j/12+0.1)*10, 4])
   return enemy;
 }
 
@@ -49,7 +50,7 @@ function createEnemy(values){
 function drawFace(xPath, yPath, size, index){
   ctx.beginPath();
   var value = 125-index*20;
-  ctx.fillStyle = 'rgba(60,60,60,0.05)';
+  ctx.fillStyle = 'rgba(80,80,130,0.4)';
   path(xPath, yPath,size)
   ctx.closePath();
   ctx.fill()
@@ -59,7 +60,7 @@ function drawFace(xPath, yPath, size, index){
 function pathEnemy(enemy){
   ctx.rotate(enemy[9])
   path(enemy[7], enemy[8], enemy[2])
-  //ctx.strokeRect(enemy[7][0], enemy[8][1], enemy[2]*2, enemy[2]*2)
+  //ctx.strokeRect(enemy[7][0], enemy[8][1], enemy[2]*2, enemy[2]*2)  
   ctx.rotate(-enemy[9])
 }
 
@@ -74,16 +75,16 @@ function drawEnemy(enemy){
   if(enemy[0]+viewPort[0]<20||enemy[0]+viewPort[0]>W-20||enemy[1]+viewPort[1]<20||enemy[1]+viewPort[1]>H-20) return;
   //ctx.rotate(enemy[2]);  
   var offsetX = enemy[0]+viewPort[0]+shakeScreen[0]; // 20 /2 width/2
-  var offsetY = enemy[1]+viewPort[1]+shakeScreen[1]; //
+  var offsetY = enemy[1]+viewPort[1]+shakeScreen[1]; // 
   ctx.translate(offsetX, offsetY)
   ctx.beginPath();
   if(enemy[5]<6){
-    ctx.strokeStyle = getRandomColor(125,50, 125,50,125,50,0,1);
+    ctx.strokeStyle = 'rgba(185,185,114,0.6)';
     ctx.lineWidth = 3;
     pathEnemy(enemy);
   }else{
-    ctx.strokeStyle='rgba(230,175,69,1)';
-    ctx.lineWidth = 1;
+    ctx.strokeStyle='rgba(126,129,181,1)';
+    ctx.lineWidth = 2;
     pathTotem(enemy);
   }
   ctx.closePath();
@@ -115,7 +116,18 @@ var spawns = {
       newEnemy[9] = enemy[3]+i*Math.PI;
       enemies.push(newEnemy);
     }
-    enemy[9]=60; //crazy  0.3
+    enemy[9]=60; //crazy  0.3 
+  },
+  '9': function(enemy){
+    
+    for (var i = 0; i < 8; i++) {
+      var newEnemy = createEnemy([enemy[0],enemy[1], 5])
+      newEnemy[9] = enemy[3]+(i-4)*Math.PI/4;
+      enemies.push(newEnemy);
+    }
+
+      enemy[9]=32; //crazy  0.3   
+    //enemy[12]-=0.0003; 
   }
 }
 
@@ -173,14 +185,18 @@ function updateEnemy(enemy,index){
       // guardians moves
       enemy[16]+=t/200;
       enemy[15] = tileset*2*(Math.sin(enemy[16])+1.2);
-      enemy[0] = enemy[13]+Math.cos(enemy[9])*enemy[15];
-      enemy[1] = enemy[14]+Math.sin(enemy[9])*enemy[15];
+      enemy[0] = enemy[13][0]+Math.cos(enemy[9])*enemy[15];
+      enemy[1] = enemy[13][1]+Math.sin(enemy[9])*enemy[15];
     }
 
   // spawner 
   }else{
     enemy[9]-=t;
-    if(enemy[5]==8)enemy[3]+=0.004*t;
+    if(enemy[5]>=8)enemy[3]+=enemy[12]*t;
+    if(enemy[5]==9){
+      enemy[0]+= t*Math.cos(enemy[3]/30);
+      enemy[1]+= t*Math.sin(enemy[3]/30);
+    }
     if(enemy[9]<0){
       spawns[enemy[5]](enemy);
     }

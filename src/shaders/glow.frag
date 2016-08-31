@@ -20,10 +20,10 @@ void main (){
      vec2 v2 = vec2(pos.x - miw, pos.y + idw);
      vec2 v3 = vec2(pos.x + miw, pos.y - idw);
      vec2 v4 = vec2(pos.x - miw, pos.y - idw);
-     gws += texture2D(t, v1 / dim) * weight * 1.8;
-     gws += texture2D(t, v2 / dim) * weight * 1.3;
+     gws += texture2D(t, v1 / dim) * weight * 1.5;
+     gws += texture2D(t, v2 / dim) * weight * 1.5;
      gws += texture2D(t, v3 / dim) * weight * 1.5;
-     gws += texture2D(t, v4 / dim) * weight * 1.3;
+     gws += texture2D(t, v4 / dim) * weight * 1.5;
    }
    col = col + gws;
 
@@ -35,7 +35,7 @@ void main (){
    col.b = col.b + col_r.b * max(1.0, sin(uv.y * dim.y * 1.2) * 2.5) * rand;
    col.g = col.g + col_g.g * max(1.0, sin(uv.y * dim.y * 1.2) * 2.5) * rand;
 
-   // Noise color using random number.
+   // Noise color using random number
    vec2 pos2 = uv*sin(time);
    float r = fract(sin(dot(pos2.xy ,vec2(12.9898,78.233))) * 43758.5453);
    vec3 noise = vec3(r);

@@ -126,27 +126,26 @@ function path(xpts, ypts, size){
 
 /**enemies must have colors? */
 function getRandomColor(r,r2,g,g2,b,b2,a,a2){
-  return '#C36084';
-  //return 'rgba('+(Math.floor(Math.random()*r)+r2)+','+(Math.floor(Math.random()*g)+g2)+','+(Math.floor(Math.random()*b)+b2)+','+(Math.floor(Math.random()*a)+a2)+')';
+  return 'rgba('+(Math.floor(Math.random()*r)+r2)+','+(Math.floor(Math.random()*g)+g2)+','+(Math.floor(Math.random()*b)+b2)+','+(Math.floor(Math.random()*a)+a2)+')';
 }
 
 
 function draw(t){
   // draw map
   //some random points
-  ctx.fillStyle= 'rgba(0,0,0,'+ (0.18) +')';
+  ctx.fillStyle= 'rgba(0,0,0,0.1)';
   ctx.fillRect(0,0,FW, FH);
   ctx.fillStyle = getRandomColor(180,0, 185,0,185,0,0,1);
   for(var i=0;i<6;i++) ctx.fillRect(Math.random()*800, Math.random()*600, 2, 2)
   
   // draw map 
   ctx.save()
-  ctx.strokeStyle = "#516AFC";
+  ctx.strokeStyle = 'rgb(51,193,178)';
   var gridSize = H/mapSize
   ctx.beginPath();
   shakeScreen = !gameOver?[shake(coords[2], 2), shake(coords[2], 2)]:[0,0];
   ctx.translate(shakeScreen[0], shakeScreen[1]);
-  ctx.fillStyle = 'rgba(12,12,12,'+ (0.2-(hero[8]>0?0.1:0)) +')';
+  ctx.fillStyle = 'rgba(26,10,44,'+ (0.2-(hero[8]>0?0.1:0)) +')';
   ctx.translate(viewPort[0], viewPort[1])
   ctx.fillRect(0, 0, mapPixels, mapPixels)
   for(var i = 0; i <= mapSize; i++){
@@ -162,8 +161,8 @@ function draw(t){
   // draw corruption 
   ctx.save();
   ctx.beginPath();
-  ctx.fillStyle='rgba(30,30,30,1)';
-  ctx.strokeStyle = "#A16AFC";
+  ctx.fillStyle='rgba(10,4,28,1)';
+  ctx.strokeStyle = 'rgba(38,82,255,1)';
   for (var j = 0; j < mapSize; j++) {
     for (var i = 0; i < mapSize; i++) {
       if(map[j][i]==0) continue;
@@ -182,7 +181,7 @@ function draw(t){
   ctx.translate(hero[0] + viewPort[0] + shake(coords[2], 1), hero[1] + viewPort[1]+ shake(coords[2], 1));
   ctx.rotate(hero[3]+Math.PI/2);
   ctx.lineWidth = 3;
-  ctx.strokeStyle = "#F952FF";
+  ctx.strokeStyle = "rgb(201,133,187)";
   ctx.beginPath();
   path(heroShape[0], heroShape[1],hero[2]);
   ctx.closePath();
@@ -199,7 +198,7 @@ function draw(t){
 
   // draw bullets 
   ctx.save();
-  ctx.fillStyle = '#37ACE7';
+  ctx.fillStyle = 'rgb(40,145,160)';
   for (var i = 0; i < bullets.length; i++) {
     var bullet = bullets[i];
     if(bullet[0]+viewPort[0]<20||bullet[0]+viewPort[0]>W-20||bullet[1]+viewPort[1]<20||bullet[1]+viewPort[1]>H-20) continue
