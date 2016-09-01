@@ -13,11 +13,10 @@ fi;
 # libs
 
 cat src/lib/geometry.js
-#cat src/lib/path.js
-#cat src/lib/asteroids.font.js
 cat src/lib/webgl.js
 cat src/lib/jsfxr.js
 cat src/lib/audio.js
+cat src/lib/TinyMusic.js
 cat src/lib/font.js
 #cat src/lib/quadTree.js // it doesnt going to work :(
 cat src/lib/spatialhashing.js
@@ -41,6 +40,7 @@ cat src/keyEvents.js
 cat src/gameState.js
 cat src/corruption.js
 cat src/sounds.js
+cat src/music.js
 cat src/enemies.js
 cat src/gameLoop.js
 cat src/post.js

@@ -33,9 +33,9 @@ particleZ = Math.PI/2,
 score = 0,
 glitchTime = 0,
 summons = {
-  1000:[11.5*tileset,2.5*tileset,9], 
-1100000:[12.5*tileset,6.5*tileset,6],
-/*
+//  1000:[11.5*tileset,2.5*tileset,9], 
+//1100000:[12.5*tileset,6.5*tileset,6],
+
   //1st wave 
   1000:[11.5*tileset,6.5*tileset,6], 
   //2st wave
@@ -65,7 +65,6 @@ summons = {
   // summon  
 1100000:[12.5*tileset,6.5*tileset,6],
   //200000:[15.5*tileset, 6.5*tileset,7]   
-*/
 },
 bigKiller = undefined,  // reference for enemy followers
 // summons = {
