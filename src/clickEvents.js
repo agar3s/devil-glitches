@@ -15,6 +15,7 @@ c.onmouseup = function(e){
 }
 
 c.onmousemove = function(e){
+  if(GLITCHS[6]>0) return;
   coords[0] = e.offsetX;
   coords[1] = e.offsetY;
 }

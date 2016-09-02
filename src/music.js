@@ -69,7 +69,6 @@ var ac = new AudioContext(),
     'D1  e',
     '-   q',
     '-   m',
-    '-   w',
     '-   w'
   ],
   basebass = [
@@ -94,15 +93,15 @@ sequence3.smoothing = 0.35;
 sequence4.staccato = 0.05;
 
 // adjust the levels so the bass and harmony aren't too loud 
-sequence1.gain.gain.value = 0.08;
-sequence2.gain.gain.value = 0.05;
-sequence3.gain.gain.value = 0.07;
-sequence4.gain.gain.value = 0.065; 
+sequence1.gain.gain.value = 0.12;
+sequence2.gain.gain.value = 0.13;
+sequence3.gain.gain.value = 0.11;
+sequence4.gain.gain.value = 0.1; 
 
 
-
-
-sequence1.play(  when + 40  );
-sequence3.play( when + 1 );
-sequence4.play( when + 10  );
-sequence2.play( when + 100  );
+//sequence1.play(when + 40);
+//sequence3.play(when + 10);
+//sequence4.play(when + 1);
+//sequence2.play(when + 100);
+window.test1 = sequence1;
+window.test3 = sequence3;

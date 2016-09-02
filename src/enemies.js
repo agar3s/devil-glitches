@@ -22,22 +22,26 @@ var necronomicon = [
 //prism solid 
 [tileset*0.8, 0, 0, 8, 16, [[-0.5,0,0.5,0],[-0.5,0,0],[0.5,0,0],[-0.5,0,0],[0.5,0,0]], [[-0.75,-1,-0.75,-0.5],[-0.75,-0.5,0.25],[-0.75,-0.5,0.25],[-0.75,-1.75,-0.5],[-0.75,-1.75,-0.5]], 0.9, 0,4,0.004],
 // st
-[tileset*1.5, 0, 0, 9, 80, [[0,-0.75,0],[0,0.75,0],[-0.75,0.75,0],[-0.75,0.75,0],[-0.35,0.35,0]], [[-1,0.5,0],[-1,0.5,0],[0.5,0.5,0],[-0.5,-0.5,1],[0.25,0.25,-0.5]], 0.9, 0,4,0.1]
+[tileset*1.5, 0, 0, 9, 60, [[0,-0.75,0],[0,0.75,0],[-0.75,0.75,0],[-0.75,0.75,0],[-0.35,0.35,0]], [[-1,0.5,0],[-1,0.5,0],[0.5,0.5,0],[-0.5,-0.5,1],[0.25,0.25,-0.5]], 0.9, 0,13,0.1]
 ]
+
+function summonGuardian(enemy){
+  var newEnemy = createEnemy([enemy[0]+Math.cos(Math.PI*j/3)*10,enemy[1]+Math.sin(Math.PI*j/3)*10, 4])
+  newEnemy[13] = enemy;
+  newEnemy[9] = getAngle(newEnemy, enemy); 
+  newEnemy[3] = newEnemy[9]+enemy[11];
+  newEnemy[15]=0;
+  newEnemy[16]=0;
+  enemies.push(newEnemy);
+}
 
 // values: x, y, type
 function createEnemy(values){
   var enemy = values.slice(0,2).concat(necronomicon[values[2]].slice(0));
 
-  if(enemy[5]>=8){
+  if(enemy[5]==8){
     for (var j = 0; j<6; j++) {
-      var newEnemy = createEnemy([enemy[0]+Math.cos(Math.PI*j/3)*10,enemy[1]+Math.sin(Math.PI*j/3)*10, 4])
-      newEnemy[13] = enemy;
-      newEnemy[9] = getAngle(newEnemy, enemy); 
-      newEnemy[3] = newEnemy[9]+enemy[11];
-      newEnemy[15]=0;
-      newEnemy[16]=0;
-      enemies.push(newEnemy);
+      summonGuardian(enemy);
     }
   }
 // for (var j = 0; j<12; j++) { for the last enemy 
@@ -115,18 +119,32 @@ var spawns = {
       var newEnemy = createEnemy([enemy[0],enemy[1], 5])
       newEnemy[9] = enemy[3]+i*Math.PI;
       enemies.push(newEnemy);
-    }
+    } 
     enemy[9]=60; //crazy  0.3 
   },
   '9': function(enemy){
     
-    for (var i = 0; i < 8; i++) {
+    if(enemy[6]>40){
+      for (var i = 0; i < 8; i++) {
+        var newEnemy = createEnemy([enemy[0],enemy[1], 5])
+        newEnemy[9] = ((Math.floor(enemy[6]/10))%2==0?1:-1)*enemy[3]+(i-4)*Math.PI/4;
+        newEnemy[12] = 0.8;
+        enemies.push(newEnemy); 
+      }
+    }else if(enemy[6]>35){
+
+    }else if(enemy[6]>10){
       var newEnemy = createEnemy([enemy[0],enemy[1], 5])
-      newEnemy[9] = enemy[3]+(i-4)*Math.PI/4;
-      enemies.push(newEnemy);
+      newEnemy[9] = getAngle(enemy, hero);
+      newEnemy[12] = 3;
+      enemies.push(newEnemy); 
+    }else{
+      summonGuardian(enemy);
+      enemy[9]=120; //crazy  0.3
+      return;
     }
 
-      enemy[9]=32; //crazy  0.3   
+    enemy[9]=32; //crazy  0.3 
     //enemy[12]-=0.0003; 
   }
 }
@@ -189,14 +207,10 @@ function updateEnemy(enemy,index){
       enemy[1] = enemy[13][1]+Math.sin(enemy[9])*enemy[15];
     }
 
-  // spawner 
+  // spawner
   }else{
     enemy[9]-=t;
     if(enemy[5]>=8)enemy[3]+=enemy[12]*t;
-    if(enemy[5]==9){
-      enemy[0]+= t*Math.cos(enemy[3]/30);
-      enemy[1]+= t*Math.sin(enemy[3]/30);
-    }
     if(enemy[9]<0){
       spawns[enemy[5]](enemy);
     }

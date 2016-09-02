@@ -37,10 +37,10 @@ cat src/setup.js
 cat src/effects.js
 cat src/clickEvents.js
 cat src/keyEvents.js
+cat src/music.js
+cat src/sounds.js
 cat src/gameState.js
 cat src/corruption.js
-cat src/sounds.js
-cat src/music.js
 cat src/enemies.js
 cat src/gameLoop.js
 cat src/post.js

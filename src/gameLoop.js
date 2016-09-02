@@ -98,11 +98,34 @@ function update(dt){
   }
 
   if(times.length>0&&score>times[0]){
-    enemies.push(createEnemy(summons[times.splice(0,1)[0]]));
-    glitchTime = 10;
-    play(totemAppears);
-  }else if(times.length==0){  // to infinite mode
-    summons[score+7500] = [(Math.random()*21)*tileset,(Math.random()*21)*tileset,6]
+    var trigger  = triggers[times.splice(0,1)[0]];
+    var type = trigger.splice(0,1)[0];
+    switch(type){
+      case 0:
+        enemies.push(createEnemy(trigger));
+        glitchTime = 10;
+        play(totemAppears);
+      break;
+      case 1:
+        trigger[0].play();
+      break;
+      case 2:
+        GLITCHS = trigger;
+      break;
+      case 3:
+        play(trigger[0])
+      break;
+      case 4:
+        trigger[0].tempo = trigger[1];
+        if(trigger[1]==138){trigger[0].stop();trigger[0].play()}
+      break;
+      case 5:
+        message = trigger[0]
+      break;
+    }
+
+  }else if(times.length==0){  // to infinite mode 
+    triggers[score+7500] = [(Math.random()*21)*tileset,(Math.random()*21)*tileset,6]
     glitchTime = 5;
     times.push(score+7500)
   }
@@ -114,7 +137,7 @@ function shake(cond, val){
 }
 
 /**
-helper function to draw paths.
+helper function to draw paths. 
 */
 function path(xpts, ypts, size){
   ctx.moveTo(xpts[0]*size, ypts[0]*size);
@@ -276,7 +299,7 @@ function loop(t){
   frame++;
 
   // update changes 
-  update(dt);
+  if(GLITCHS[6]<0)update(dt);
   // draw changes 
   ctx.save()
   draw(dt);
@@ -296,17 +319,3 @@ function loop(t){
 }
 
 requestAnimationFrame(loop);
-
-
-
-var letterIndex = 0;
-function summon(){
-  letterIndex+=0.1;
-  if(letterIndex>=messages.length)
-    letterIndex=0;
-  message = messages[Math.floor(letterIndex)]
-  setTimeout(function(){
-    summon()
-    }, 8000)
-  }
-summon()

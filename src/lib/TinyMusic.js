@@ -180,7 +180,6 @@ Sequence.prototype.rampFrequency = function( freq, when ) {
 // run through all notes in the sequence and schedule them
 Sequence.prototype.play = function( when ) {
   when = typeof when === 'number' ? when : this.ac.currentTime;
-
   this.createOscillator();
   this.osc.start( when );
 
