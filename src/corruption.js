@@ -1,7 +1,7 @@
 //corrupt algorithm 
 function corruptZone(x, y, radius){
-  var col = Math.floor(x/tileset);
-  var row = Math.floor(y/tileset);
+  var col = ~~(x/tileset);
+  var row = ~~(y/tileset);
   var r = Math.ceil(radius/tileset);
   for(var j = row-r; j < row+r; j++){
     if(typeof(map[j])=='undefined') continue;
@@ -13,8 +13,8 @@ function corruptZone(x, y, radius){
 }
 
 function removeCorruption(x, y, radius){
- var col = Math.floor(x/tileset);
-  var row = Math.floor(y/tileset);
+ var col = ~~(x/tileset);
+  var row = ~~(y/tileset);
   var r = Math.ceil(radius/tileset);
   for(var j = row-r; j < row+r; j++){
     if(typeof(map[j])=='undefined') continue;

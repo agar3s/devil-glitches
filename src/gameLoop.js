@@ -49,7 +49,7 @@ function playerUdate(dt){
   // if fire shots fire
   if(coords[2]&&hero[6]<=0&&hero[8]<=0){
     bullets.push([hero[0]+shake(1, 2+hero[7]/30), hero[1]+shake(1, 2+hero[7]/30), 2, hero[3]+shake(1, 0.05+0.001*hero[7])])
-    play(fireSound);
+    play(fireSounds[~~(Math.random()*fireSounds.length)]);
     hero[6] = 1/hero[7]; //12bullets per second  
   }else{
     hero[6]-=dt;
@@ -80,6 +80,9 @@ function update(dt){
     if(enemy){
       bullets.splice(i,1);
       --enemy[6];
+      enemy[4]=200
+      if(enemy[5]>5)
+      play(hitSounds[~~(Math.random()*hitSounds.length)]);
     }
   }
 
@@ -149,7 +152,7 @@ function path(xpts, ypts, size){
 
 /**enemies must have colors? */
 function getRandomColor(r,r2,g,g2,b,b2,a,a2){
-  return 'rgba('+(Math.floor(Math.random()*r)+r2)+','+(Math.floor(Math.random()*g)+g2)+','+(Math.floor(Math.random()*b)+b2)+','+(Math.floor(Math.random()*a)+a2)+')';
+  return 'rgba('+(~~(Math.random()*r)+r2)+','+(~~(Math.random()*g)+g2)+','+(~~(Math.random()*b)+b2)+','+(~~(Math.random()*a)+a2)+')';
 }
 
 
@@ -305,7 +308,7 @@ function loop(t){
   draw(dt);
   ctx.restore()
 
-  drawPostProcessing(Math.floor(t));
+  drawPostProcessing(~~(t));
   if(!gameOver) score += dt*1000*(hero[8]>0?slowMotion:1);
 
   if(DEBUG){

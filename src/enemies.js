@@ -2,7 +2,7 @@ var necronomicon = [
 // normal enemies 
 //size, angle, summonTime, type, hits, xpoints, ypoints, customData:angleTarget, customData: angleMomentum, anglediff, speed
 // 0: basic square
-[10,    0,     0,          0,    2, [-1,1,1,-1], [-1,-1,1,1],                 0, 3,0.1,1.1],
+[15,    0,     0,          0,    2, [1,0.25,-1,0.25],[0,-0.75,0,0.75],                 0, 3,0.1,1.1],
 // 1: simple killer
 [15,    0,     0,          1,    5, [1,0.3,0,-2,0,0.3], [0,1,0.3,0,-0.3,-1], 0, 3,0.05,0.8],
 // 2: follower 
@@ -14,18 +14,24 @@ var necronomicon = [
 //5: bullet basic triangle
 [3,    0,     0,          5,    150, [1,-1,-1], [0,1,-1],0, 0,0,1.4], // last two parameters, x y to turnon radiis
 // spawners 6
-//size, angle, summonTime, type, hits, xpoints, ypoints, customData:nextInvocation, corruptionPower, corruptionRatio
+//size, angle, hitEffect, type, hits, xpoints, ypoints, customData:nextInvocation, corruptionPower, corruptionRatio
 //pyramid solid
-[tileset/2, 0, 0, 6, 8, [[-1,0,0],[0,0,1],[-1,1,0]], [[-1.5,-0.5,0.5],[-0.5,0.5,-1.5],[-1.5,-1.5,-0.5]], 1, 0,7],
+[tileset/2, 0, 0, 6, 8, [[-1,0,0],[0,0,1],[-1,1,0]], [[-1.5,-0.5,0.5],[-0.5,0.5,-1.5],[-1.5,-1.5,-0.5]], 100, 0,7],
 //cube solid 
-[tileset/2, 0, 0, 7, 11, [[-1,0,0,-1],[1,0,0,1],[-1,0,1,0],[-1,0,1,0],[-1,0,0,-1],[1,0,0,1]], [[-1.25,-0.5,0.8,0.25],[-1.25,-0.5,0.8,0.25],[-1.25,-0.5,-1.25,-1.8],[0.25,-0.5,0.25,0.8],[0.25,-0.5,-1.8,-1.25],[0.25,-0.5,-1.8,-1.25]], 0.9, 0,6],
+[tileset/2, 0, 0, 7, 11, [[-1,0,0,-1],[1,0,0,1],[-1,0,1,0],[-1,0,1,0],[-1,0,0,-1],[1,0,0,1]], [[-1.25,-0.5,0.8,0.25],[-1.25,-0.5,0.8,0.25],[-1.25,-0.5,-1.25,-1.8],[0.25,-0.5,0.25,0.8],[0.25,-0.5,-1.8,-1.25],[0.25,-0.5,-1.8,-1.25]], 100, 0,6],
 //prism solid 
 [tileset*0.8, 0, 0, 8, 16, [[-0.5,0,0.5,0],[-0.5,0,0],[0.5,0,0],[-0.5,0,0],[0.5,0,0]], [[-0.75,-1,-0.75,-0.5],[-0.75,-0.5,0.25],[-0.75,-0.5,0.25],[-0.75,-1.75,-0.5],[-0.75,-1.75,-0.5]], 0.9, 0,4,0.004],
 // st
 [tileset*1.5, 0, 0, 9, 60, [[0,-0.75,0],[0,0.75,0],[-0.75,0.75,0],[-0.75,0.75,0],[-0.35,0.35,0]], [[-1,0.5,0],[-1,0.5,0],[0.5,0.5,0],[-0.5,-0.5,1],[0.25,0.25,-0.5]], 0.9, 0,13,0.1]
-]
+];
 
-function summonGuardian(enemy){
+var invocationTimes={
+  6: 2800,
+  7: 2600,
+  8: 60
+}
+
+function summonGuardian(enemy, j){
   var newEnemy = createEnemy([enemy[0]+Math.cos(Math.PI*j/3)*10,enemy[1]+Math.sin(Math.PI*j/3)*10, 4])
   newEnemy[13] = enemy;
   newEnemy[9] = getAngle(newEnemy, enemy); 
@@ -41,20 +47,20 @@ function createEnemy(values){
 
   if(enemy[5]==8){
     for (var j = 0; j<6; j++) {
-      summonGuardian(enemy);
+      summonGuardian(enemy, j);
     }
   }
 // for (var j = 0; j<12; j++) { for the last enemy 
-//var newEnemy = createEnemy([enemy[0]+Math.cos(Math.PI*2*j/12+0.1)*10,enemy[1]+Math.sin(Math.PI*2*j/12+0.1)*10, 4])
+// var newEnemy = createEnemy([enemy[0]+Math.cos(Math.PI*2*j/12+0.1)*10,enemy[1]+Math.sin(Math.PI*2*j/12+0.1)*10, 4])
   return enemy;
 }
 
 //draw methods 
 
-function drawFace(xPath, yPath, size, index){
+function drawFace(xPath, yPath, size, index, color){
   ctx.beginPath();
   var value = 125-index*20;
-  ctx.fillStyle = 'rgba(80,80,130,0.4)';
+  ctx.fillStyle = 'rgba('+color[0]+','+color[1]+','+color[2]+',0.4)';
   path(xPath, yPath,size)
   ctx.closePath();
   ctx.fill()
@@ -68,18 +74,36 @@ function pathEnemy(enemy){
   ctx.rotate(-enemy[9])
 }
 
+// greater the percentage blink fast
+function blink(percentage){
+  if(percentage>0.99) return 1;
+  var value = percentage*100;
+  var umbral = 1/(percentage);
+  return value%(umbral)>(umbral/2)?1:0;
+}
+var blinkValues={};
+for (var i = 0; i < 10000; i++) {
+  blinkValues[(i/10000).toFixed(4)] = blink(i/10000)
+}
+
 function pathTotem(totem){
 
+  var loading = (invocationTimes[totem[5]]-totem[9])/invocationTimes[totem[5]];
+  var green = ~~(200*loading)*blinkValues[loading.toFixed(4)]
   for (var i = 0; i < totem[7].length; i++) {
-    drawFace(totem[7][i], totem[8][i], totem[2], i);
+    drawFace(totem[7][i], totem[8][i], totem[2], i, [80+totem[4],55+green,130+~~(green/2)]);
   }
+}
+
+function randomSign(){
+  return Math.random()>0.5?1:-1;
 }
 
 function drawEnemy(enemy){
   if(enemy[0]+viewPort[0]<20||enemy[0]+viewPort[0]>W-20||enemy[1]+viewPort[1]<20||enemy[1]+viewPort[1]>H-20) return;
   //ctx.rotate(enemy[2]);  
-  var offsetX = enemy[0]+viewPort[0]+shakeScreen[0]; // 20 /2 width/2
-  var offsetY = enemy[1]+viewPort[1]+shakeScreen[1]; // 
+  var offsetX = enemy[0]+viewPort[0]+shakeScreen[0]+randomSign()*enemy[4]/40; // 20 /2 width/2
+  var offsetY = enemy[1]+viewPort[1]+shakeScreen[1]+randomSign()*enemy[4]/40; //
   ctx.translate(offsetX, offsetY)
   ctx.beginPath();
   if(enemy[5]<6){
@@ -100,19 +124,19 @@ var spawns = {
   '6': function(enemy){
     for (var j = 0; j<9; j++) {
       if(j==4) continue;  //summon especial 
-      var newEnemy = createEnemy([enemy[0]+(j%3-1)*tileset,enemy[1]+(Math.floor(j/3)-1)*tileset, j==1?1:0])
+      var newEnemy = createEnemy([enemy[0]+(j%3-1)*tileset,enemy[1]+(~~(j/3)-1)*tileset, j==1?1:0])
       enemies.push(newEnemy);
     }
-    enemy[9]=2800;  // time to summon again 
+    enemy[9]=invocationTimes['6'];  // time to summon again 
   },
   '7': function(enemy){
     for (var j = 0; j<12; j++) {
       if(j==4) continue;  //summon especial  
-      var newEnemy = createEnemy([enemy[0]+(j%3-1)*tileset,enemy[1]+(Math.floor(j/3)-1)*tileset, j==1?3:2])
+      var newEnemy = createEnemy([enemy[0]+(j%3-1)*tileset,enemy[1]+(~~(j/3)-1)*tileset, j==1?3:2])
       if(j==1) bigKiller = newEnemy;
       enemies.push(newEnemy);
     }
-    enemy[9]=2600;
+    enemy[9]=invocationTimes['7'];
   },
   '8': function(enemy){ // 
     for (var i = 0; i < 2; i++) {
@@ -120,14 +144,14 @@ var spawns = {
       newEnemy[9] = enemy[3]+i*Math.PI;
       enemies.push(newEnemy);
     } 
-    enemy[9]=60; //crazy  0.3 
+    enemy[9]=invocationTimes['8']; //crazy  0.3 
   },
   '9': function(enemy){
     
     if(enemy[6]>40){
       for (var i = 0; i < 8; i++) {
         var newEnemy = createEnemy([enemy[0],enemy[1], 5])
-        newEnemy[9] = ((Math.floor(enemy[6]/10))%2==0?1:-1)*enemy[3]+(i-4)*Math.PI/4;
+        newEnemy[9] = ((~~(enemy[6]/10))%2==0?1:-1)*enemy[3]+(i-4)*Math.PI/4;
         newEnemy[12] = 0.8;
         enemies.push(newEnemy); 
       }
@@ -139,7 +163,7 @@ var spawns = {
       newEnemy[12] = 3;
       enemies.push(newEnemy); 
     }else{
-      summonGuardian(enemy);
+      summonGuardian(enemy, 0);
       enemy[9]=120; //crazy  0.3
       return;
     }
@@ -167,6 +191,9 @@ function updateEnemy(enemy,index){
     return;
   }
 
+  if(enemy[4]>0){
+    enemy[4]-=50;
+  }
   // miniom
   if(enemy[5]<6){
     if(enemy[10]*(enemy[9]-enemy[3])>0){

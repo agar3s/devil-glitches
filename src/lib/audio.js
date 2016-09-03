@@ -23,7 +23,7 @@ if (AudioContext) {
     if (!o[0]) return;
     var source = audioCtx.createBufferSource();
     //o[0].sampleRate+=Math.round(Math.random()*500)
-    source.context.sampleRate+=Math.round(Math.random()*500)
+    source.context.sampleRate+=~~(Math.random()*500)
     source.buffer = o[0];
     source.start(0);
     source.connect(audioDest);

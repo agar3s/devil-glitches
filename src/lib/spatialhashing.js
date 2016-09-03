@@ -21,7 +21,7 @@ function collideElements(item){
   var list = {};
   var elements = [];
   for (var i = 0; i < 9; i++) {
-    var hash = getHash(item[0]+(i%3-1)*item[2], item[1]+(Math.floor(i/3)-1)*item[2]);
+    var hash = getHash(item[0]+(i%3-1)*item[2], item[1]+(~~(i/3)-1)*item[2]);
     if(!list[hash]){
       list[hash]=1;
       var elements = spatialhashing[hash];

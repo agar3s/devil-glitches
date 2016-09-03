@@ -94,7 +94,7 @@ sequence4.staccato = 0.05;
 
 // adjust the levels so the bass and harmony aren't too loud 
 sequence1.gain.gain.value = 0.12;
-sequence2.gain.gain.value = 0.13;
+sequence2.gain.gain.value = 0.09;
 sequence3.gain.gain.value = 0.11;
 sequence4.gain.gain.value = 0.1; 
 
