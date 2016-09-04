@@ -13,22 +13,30 @@ var necronomicon = [
 [12,    0,     0,          4,    5, [0,0.25,1,0.25,0,-0.25,-1,-0.25], [-1,-0.25,0,0.25,1,0.25,0,-0.25],                 0, 3,0.03,2.5, 0,0,100], // last two parameters, x y to turnon radiis
 //5: bullet basic triangle
 [3,    0,     0,          5,    150, [1,-1,-1], [0,1,-1],0, 0,0,1.4], // last two parameters, x y to turnon radiis
-// spawners 6
+//6: candidate swarm
+,
+//7: nothing decided
+,
+//8: nothing decided
+,
+//9: nothing decided
+,
+// spawners 10 -- por si acaso
 //size, angle, hitEffect, type, hits, xpoints, ypoints, customData:nextInvocation, corruptionPower, corruptionRatio
 //pyramid solid
-[tileset/2, 0, 0, 6, 8, [[-1,0,0],[0,0,1],[-1,1,0]], [[-1.5,-0.5,0.5],[-0.5,0.5,-1.5],[-1.5,-1.5,-0.5]], 100, 0,7],
+[tileset/2, 0, 0, 10, 11, [[-1,0,0],[0,0,1],[-1,1,0]], [[-1.5,-0.5,0.5],[-0.5,0.5,-1.5],[-1.5,-1.5,-0.5]], 100, 0,7],
 //cube solid 
-[tileset/2, 0, 0, 7, 11, [[-1,0,0,-1],[1,0,0,1],[-1,0,1,0],[-1,0,1,0],[-1,0,0,-1],[1,0,0,1]], [[-1.25,-0.5,0.8,0.25],[-1.25,-0.5,0.8,0.25],[-1.25,-0.5,-1.25,-1.8],[0.25,-0.5,0.25,0.8],[0.25,-0.5,-1.8,-1.25],[0.25,-0.5,-1.8,-1.25]], 100, 0,6],
+[tileset/2, 0, 0, 11, 13, [[-1,0,0,-1],[1,0,0,1],[-1,0,1,0],[-1,0,1,0],[-1,0,0,-1],[1,0,0,1]], [[-1.25,-0.5,0.8,0.25],[-1.25,-0.5,0.8,0.25],[-1.25,-0.5,-1.25,-1.8],[0.25,-0.5,0.25,0.8],[0.25,-0.5,-1.8,-1.25],[0.25,-0.5,-1.8,-1.25]], 100, 0,6],
 //prism solid 
-[tileset*0.8, 0, 0, 8, 16, [[-0.5,0,0.5,0],[-0.5,0,0],[0.5,0,0],[-0.5,0,0],[0.5,0,0]], [[-0.75,-1,-0.75,-0.5],[-0.75,-0.5,0.25],[-0.75,-0.5,0.25],[-0.75,-1.75,-0.5],[-0.75,-1.75,-0.5]], 0.9, 0,4,0.004],
+[tileset*0.8, 0, 0, 12, 17, [[-0.5,0,0.5,0],[-0.5,0,0],[0.5,0,0],[-0.5,0,0],[0.5,0,0]], [[-0.75,-1,-0.75,-0.5],[-0.75,-0.5,0.25],[-0.75,-0.5,0.25],[-0.75,-1.75,-0.5],[-0.75,-1.75,-0.5]], 0.9, 0,4,0.004],
 // st
-[tileset*1.5, 0, 0, 9, 60, [[0,-0.75,0],[0,0.75,0],[-0.75,0.75,0],[-0.75,0.75,0],[-0.35,0.35,0]], [[-1,0.5,0],[-1,0.5,0],[0.5,0.5,0],[-0.5,-0.5,1],[0.25,0.25,-0.5]], 0.9, 0,13,0.1]
+[tileset*1.5, 0, 0, 13, 60, [[0,-0.75,0],[0,0.75,0],[-0.75,0.75,0],[-0.75,0.75,0],[-0.35,0.35,0]], [[-1,0.5,0],[-1,0.5,0],[0.5,0.5,0],[-0.5,-0.5,1],[0.25,0.25,-0.5]], 0.9, 0,13,0.1]
 ];
 
 var invocationTimes={
-  6: 2800,
-  7: 2600,
-  8: 60
+  10: 2800,
+  11: 2600,
+  12: 60
 }
 
 function summonGuardian(enemy, j){
@@ -45,7 +53,7 @@ function summonGuardian(enemy, j){
 function createEnemy(values){
   var enemy = values.slice(0,2).concat(necronomicon[values[2]].slice(0));
 
-  if(enemy[5]==8){
+  if(enemy[5]==12){
     for (var j = 0; j<6; j++) {
       summonGuardian(enemy, j);
     }
@@ -89,7 +97,7 @@ for (var i = 0; i < 10000; i++) {
 function pathTotem(totem){
 
   var loading = (invocationTimes[totem[5]]-totem[9])/invocationTimes[totem[5]];
-  var green = ~~(200*loading)*blinkValues[loading.toFixed(4)]
+  var green = ~~(200*loading)*blinkValues[loading.toFixed(4)];
   for (var i = 0; i < totem[7].length; i++) {
     drawFace(totem[7][i], totem[8][i], totem[2], i, [80+totem[4],55+green,130+~~(green/2)]);
   }
@@ -106,7 +114,7 @@ function drawEnemy(enemy){
   var offsetY = enemy[1]+viewPort[1]+shakeScreen[1]+randomSign()*enemy[4]/40; //
   ctx.translate(offsetX, offsetY)
   ctx.beginPath();
-  if(enemy[5]<6){
+  if(enemy[5]<10){
     ctx.strokeStyle = 'rgba(185,185,114,0.6)';
     ctx.lineWidth = 3;
     pathEnemy(enemy);
@@ -121,32 +129,38 @@ function drawEnemy(enemy){
 }
 
 var spawns = {
-  '6': function(enemy){
+  10: function(enemy){
     for (var j = 0; j<9; j++) {
-      if(j==4) continue;  //summon especial 
-      var newEnemy = createEnemy([enemy[0]+(j%3-1)*tileset,enemy[1]+(~~(j/3)-1)*tileset, j==1?1:0])
-      enemies.push(newEnemy);
+      if(j==4) continue;  //summon especial
+      var x = enemy[0]+(j%3-1)*tileset;
+      var y = enemy[1]+(~~(j/3)-1)*tileset;
+      scheduleSummon(x,y,0.65,[x,y,j==1?1:0]);
+      //var newEnemy = createEnemy([enemy[0]+(j%3-1)*tileset,enemy[1]+(~~(j/3)-1)*tileset, j==1?1:0])
+      //enemies.push(newEnemy);
     }
-    enemy[9]=invocationTimes['6'];  // time to summon again 
+    enemy[9]=invocationTimes[10];  // time to summon again 
   },
-  '7': function(enemy){
+  11: function(enemy){
     for (var j = 0; j<12; j++) {
-      if(j==4) continue;  //summon especial  
-      var newEnemy = createEnemy([enemy[0]+(j%3-1)*tileset,enemy[1]+(~~(j/3)-1)*tileset, j==1?3:2])
-      if(j==1) bigKiller = newEnemy;
-      enemies.push(newEnemy);
+      if(j==4) continue;  //summon especial
+      var x = enemy[0]+(j%3-1)*tileset;
+      var y = enemy[1]+(~~(j/3)-1)*tileset;
+      scheduleSummon(x,y,0.65,[x,y,j==1?3:2])
+
+      //if(j==1) bigKiller = newEnemy;
+      //enemies.push(newEnemy);
     }
-    enemy[9]=invocationTimes['7'];
+    enemy[9]=invocationTimes[11];
   },
-  '8': function(enemy){ // 
+  12: function(enemy){ // 
     for (var i = 0; i < 2; i++) {
       var newEnemy = createEnemy([enemy[0],enemy[1], 5])
       newEnemy[9] = enemy[3]+i*Math.PI;
       enemies.push(newEnemy);
     } 
-    enemy[9]=invocationTimes['8']; //crazy  0.3 
+    enemy[9]=invocationTimes[12]; //crazy  0.3 
   },
-  '9': function(enemy){
+  13: function(enemy){
     
     if(enemy[6]>40){
       for (var i = 0; i < 8; i++) {
@@ -182,7 +196,7 @@ function updateEnemy(enemy,index){
     for (var h = -10; h < 10; h++) {
       particles.push([enemy[0], enemy[1], enemy[2]+particleZ*h*Math.random(), 100]);
     }
-    if(enemy[5]>5){
+    if(enemy[5]>9){
       removeCorruption(enemy[0], enemy[1], enemy[10]);
       play(totemDestroyed);
     }else{
@@ -195,10 +209,10 @@ function updateEnemy(enemy,index){
     enemy[4]-=50;
   }
   // miniom
-  if(enemy[5]<6){
+  if(enemy[5]<10){
     if(enemy[10]*(enemy[9]-enemy[3])>0){
       if(enemy[5]==2){//follower
-        enemy[3] = getAngle(enemy, bigKiller);
+        enemy[3] = getAngle(enemy, bigKiller||[0,0]);
       }else if(enemy[5]==5){
 
       }else if(enemy[5]==4){
@@ -237,7 +251,7 @@ function updateEnemy(enemy,index){
   // spawner
   }else{
     enemy[9]-=t;
-    if(enemy[5]>=8)enemy[3]+=enemy[12]*t;
+    if(enemy[5]>=12)enemy[3]+=enemy[12]*t;
     if(enemy[9]<0){
       spawns[enemy[5]](enemy);
     }

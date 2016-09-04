@@ -40,6 +40,7 @@ cat src/keyEvents.js
 cat src/music.js
 cat src/sounds.js
 cat src/gameState.js
+cat src/handleTrigger.js
 cat src/corruption.js
 cat src/enemies.js
 cat src/gameLoop.js

@@ -9,6 +9,10 @@ function die(killer){
   }
   heroShape=[[], []]
   gameOver = true;
+  sequence1.stop();
+  sequence2.stop();
+  sequence3.stop();
+  sequence4.stop();
 }
 
 function playerUdate(dt){
@@ -99,40 +103,8 @@ function update(dt){
   for (var i = enemies.length-1; i >=0; i--) {
     updateEnemy(enemies[i], i);
   }
-
-  if(times.length>0&&score>times[0]){
-    var trigger  = triggers[times.splice(0,1)[0]];
-    var type = trigger.splice(0,1)[0];
-    switch(type){
-      case 0:
-        enemies.push(createEnemy(trigger));
-        glitchTime = 10;
-        play(totemAppears);
-      break;
-      case 1:
-        trigger[0].play();
-      break;
-      case 2:
-        GLITCHS = trigger;
-      break;
-      case 3:
-        play(trigger[0])
-      break;
-      case 4:
-        trigger[0].tempo = trigger[1];
-        if(trigger[1]==138){trigger[0].stop();trigger[0].play()}
-      break;
-      case 5:
-        message = trigger[0]
-      break;
-    }
-
-  }else if(times.length==0){  // to infinite mode 
-    triggers[score+7500] = [(Math.random()*21)*tileset,(Math.random()*21)*tileset,6]
-    glitchTime = 5;
-    times.push(score+7500)
-  }
-
+  updateTrigger();
+  updateSummons();
 }
 
 function shake(cond, val){
@@ -201,6 +173,10 @@ function draw(t){
   ctx.stroke();
   ctx.restore();
 
+  // draw summons 
+  ctx.save();
+  drawSummons();
+  ctx.restore();
 
   // draw hero
   ctx.save();

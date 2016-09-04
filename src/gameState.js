@@ -33,17 +33,17 @@ triggers = {
 */
   //1st wave
   500:[1,sequence4],
-  2500:[0,11.5*tileset,6.5*tileset,6], 
+  2500:[0,11.5*tileset,6.5*tileset,10], 
   //2st wave
   8999:[5,'what are you doing?'],
   10500:[1,sequence3],
-  11000:[0,5.5*tileset,5.5*tileset,6],
-  18000:[0,16.5*tileset,16.5*tileset,6],
+  11000:[0,5.5*tileset,5.5*tileset,10],
+  18000:[0,16.5*tileset,16.5*tileset,10],
   18001:[5,''],
-  25000:[0,16.5*tileset,5.5*tileset,6],
-  31000:[0,5.5*tileset,16.5*tileset,6],
+  25000:[0,16.5*tileset,5.5*tileset,10],
+  31000:[0,5.5*tileset,16.5*tileset,10],
   32000:[5,'you can\'t stop us!'],
-  37000:[0,11.5*tileset,10.5*tileset,7],
+  37000:[0,11.5*tileset,10.5*tileset,11],
   37500:[1,sequence1],
   38001:[5,''],
   // some broken in the matrix
@@ -57,39 +57,39 @@ triggers = {
   51001:[4, sequence1, 138],
   51002:[4, sequence4, 138],
   //3st wave
-  52000:[0,4.5*tileset,12.5*tileset,7],
+  52000:[0,4.5*tileset,12.5*tileset,11],
   52050:[5,'we are perfect'],
-  53000:[0,17.5*tileset,10.5*tileset,6],
-  61000:[0,13.5*tileset,10.5*tileset,7],
+  53000:[0,17.5*tileset,10.5*tileset,10],
+  61000:[0,13.5*tileset,10.5*tileset,11],
   62050:[5,'do you think we are an error?'],
-  63000:[0,3.5*tileset,19.5*tileset,6],
-  70000:[0,6.5*tileset,3.5*tileset,7],
-  72000:[0,6.5*tileset,16.5*tileset,6],
+  63000:[0,3.5*tileset,19.5*tileset,10],
+  70000:[0,6.5*tileset,3.5*tileset,11],
+  72000:[0,6.5*tileset,16.5*tileset,10],
   72050:[5,'you are the glitch'],
-  78000:[0,18.5*tileset,18.5*tileset,7],
+  78000:[0,18.5*tileset,18.5*tileset,11],
   // some cool effect for the summon in the middle 
   85000:[5,'your limited dimension...'],
   88500:[5,'is just a plane'],
   88501:[2, 1000,0,0,0,0,0,10],
-  92000:[0,11.5*tileset,11.5*tileset,8],
+  92000:[0,11.5*tileset,11.5*tileset,12],
   92499:[5,'we are beyond your imagination'],
   92500:[1,sequence2],
   95550:[5,''],
   //4st wave 
   // some cool effect
- 111000:[0,11.5*tileset, 1.5*tileset,8],
- 116000:[0,1.5*tileset, 11.5*tileset,8],
- 121000:[0,20.5*tileset, 11.5*tileset,8],
- 126000:[0,11.5*tileset, 20.5*tileset,8],
+ 111000:[0,11.5*tileset, 1.5*tileset,12],
+ 116000:[0,1.5*tileset, 11.5*tileset,12],
+ 121000:[0,20.5*tileset, 11.5*tileset,12],
+ 126000:[0,11.5*tileset, 20.5*tileset,12],
   // some cool effect
   // summon  
-1100000:[0,12.5*tileset,6.5*tileset,6],
-  //200000:[15.5*tileset, 6.5*tileset,7]   
+1100000:[0,12.5*tileset,6.5*tileset,10],
+  //200000:[15.5*tileset, 6.5*tileset,11]   
 
 },
 bigKiller = undefined,  // reference for enemy followers
 // triggers = {
-//  1000:[11.5*tileset,6.5*tileset,6], 
+//  1000:[11.5*tileset,6.5*tileset,10], 
 //  10000:[5.5*tileset,5.5*tileset,6],
 //  18000:[16.5*tileset,16.5*tileset,6],
 //  25000:[16.5*tileset,5.5*tileset,6],
