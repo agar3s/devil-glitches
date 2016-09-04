@@ -1,16 +1,5 @@
 // x, y, timeleft, baseTime, summonElement, baseanimation...
 var summons = [];
-var linearTween = function (t, b, c, d) {
-  return c*t/d + b;
-};
-var easeInQuad = function (t, b, c, d) {
-  t /= d;
-  return c*t*t + b;
-};
-var easeOutQuad = function (t, b, c, d) {
-  t /= d;
-  return -c * t*(t-2) + b;
-};
 
 function updateSummons(){
   for (var i = 0; i < summons.length; i++) {

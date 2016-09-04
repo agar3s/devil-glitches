@@ -10,7 +10,7 @@ var necronomicon = [
 // 3: heavy killer
 [20,    0,     0,          3,    12, [0,0.25,0.75,0.75,1,0.75,0.75,0.25,0,-0.25,-0.75,-0.75,-1,-0.75,-0.75,-0.25], [-1,-0.75,-0.75,-0.25,0,0.25,0.75,0.75,1,0.75,0.75,0.25,0,-0.25,-0.75,-0.75], 0, 1,0.12,1.05],
 //4: guardian
-[12,    0,     0,          4,    5, [0,0.25,1,0.25,0,-0.25,-1,-0.25], [-1,-0.25,0,0.25,1,0.25,0,-0.25],                 0, 3,0.03,2.5, 0,0,100], // last two parameters, x y to turnon radiis
+[12,    0,     0,          4,    5, [0,0.25,1,0.25,0,-0.25,-1,-0.25], [-1,-0.25,0,0.25,1,0.25,0,-0.25],                 0, 3,0.03,2.5, 0,0,0], // last two parameters, x y to turnon radiis
 //5: bullet basic triangle
 [3,    0,     0,          5,    150, [1,-1,-1], [0,1,-1],0, 0,0,1.4], // last two parameters, x y to turnon radiis
 //6: candidate swarm
@@ -68,7 +68,7 @@ function createEnemy(values){
 function drawFace(xPath, yPath, size, index, color){
   ctx.beginPath();
   var value = 125-index*20;
-  ctx.fillStyle = 'rgba('+color[0]+','+color[1]+','+color[2]+',0.4)';
+  ctx.fillStyle = 'rgba('+color+')';
   path(xPath, yPath,size)
   ctx.closePath();
   ctx.fill()
@@ -83,7 +83,7 @@ function pathEnemy(enemy){
 }
 
 // greater the percentage blink fast
-function blink(percentage){
+function blink(percentage, i){
   if(percentage>0.99) return 1;
   var value = percentage*100;
   var umbral = 1/(percentage);
@@ -91,15 +91,15 @@ function blink(percentage){
 }
 var blinkValues={};
 for (var i = 0; i < 10000; i++) {
-  blinkValues[(i/10000).toFixed(4)] = blink(i/10000)
+  blinkValues[(i/10000).toFixed(4)] = blink(i/10000, i)
 }
 
 function pathTotem(totem){
-
   var loading = (invocationTimes[totem[5]]-totem[9])/invocationTimes[totem[5]];
-  var green = ~~(200*loading)*blinkValues[loading.toFixed(4)];
-  for (var i = 0; i < totem[7].length; i++) {
-    drawFace(totem[7][i], totem[8][i], totem[2], i, [80+totem[4],55+green,130+~~(green/2)]);
+  var green = totem[4]>0?-55:~~(200*loading)*blinkValues[loading.toFixed(4)];
+  ctx.strokeStyle=totem[4]>0?'#0ff':green==0?'#66A':'#559';
+  for(var i = 0; i < totem[7].length; i++){
+    drawFace(totem[7][i], totem[8][i], totem[2], i, [80+totem[4],55+green,130+~~(green/2),totem[4]>0?0.9:0.4]);
   }
 }
 
@@ -119,7 +119,6 @@ function drawEnemy(enemy){
     ctx.lineWidth = 3;
     pathEnemy(enemy);
   }else{
-    ctx.strokeStyle='rgba(126,129,181,1)';
     ctx.lineWidth = 2;
     pathTotem(enemy);
   }
@@ -242,8 +241,8 @@ function updateEnemy(enemy,index){
       enemy[1] += Math.sin(enemy[9])*t*enemy[12];
     }else{
       // guardians moves
+      enemy[15] = tileset*2*(-Math.cos(enemy[16])+1.2);
       enemy[16]+=t/200;
-      enemy[15] = tileset*2*(Math.sin(enemy[16])+1.2);
       enemy[0] = enemy[13][0]+Math.cos(enemy[9])*enemy[15];
       enemy[1] = enemy[13][1]+Math.sin(enemy[9])*enemy[15];
     }
@@ -252,7 +251,7 @@ function updateEnemy(enemy,index){
   }else{
     enemy[9]-=t;
     if(enemy[5]>=12)enemy[3]+=enemy[12]*t;
-    if(enemy[9]<0){
+    if(enemy[9]<0&&!gameOver){
       spawns[enemy[5]](enemy);
     }
     enemy[10]+=dt*enemy[11];

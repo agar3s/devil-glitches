@@ -33,7 +33,8 @@ triggers = {
 */
   //1st wave
   500:[1,sequence4],
-  2500:[0,11.5*tileset,6.5*tileset,10], 
+  //2500:[0,11.5*tileset,6.5*tileset,12],
+  2500:[0,11.5*tileset,6.5*tileset,10],
   //2st wave
   8999:[5,'what are you doing?'],
   10500:[1,sequence3],
