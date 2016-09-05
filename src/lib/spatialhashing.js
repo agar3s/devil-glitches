@@ -1,7 +1,7 @@
 // custom spatialhashing implementation
 
 var spatialhashing = {};
-var ceilHeight = 50;
+var ceilHeight = 84;
 function getHashItem(item){
   return Math.round(item[0]/ceilHeight)+'-'+Math.round(item[1]/ceilHeight);
 }
@@ -21,7 +21,7 @@ function collideElements(item){
   var list = {};
   var elements = [];
   for (var i = 0; i < 9; i++) {
-    var hash = getHash(item[0]+(i%3-1)*item[2], item[1]+(~~(i/3)-1)*item[2]);
+    var hash = getHash(item[0]+(i%3-1)*ceilHeight, item[1]+(~~(i/3)-1)*ceilHeight);
     if(!list[hash]){
       list[hash]=1;
       var elements = spatialhashing[hash];

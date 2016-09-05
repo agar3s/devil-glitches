@@ -10,7 +10,7 @@ void main (){
    vec4 col = texture2D(t, uv);
    vec4 gws = vec4(0.0);
    float rand = 0.02*sin(time)+0.25;
-   float weight = 0.035;
+   float weight = 0.05;
    
    //glow
    for (int i = 0; i <9; i++) {
@@ -20,12 +20,12 @@ void main (){
      vec2 v2 = vec2(pos.x - miw, pos.y + idw);
      vec2 v3 = vec2(pos.x + miw, pos.y - idw);
      vec2 v4 = vec2(pos.x - miw, pos.y - idw);
-     gws += texture2D(t, v1 / dim) * weight * 1.5;
-     gws += texture2D(t, v2 / dim) * weight * 1.5;
-     gws += texture2D(t, v3 / dim) * weight * 1.5;
-     gws += texture2D(t, v4 / dim) * weight * 1.5;
+     gws += texture2D(t, v1 / dim) * weight;
+     gws += texture2D(t, v2 / dim) * weight;
+     gws += texture2D(t, v3 / dim) * weight;
+     gws += texture2D(t, v4 / dim) * weight;
    }
-   col = col + gws;
+   col += gws;
 
    // chromatic distorsion
    vec4 col_r = texture2D(t, uv + vec2((-15.0 / dim.x) * rand, 0));

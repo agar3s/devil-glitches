@@ -31,8 +31,7 @@ triggers = {
 4000:[0,11.5*tileset,11.5*tileset,9], 
 1100000:[0,12.5*tileset,6.5*tileset,6],
 */
-  //1st wave 
-
+  //1st wave
   500:[1,sequence4],
   2500:[0,10.5*tileset,5.5*tileset,10],
   //2st wave
@@ -84,13 +83,14 @@ triggers = {
  160001:[2, 100,100,50,20,20,100,10],
  160500:[5,'is just a plane'],
   //5st wave
- 164600:[0,10.5*tileset,8.5*tileset,10],
- 164601:[0,12.5*tileset,9.5*tileset,10],
- 164602:[0,12.5*tileset,11.5*tileset,10],
- 164603:[0,10.5*tileset,12.5*tileset,10],
- 164604:[0,8.5*tileset,11.5*tileset,10],
- 164605:[0,8.5*tileset,9.5*tileset,10],
- 180000:[0,10.5*tileset,10.5*tileset,13], 
+ 164600:[0,10.5*tileset,1.5*tileset,10],
+ 164601:[0,12.5*tileset,2.5*tileset,10],
+ 164602:[0,12.5*tileset,4.5*tileset,10],
+ 164603:[0,10.5*tileset,5.5*tileset,10],
+ 164604:[0,8.5*tileset,4.5*tileset,10],
+ 164605:[0,8.5*tileset,2.5*tileset,10],
+ 180000:[0,10.5*tileset,3.5*tileset,13],
+ 210000:[0,10.5*tileset,10.5*tileset,14],
   // summon
 1100000:[0,12.5*tileset,6.5*tileset,10],
   //200000:[15.5*tileset, 6.5*tileset,11]   

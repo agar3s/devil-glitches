@@ -13,13 +13,13 @@ var necronomicon = [
 [12,    0,     0,          4,    5, [0,0.25,1,0.25,0,-0.25,-1,-0.25], [-1,-0.25,0,0.25,1,0.25,0,-0.25],                 0, 3,0.03,2.5, 0,0,0], // last two parameters, x y to turnon radiis
 //5: bullet basic triangle
 [3,    0,     0,           5,    150, [1,-1,-1], [0,1,-1],0, 0,0,1.4], // last two parameters, x y to turnon radiis
-//6: candidate swarm
-[16,   0,     0,           6,    7, [1,0.25,-1,0.25],[0,-0.75,0,0.75], 0,3.5,0.2,0.6],
-//7: nothing decided  
-,
+//6: totem seed - countdown=13 
+[16,   0,     0,           6,    9, [1,0.25,-1,0.25],[0,-0.75,0,0.75], 0,0,0,0.6,3.5],
+//7: totem seed - countdown=13 
+[18,   0,     0,           7,    8, [1,0.25,-1,0.25],[0,0.75,0,-0.75], 0,0,0,0.8,2.5],
 //8: nothing decided
-,
-//9: nothing decided
+[20,   0,     0,           8,   7, [1,0.25,-1,0.25],[0,0.75,0,-0.75], 0,0,0,1.2,1.5],
+//9: nothing decided 
 ,
 // spawners 10 -- por si acaso
 //size, angle, hitEffect, type, hits, xpoints, ypoints, customData:nextInvocation, corruptionPower, corruptionRatio
@@ -30,7 +30,9 @@ var necronomicon = [
 //prism solid 
 [tileset*0.8, 0, 0, 12, 15, [[-0.5,0,0.5,0],[-0.5,0,0],[0.5,0,0],[-0.5,0,0],[0.5,0,0]], [[-0.75,-1,-0.75,-0.5],[-0.75,-0.5,0.25],[-0.75,-0.5,0.25],[-0.75,-1.75,-0.5],[-0.75,-1.75,-0.5]], 0.9, 0,4,0.004],
 // st
-[tileset*1.5, 0, 0, 13, 30, [[0,-0.75,0],[0,0.75,0],[-0.75,0.75,0],[-0.75,0.75,0],[-0.35,0.35,0]], [[-1,0.5,0],[-1,0.5,0],[0.5,0.5,0],[-0.5,-0.5,1],[0.25,0.25,-0.5]], 0.9, 0,13,0.1]
+[tileset*1.2, 0, 0, 13, 30, [[0,-0.75,0],[0,0.75,0],[-0.75,0.75,0],[-0.75,0.75,0],[-0.35,0.35,0]], [[-1,0.5,0],[-1,0.5,0],[0.5,0.5,0],[-0.5,-0.5,1],[0.25,0.25,-0.5]], 0.9, 0,13,0.1],
+// flower of fucking life - summon counter=13
+[tileset*2.5, 0, 0, 14, 200, [], [], 0.9, 0,60,0.003, 1,0,[6,7,6,7,8]]
 ];
 
 var invocationTimes={
@@ -54,7 +56,7 @@ function summonGuardian(enemy, j){
 function createEnemy(values){
   var enemy = values.slice(0,2).concat(necronomicon[values[2]].slice(0));
 
-  if(enemy[5]==12){
+  if(enemy[5]==12||enemy[5]==14){
     for (var j = 0; j<6; j++) {
       summonGuardian(enemy, j);
     }
@@ -81,6 +83,50 @@ function pathEnemy(enemy){
   path(enemy[7], enemy[8], enemy[2])
   //ctx.strokeRect(enemy[7][0], enemy[8][1], enemy[2]*2, enemy[2]*2)  
   ctx.rotate(-enemy[9])
+}
+var flowerOfpoints = [];
+for (var i = 0; i < 6; i++) {
+  var angle = (i-3)*Math.PI/3+Math.PI/6;
+  var x = Math.cos(angle);
+  var y = Math.sin(angle);
+  flowerOfpoints.push(x,y);
+}
+function drawFlowerOfLife(enemy){
+  var color = 'hsla('+enemy[3]*20+',50%,60%, 0.5)';
+  ctx.lineWidth=2; 
+  ctx.beginPath();
+  ctx.strokeStyle=enemy[4]>0?'rgba(180,0,50,0.3)':color;
+  var relativeSize = enemy[2]/3.5;
+  ctx.arc(0,0, relativeSize/2, 0, Math.PI*2, false);
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.bezierCurveTo(-relativeSize, 0, 0, -relativeSize, relativeSize, 0);
+  ctx.bezierCurveTo(relativeSize, 0, 0, relativeSize, -relativeSize, 0);
+  ctx.stroke(); 
+  ctx.rotate(enemy[3]);
+  for (var i = 0; i < 6; i++) {
+    var x= flowerOfpoints[i*2];
+    var y= flowerOfpoints[i*2+1]
+    var angle = (i-3)*Math.PI/3;
+    ctx.beginPath(); 
+    ctx.arc(4*x*relativeSize,4*y*relativeSize, relativeSize, 0, Math.PI*2, false);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.arc(2*x*relativeSize,2*y*relativeSize, relativeSize, 0, Math.PI*2, false);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(x*relativeSize*4,y*relativeSize*4);
+    ctx.lineTo(relativeSize*4*flowerOfpoints[(i*2+2)%12],relativeSize*4*flowerOfpoints[(i*2+3)%12]);
+    ctx.lineTo(relativeSize*4*flowerOfpoints[(i*2+6)%12],relativeSize*4*flowerOfpoints[(i*2+7)%12]);
+    ctx.moveTo(x*relativeSize*2,y*relativeSize*2);
+    ctx.lineTo(relativeSize*2*flowerOfpoints[(i*2+2)%12],relativeSize*2*flowerOfpoints[(i*2+3)%12]);
+    ctx.lineTo(relativeSize*2*flowerOfpoints[(i*2+6)%12],relativeSize*2*flowerOfpoints[(i*2+7)%12]);
+    
+    ctx.stroke();
+  }
+  ctx.beginPath();
+  ctx.rotate(-enemy[3]);
+
 }
 
 // greater the percentage blink fast
@@ -115,11 +161,13 @@ function drawEnemy(enemy){
   var offsetY = enemy[1]+viewPort[1]+shakeScreen[1]+randomSign()*enemy[4]/40; //
   ctx.translate(offsetX, offsetY)
   ctx.beginPath();
-  if(enemy[5]<10){
-    ctx.strokeStyle = 'rgba(185,185,114,0.6)';
+  if(enemy[5]<10){ 
+    ctx.strokeStyle = 'hsla('+enemy[5]*36+',50%,70%,0.6)';
     ctx.lineWidth = 3;
     pathEnemy(enemy);
-  }else{
+  }else if(enemy[5]==14){
+    drawFlowerOfLife(enemy);
+  }else {
     ctx.lineWidth = 2;
     pathTotem(enemy);
   }
@@ -164,7 +212,7 @@ var spawns = {
     for (var i = 0; i < 6; i++) {
       var newEnemy = createEnemy([enemy[0],enemy[1], 5])
       newEnemy[9] = enemy[3]+(i-3)*Math.PI/3;
-      newEnemy[12]+=1.2
+      newEnemy[12]+=1.2;
       enemies.push(newEnemy);
     } 
     //var newEnemy = createEnemy([enemy[0],enemy[1], 6])
@@ -193,11 +241,32 @@ var spawns = {
     }
 
     enemy[9]=32; //crazy  0.3 
-    //enemy[12]-=0.0003; 
+    //enemy[12]-=0.0003;
 */
+  },
+  14:function(enemy){
+    for (var i = 0; i < 6; i++) {
+      var newEnemy = createEnemy([enemy[0],enemy[1], 5])
+      newEnemy[9] = enemy[3]+(i-3)*Math.PI/3+Math.PI/6;
+      newEnemy[12]-=0.6;
+      enemies.push(newEnemy);
+    } 
+    if(enemy[13]%16==0){
+      var newEnemy = createEnemy([enemy[0],enemy[1], enemy[15][enemy[14]%enemy[15].length]]);
+      newEnemy[9] = enemy[3]/2;
+      enemies.push(newEnemy);
+      enemy[14]++;
+    }
+    if(enemy[13]%100==0){
+      for (var j = 0; j<6; j++) {
+        summonGuardian(enemy, j);
+      }
+    }
+    enemy[9]=70; 
+    enemy[13]++;
   }
 }
-// update methods 
+// update methods   
 function updateEnemy(enemy,index){
   // have zero life
   if(enemy[6]<=0){
@@ -247,8 +316,7 @@ function updateEnemy(enemy,index){
     var otherEnemy = collideElements(enemy);
     if(enemy[5]==4){
       enemy[9] +=enemy[10]*t;
-    }
-    else if(enemy[5]!=3||(otherEnemy&&otherEnemy[5]==3)){  // type 3 dont collide with followers and collide with himself
+    }else if(enemy[5]!=3||(otherEnemy&&otherEnemy[5]==3)){  // type 3 dont collide with followers and collide with himself
       enemy[9] +=(otherEnemy?-1:1)*enemy[10];
     }else{
       enemy[9] +=enemy[10];
@@ -258,11 +326,25 @@ function updateEnemy(enemy,index){
       enemy[6]-=t/10;
     }
 
+    if(enemy[5]>5&&enemy[5]<10){
+      enemy[13]-=dt;
+      if(enemy[13]<0){ 
+        var coords = [(~~(enemy[0]/tileset)+0.5)*tileset, (~~(enemy[1]/tileset)+0.5)*tileset,enemy[5]+4];
+        console.log(coords);
+        scheduleSummon(coords[0], coords[1], 1, coords);
+        enemies.splice(index,1);
+        return;
+      }
+    }
+
     if(enemy[5]!=4){
       enemy[0] += Math.cos(enemy[9])*t*enemy[12];
       enemy[1] += Math.sin(enemy[9])*t*enemy[12];
     }else{
       // guardians moves
+      if(enemy[13][6]<1){
+        enemy[10]*=0.99;
+      }
       enemy[15] = tileset*2*(-Math.cos(enemy[16])+1.2);
       enemy[16]+=t/200;
       enemy[0] = enemy[13][0]+Math.cos(enemy[9])*enemy[15];
