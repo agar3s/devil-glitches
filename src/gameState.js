@@ -5,9 +5,9 @@ frame=0,
 mapPixels = mapSize*tileset,
 map = [],
 slowMotion = 0.3,
-viewPort = [-50, -160, 385, 275], // [x, y, leftOffset, topOffset] 
+viewPort = [(FW-mapPixels)/2, (FH-mapPixels)/2 , FW/2-30, FH/2-30], // [x, y, leftOffset, topOffset]
 // [0x, 1y, 2size, 3angle, 4speed, 5crossFireAngle, 6countDown, 7bulletRatio, 8dashCountDown, 9dashcolddown]
-hero = [460, 460, 16, 0, 150, 0, 0, 12,0,0],
+hero = [tileset*10.5, tileset*10.5, 16, 0, 150, 0, 0, 12,0,0],
 heroShape = [[0,1,0,-1],[-1,1,0.5,1]],
 //0x, 1y, 2size, 3angle
 bullets = [],
@@ -31,22 +31,21 @@ triggers = {
 4000:[0,11.5*tileset,11.5*tileset,9], 
 1100000:[0,12.5*tileset,6.5*tileset,6],
 */
-  //1st wave
+  //1st wave 
+
   500:[1,sequence4],
-  //2500:[0,11.5*tileset,6.5*tileset,12],
-  2500:[0,11.5*tileset,6.5*tileset,10],
+  2500:[0,10.5*tileset,5.5*tileset,10],
   //2st wave
   8999:[5,'what are you doing?'],
   10500:[1,sequence3],
   11000:[0,5.5*tileset,5.5*tileset,10],
-  18000:[0,16.5*tileset,16.5*tileset,10],
+  18000:[0,15.5*tileset,15.5*tileset,10],
   18001:[5,''],
-  25000:[0,16.5*tileset,5.5*tileset,10],
-  31000:[0,5.5*tileset,16.5*tileset,10],
-  32000:[5,'you can\'t stop us!'],
-  37000:[0,11.5*tileset,10.5*tileset,11],
+  25000:[0,15.5*tileset,5.5*tileset,10],
+  31000:[0,5.5*tileset,15.5*tileset,10],
+  37000:[0,10.5*tileset,11.5*tileset,11],
   37500:[1,sequence1],
-  38001:[5,''],
+  46000:[5,'you can\'t stop us!'],
   // some broken in the matrix
   48500:[2, 10,0,0,0,10,10,10],
   49000:[2, 10,10,10,15,10,20,10],
@@ -57,36 +56,45 @@ triggers = {
   51000:[4, sequence3, 138],
   51001:[4, sequence1, 138],
   51002:[4, sequence4, 138],
+  51003:[5,'we are perfect!'],
   //3st wave
-  52000:[0,4.5*tileset,12.5*tileset,11],
-  52050:[5,'we are perfect'],
-  53000:[0,17.5*tileset,10.5*tileset,10],
-  61000:[0,13.5*tileset,10.5*tileset,11],
-  62050:[5,'do you think we are an error?'],
-  63000:[0,3.5*tileset,19.5*tileset,10],
-  70000:[0,6.5*tileset,3.5*tileset,11],
-  72000:[0,6.5*tileset,16.5*tileset,10],
-  72050:[5,'you are the glitch'],
-  78000:[0,18.5*tileset,18.5*tileset,11],
+  52000:[0,4.5*tileset,10.5*tileset,11],
+  53000:[0,14.5*tileset,10.5*tileset,10],
+  55550:[5,''],
+  61000:[0,10.5*tileset,16.5*tileset,11],
+  63000:[0,10.5*tileset,6.5*tileset,10],
+  70000:[0,16.5*tileset,10.5*tileset,11],
+  72000:[0,6.5*tileset,10.5*tileset,10],
+  78000:[0,10.5*tileset,4.5*tileset,11],
   // some cool effect for the summon in the middle 
-  85000:[5,'your limited dimension...'],
-  88500:[5,'is just a plane'],
   88501:[2, 1000,0,0,0,0,0,10],
-  92000:[0,11.5*tileset,11.5*tileset,12],
-  92499:[5,'we are beyond your imagination'],
+  92000:[0,10.5*tileset,9.5*tileset,12],
   92500:[1,sequence2],
-  95550:[5,''],
+ 108050:[5,'do you think we are an error?'],
+ 112050:[5,'you are a glitch!'],
+  // some cool effect
   //4st wave 
+ 115000:[0,10.5*tileset, 1.5*tileset,12],
+ 120050:[5,''],
+ 121000:[0,1.5*tileset, 10.5*tileset,12],
+ 126000:[0,19.5*tileset, 10.5*tileset,12],
+ 131000:[0,10.5*tileset, 19.5*tileset,12],
   // some cool effect
- 111000:[0,11.5*tileset, 1.5*tileset,12],
- 116000:[0,1.5*tileset, 11.5*tileset,12],
- 121000:[0,20.5*tileset, 11.5*tileset,12],
- 126000:[0,11.5*tileset, 20.5*tileset,12],
-  // some cool effect
-  // summon  
+ 154499:[5,'your limited dimension...'],
+ 160001:[2, 100,100,50,20,20,100,10],
+ 160500:[5,'is just a plane'],
+  //5st wave
+ 164600:[0,10.5*tileset,8.5*tileset,10],
+ 164601:[0,12.5*tileset,9.5*tileset,10],
+ 164602:[0,12.5*tileset,11.5*tileset,10],
+ 164603:[0,10.5*tileset,12.5*tileset,10],
+ 164604:[0,8.5*tileset,11.5*tileset,10],
+ 164605:[0,8.5*tileset,9.5*tileset,10],
+ 180000:[0,10.5*tileset,10.5*tileset,13], 
+  // summon
 1100000:[0,12.5*tileset,6.5*tileset,10],
   //200000:[15.5*tileset, 6.5*tileset,11]   
-
+/**/
 },
 bigKiller = undefined,  // reference for enemy followers
 // triggers = {

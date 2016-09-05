@@ -44,7 +44,7 @@ function updateTrigger(){
     var type = trigger.splice(0,1)[0];
     switch(type){
       case 0:
-        scheduleSummon(trigger[0], trigger[1], 0.8, trigger);
+        scheduleSummon(trigger[0], trigger[1], 1, trigger);
       break;
       case 1:
         trigger[0].play();

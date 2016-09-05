@@ -247,6 +247,7 @@ function draw(t){
   ctx.save();
   drawWordCenter(message, 401, 501,14, '#90702F');
   drawWordCenter(message, 402, 502,14, '#D6AE45');
+  //drawWordCenter(viewPort[0]+' '+viewPort[1], 402, 100,14, '#D6AE45');
   if(gameOver){
     ctx.fillStyle='rgba(0,0,0,0.6)';
     ctx.fillRect(0,0,mapPixels, mapPixels);
