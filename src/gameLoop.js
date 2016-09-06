@@ -1,5 +1,5 @@
 /**
-* read the last events in game, update world  
+* read the last events in game, update world
 */
 
 function die(killer){
@@ -13,6 +13,7 @@ function die(killer){
   sequence2.stop();
   sequence3.stop();
   sequence4.stop();
+  buttons[0][3] = true;
 }
 
 function playerUdate(dt){
@@ -253,8 +254,6 @@ function draw(t){
     ctx.fillRect(0,0,mapPixels, mapPixels);
     drawWordCenter('game over', 400, 240,20, '#FFF');
     drawWordCenter('game over', 401, 240,20, '#2FF');
-    drawWordCenter('press f5', 400, 290, 16, '#FFF');
-    drawWordCenter('press f5', 401, 290, 16, '#2FF');
   }
   drawWord(score.toFixed(0), 750, 60,16, '#2F2');
   drawWord(score.toFixed(0), 751, 61,16, '#FFF');
@@ -280,10 +279,17 @@ function loop(t){
 
   // update changes 
   if(GLITCHS[6]<0)update(dt);
+  //update buttons
+  updateButtons();
+
   // draw changes 
-  ctx.save()
+  ctx.save();
+  // draw game
   draw(dt);
-  ctx.restore()
+  // draw buttons
+  drawButtons();
+
+  ctx.restore();
 
   drawPostProcessing(~~(t));
   if(!gameOver) score += dt*1000*(hero[8]>0?slowMotion:1);
