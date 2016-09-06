@@ -146,4 +146,8 @@ function drawWordCenter(word, x, y, size, color){
   x += (size+10)*word.length/2
   drawWord(word, x, y, size, color)
 }
+function drawWordLeft(word, x, y, size, color){
+  x += (size+10)*word.length;
+  drawWord(word, x, y, size, color)
+}
 

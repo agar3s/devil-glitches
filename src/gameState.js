@@ -127,6 +127,7 @@ function init(){
   sequence2.stop();
   sequence3.stop();
   sequence4.stop();
+  record = parseFloat(storage.getItem('agar3sjs13k-record')||0);
   if(buttons&&buttons[0])buttons[0][3] = false;
 }
 init();

@@ -32,7 +32,8 @@ var gl = c.getContext('webgl') || c.getContext('experimental-webgl'),
   GAME_INC_PADDING = 80,
   W = FW - 2 * GAME_MARGIN,
   H = FH - 2 * GAME_Y_MARGIN,
-  borderLength = 2*(W+H+2*GAME_INC_PADDING);
+  borderLength = 2*(W+H+2*GAME_INC_PADDING),
+  storage = localStorage;
 
 
 // DOM setup 

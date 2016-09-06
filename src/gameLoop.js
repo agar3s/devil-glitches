@@ -14,6 +14,7 @@ function die(killer){
   sequence3.stop();
   sequence4.stop();
   buttons[0][3] = true;
+  checkRecord();
 }
 
 function playerUdate(dt){
@@ -255,8 +256,13 @@ function draw(t){
     drawWordCenter('game over', 400, 240,20, '#FFF');
     drawWordCenter('game over', 401, 240,20, '#2FF');
   }
-  drawWord(score.toFixed(0), 750, 60,16, '#2F2');
-  drawWord(score.toFixed(0), 751, 61,16, '#FFF');
+  //score
+  drawWord(score.toFixed(0), 750, 60,18, '#2F2');
+  drawWord(score.toFixed(0), 751, 61,18, '#FFF');
+  //record 
+  var lrd = score>record?'record':record.toFixed(0);
+  drawWord(lrd, 750, 110,9, '#F22');
+  drawWord(lrd, 751, 111,9, '#FFF');
   ctx.restore();
 
 }

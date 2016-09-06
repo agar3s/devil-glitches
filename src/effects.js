@@ -29,7 +29,7 @@ function drawPostProcessing (time) {
 // swell for effects
   glBindFBO(fbo2);
   glBindShader(swellShader);
-  gl.uniform1i(glUniformLocation(swellShader, 't'), glBindTexture(glGetFBOTexture(fbo1), 0));
+  gl.uniform1i(glUniformLocation(swellShader, 'tex'), glBindTexture(glGetFBOTexture(fbo1), 0));
   gl.uniform1f(glUniformLocation(swellShader, 'rand'), -0.5); // instantes cortos
   gl.drawArrays(gl.TRIANGLES, 0, 6);
 //

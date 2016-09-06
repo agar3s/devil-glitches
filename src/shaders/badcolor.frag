@@ -10,7 +10,7 @@ uniform vec3 colors;
 // and colors to display, rgb, rb, rg, gb, r, g, b
 // this glitch requires a black cortain like the one in gameover
 void main (void){
-  float rand = 0.0+sin(time);
+  float rand = sin(time);
   vec4 col = texture2D(t, uv);
   vec4 col_r = texture2D(t, uv + vec2((-15.0 / dim.x), 0));
   vec4 col_l = texture2D(t, uv + vec2((15.0 / dim.x), 0));
