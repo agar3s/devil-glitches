@@ -14,6 +14,7 @@ function die(killer){
   sequence3.stop();
   sequence4.stop();
   buttons[0][3] = true;
+  t = dt*30;
   checkRecord();
 }
 
@@ -138,21 +139,47 @@ function draw(t){
   ctx.fillStyle = getRandomColor(180,0, 185,0,185,0,0,1);
   for(var i=0;i<6;i++) ctx.fillRect(Math.random()*800, Math.random()*600, 2, 2)
   
-  // draw map 
+  // draw map
   ctx.save()
   ctx.strokeStyle = 'rgb(51,193,178)';
   var gridSize = H/mapSize
   ctx.beginPath();
   shakeScreen = !gameOver?[shake(coords[2], 2), shake(coords[2], 2)]:[0,0];
   ctx.translate(shakeScreen[0], shakeScreen[1]);
-  ctx.fillStyle = 'rgba(26,10,44,'+ (0.2-(hero[8]>0?0.1:0)) +')';
-  ctx.translate(viewPort[0], viewPort[1])
-  ctx.fillRect(0, 0, mapPixels, mapPixels)
+  ctx.fillStyle = 'rgba(15,12,40,'+ (0.2-(hero[8]>0?0.1:0)) +')';
+  ctx.translate(viewPort[0], viewPort[1]);
+  ctx.fillRect(0, 0, mapPixels, mapPixels);
+  //ctx.strokeStyle = 'rgba(190,46,92,0.3)'; 
+  //ctx.strokeStyle = 'rgba(50,46,92,0.8)'; 
+  ctx.strokeStyle = 'rgba(102,82,156,0.8)'; 
   for(var i = 0; i <= mapSize; i++){
-    ctx.moveTo(i*tileset, 0);
-    ctx.lineTo(i*tileset, mapPixels);
-    ctx.moveTo(0, i*tileset);
-    ctx.lineTo(mapPixels, i*tileset);
+  ctx.beginPath();
+    ctx.moveTo(i*tileset-0.5, 0);
+    ctx.lineTo(i*tileset-0.5, mapPixels);
+    ctx.stroke();
+  ctx.beginPath();
+    ctx.moveTo(0, i*tileset-0.5);
+    ctx.lineTo(mapPixels, i*tileset-0.5);
+    ctx.stroke();
+  ctx.beginPath();
+    ctx.moveTo(i*tileset+1.5, 0);
+    ctx.lineTo(i*tileset+1.5, mapPixels);
+    ctx.stroke();
+  ctx.beginPath();
+    ctx.moveTo(0, i*tileset+1.5);
+    ctx.lineTo(mapPixels, i*tileset+1.5);
+    ctx.stroke();
+  }
+  ctx.strokeStyle = 'rgba(200,200,200,0.6)';
+  for(var i = 0; i <= mapSize; i++){
+  ctx.beginPath();
+    ctx.moveTo(i*tileset+0.5, 0);
+    ctx.lineTo(i*tileset+0.5, mapPixels);
+    ctx.stroke();
+  ctx.beginPath();
+    ctx.moveTo(0, i*tileset+0.5);
+    ctx.lineTo(mapPixels, i*tileset+0.5);
+    ctx.stroke();
   }
   ctx.closePath();
   ctx.stroke();
@@ -161,18 +188,27 @@ function draw(t){
   // draw corruption 
   ctx.save();
   ctx.beginPath();
-  ctx.fillStyle='rgba(10,4,28,1)';
-  ctx.strokeStyle = 'rgba(38,82,255,1)';
+  ctx.fillStyle='rgba(10,4,10,1)';
+  ctx.strokeStyle = 'rgba(234,34,37,0.6)';
   for (var j = 0; j < mapSize; j++) {
     for (var i = 0; i < mapSize; i++) {
       if(map[j][i]==0) continue;
       ctx.fillRect(i*tileset+viewPort[0]+shakeScreen[0], j*tileset+viewPort[1]+shakeScreen[1], tileset, tileset);
-      ctx.strokeRect(i*tileset+viewPort[0]+shakeScreen[0], j*tileset+viewPort[1]+shakeScreen[1], tileset, tileset);
+      ctx.strokeRect(i*tileset+viewPort[0]+shakeScreen[0]-0.5, j*tileset+viewPort[1]+shakeScreen[1]-0.5, tileset+2, tileset+2);
+      ctx.strokeRect(i*tileset+viewPort[0]+shakeScreen[0]+1.5, j*tileset+viewPort[1]+shakeScreen[1]+1.5, tileset-2, tileset-2);
+    }
+  }
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.strokeStyle = 'rgba(231,197,11,0.3)';
+  for (var j = 0; j < mapSize; j++) {
+    for (var i = 0; i < mapSize; i++) {
+      if(map[j][i]==0) continue;
+      ctx.strokeRect(i*tileset+viewPort[0]+shakeScreen[0]+0.5, j*tileset+viewPort[1]+shakeScreen[1]+0.5, tileset, tileset);
     }
   }
   ctx.fill();
   ctx.closePath();
-  ctx.stroke();
   ctx.restore();
 
   // draw summons 
@@ -251,7 +287,7 @@ function draw(t){
   drawWordCenter(message, 402, 502,14, '#D6AE45');
   //drawWordCenter(viewPort[0]+' '+viewPort[1], 402, 100,14, '#D6AE45');
   if(gameOver){
-    ctx.fillStyle='rgba(0,0,0,0.6)';
+    ctx.fillStyle='rgba(0,0,0,0.71)';
     ctx.fillRect(0,0,mapPixels, mapPixels);
     if(newRecord){
       drawWordCenter('-new record-', 400, 240,22, '#F66');

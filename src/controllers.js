@@ -19,6 +19,22 @@ function shareTwitter(){
   window.open('https://twitter.com/home?status='+link);
 }
 function shareFacebook(){
+  uploadImgr();
   var link = encodeURIComponent(locationref)+'&description='+encodeURIComponent(baseMessage());
   window.open('https://www.facebook.com/sharer/sharer.php?u='+link);
+}
+
+function uploadImgr(){
+  authorization = 'Client-ID d65571b4543e280';
+
+  var r = new XMLHttpRequest();
+  r.open("POST", "https://api.imgur.com/3/image", true);
+  r.setRequestHeader('Authorization',authorization);
+  r.setRequestHeader('Accept','application/json')
+  r.onreadystatechange = function () {
+    if (r.readyState != 4 || r.status != 200) return;
+    alert("Success: " + r.responseText);
+  };
+  r.send("image="+c.toDataURL().replace("data:image/png;base64,", "")+'&type=base64');
+  //window.location = 'https://imgur.com/gallery/' + id;
 }
