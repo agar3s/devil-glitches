@@ -253,16 +253,26 @@ function draw(t){
   if(gameOver){
     ctx.fillStyle='rgba(0,0,0,0.6)';
     ctx.fillRect(0,0,mapPixels, mapPixels);
-    drawWordCenter('game over', 400, 240,20, '#FFF');
-    drawWordCenter('game over', 401, 240,20, '#2FF');
+    if(newRecord){
+      drawWordCenter('-new record-', 400, 240,22, '#F66');
+      drawWordCenter('-new record-', 401, 240,22, '#F6F');
+      drawWordCenter('-share it-', 400, 400,14, '#F6F');
+      drawWordCenter('-share it-', 400, 400,14, '#F6F');
+    }else{
+      drawWordCenter('game over', 400, 240,20, '#FFF');
+      drawWordCenter('game over', 401, 240,20, '#2FF');
+    }
+    drawWordCenter(score.toFixed(0), 400, 160,newRecord?20:16, '#2F2');
+    drawWordCenter(score.toFixed(0), 401, 161,newRecord?20:16, '#FFF');
+  }else{
+    //score
+    drawWord(score.toFixed(0), 750, 60,18, '#2F2');
+    drawWord(score.toFixed(0), 751, 61,18, '#FFF');
+    //record 
+    var lrd = score>record?'record':record.toFixed(0);
+    drawWord(lrd, 750, 110,9, '#F22');
+    drawWord(lrd, 751, 111,9, '#FFF');
   }
-  //score
-  drawWord(score.toFixed(0), 750, 60,18, '#2F2');
-  drawWord(score.toFixed(0), 751, 61,18, '#FFF');
-  //record 
-  var lrd = score>record?'record':record.toFixed(0);
-  drawWord(lrd, 750, 110,9, '#F22');
-  drawWord(lrd, 751, 111,9, '#FFF');
   ctx.restore();
 
 }

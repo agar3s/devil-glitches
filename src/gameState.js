@@ -1,4 +1,4 @@
-var spatialhashing,mapSize,tileset,gameOver,frame,mapPixels,map,slowMotion,viewPort,enemies,hero,heroShape,bullets,particles,message,particleZ,score,glitchTime,GLITCHS,glitchStoped,triggers,bigKiller,times;
+var spatialhashing,mapSize,tileset,gameOver,frame,mapPixels,map,slowMotion,viewPort,enemies,hero,heroShape,bullets,particles,message,particleZ,score,glitchTime,GLITCHS,glitchStoped,triggers,bigKiller,times,newRecord;
 function init(){
   spatialhashing = {},
   mapSize = 21,
@@ -86,13 +86,14 @@ function init(){
    160001:[2, 100,100,50,20,20,100,10],
    160500:[5,'is just a plane'],
     //5st wave
-   164600:[0,10.5*tileset,1.5*tileset,10],
-   164601:[0,12.5*tileset,2.5*tileset,10],
-   164602:[0,12.5*tileset,4.5*tileset,10],
-   164603:[0,10.5*tileset,5.5*tileset,10],
-   164604:[0,8.5*tileset,4.5*tileset,10],
-   164605:[0,8.5*tileset,2.5*tileset,10],
-   180000:[0,10.5*tileset,3.5*tileset,13],
+   164600:[0,10.5*tileset,15.5*tileset,10],
+   164601:[0,12.5*tileset,16.5*tileset,10],
+   164602:[0,12.5*tileset,18.5*tileset,10],
+   164603:[0,10.5*tileset,19.5*tileset,10],
+   164604:[0,8.5*tileset,18.5*tileset,10],
+   164605:[0,8.5*tileset,16.5*tileset,10],
+   180000:[0,10.5*tileset,17.5*tileset,13],//3
+   //6th wave
    210000:[0,10.5*tileset,10.5*tileset,14],
     // summon
   1100000:[0,12.5*tileset,6.5*tileset,10],
@@ -121,7 +122,7 @@ function init(){
   /*types
   0-5 enemies that moves
   enemy[9][angleIncrement, angleMomentun]
-  >5 totems
+  >5 totems 
   */
   sequence1.stop();
   sequence2.stop();
@@ -129,5 +130,8 @@ function init(){
   sequence4.stop();
   record = parseFloat(storage.getItem('agar3sjs13k-record')||0);
   if(buttons&&buttons[0])buttons[0][3] = false;
+  if(buttons&&buttons[1])buttons[1][3] = false;
+  if(buttons&&buttons[2])buttons[2][3] = false;
+  newRecord = false;
 }
 init();
