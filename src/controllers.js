@@ -35,6 +35,7 @@ function uploadImgr(){
     if (r.readyState != 4 || r.status != 200) return;
     alert("Success: " + r.responseText);
   };
-  r.send("image="+c.toDataURL().replace("data:image/png;base64,", "")+'&type=base64');
+  var data = JSON.stringify({image: c.toDataURL().replace("data:image/png;base64,", ""), type:'base64'});
+  r.send(data);
   //window.location = 'https://imgur.com/gallery/' + id;
 }
