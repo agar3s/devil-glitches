@@ -110,5 +110,3 @@ sequence4.gain.gain.value = 0.1;
 //sequence3.play(when + 10);
 //sequence4.play(when + 1);
 //sequence2.play(when + 100);
-window.test1 = sequence1;
-window.test3 = sequence3;

@@ -1,8 +1,4 @@
 var spatialhashing,mapSize,tileset,gameOver,mapPixels,map,slowMotion,viewPort,enemies,hero,heroShape,bullets,particles,message,particleZ,score,glitchStoped,triggers,bigKiller,times,newRecord;
-shakeScreen=[0,0];
-glitchTime = 0;
-frame=0;
-GLITCHS=[0,0,0,0,0,0,0];
 function init(){
   spatialhashing = {},
   mapSize = 21,

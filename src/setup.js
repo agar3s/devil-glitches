@@ -33,7 +33,11 @@ var gl = c.getContext('webgl',glprops) || c.getContext('experimental-webgl', glp
   W = FW - 2 * GAME_MARGIN,
   H = FH - 2 * GAME_Y_MARGIN,
   borderLength = 2*(W+H+2*GAME_INC_PADDING),
-  storage = localStorage;
+  storage = localStorage,
+  shakeScreen=[0,0],
+  glitchTime = 0,
+  frame=0,
+  GLITCHS=[0,0,0,0,0,0,0];
 
 
 // DOM setup 
