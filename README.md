@@ -5,4 +5,13 @@ I took the 2016 1st place winner code https://github.com/gre/behind-asteroids as
 building system
 processing and rendering shaders
 
-actual compressed size: 12763bytes 12.47Kb 95.86%
+before refactor
+compressed size: 12763bytes 12.47Kb 95.86%
+
+after refactoring
+1st font drawing method
+compressed size: 12674bytes 12.37Kb 95.21%
+2do remove math.random, adds colors
+compressed size: 12701bytes 12.41kb 95.41%
+3rd change strokeStyle for custom function with indexes
+compressed size: 12695bytes 12.40kb 95.37%

@@ -129,7 +129,7 @@ function drawLetter14Segments(letter, x, y, size){
 function drawWord(word, x, y, size, colorIndex){
   ctx.save();
   ctx.beginPath();
-  setColor(colorIndex);
+  setContextAtrribute(colorIndex);
   for (var i = 0; i < word.length; i++) {
     drawLetter14Segments(letters[mapLetters.indexOf(word[i])], shakeScreen[0]+x-(size+10)*(word.length-i), shakeScreen[1]+y, size);
   }

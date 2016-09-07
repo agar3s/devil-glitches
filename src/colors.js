@@ -7,9 +7,9 @@ var colors = [
 '#F952FF',//4 cursor color
 'rgba(200,200,200,0.6)',//5 soft white line to glow
 'rgb(201,133,187)',//6 hero
-,//7
-,//8
-,//9
+'rgba(0,0,0,0.1)',//7f screen cleaner
+'rgba(10,4,10,1)',//8f corruption background
+'rgb(40,145,160)',//9f bullet color
 '#F66', //10 button start again
 '#69F', //11 button twitter
 '#32F', //12 button facebook
@@ -21,13 +21,15 @@ var colors = [
 '#F6F', //18 colors glow ,
 '#2F2', //19 score color,
 '#90702F',//20 message color1
-'#D6AE45',//21 message color1
+'#D6AE45',//21 message color1,
+'rgba(0,0,0,0.71)',//22 darken
+'rgb(5,4,13,1)',//23 splash background
 ];
-function setColor(index,attribute, custom){
-  ctx[['strokeStyle', 'fillStyle'][attribute||0]] = custom||colors[index];
+function setContextAtrribute(index,attribute, custom){
+  ctx[['strokeStyle','fillStyle','lineWidth'][attribute||0]] = custom||colors[index];
 }
 /**enemies must have colors?*/
-function getRandomColor(r,r2,g,g2,b,b2,a,a2){
+function setRandomColor(r,r2,g,g2,b,b2,a,a2){
   var value =  'rgba('+~~getRandomValue(r,r2)+','+~~getRandomValue(g,g2)+','+~~getRandomValue(b,b2)+','+getRandomValue(a,a2)+')';
-  return value;
+  setContextAtrribute(-1,1,value);
 }

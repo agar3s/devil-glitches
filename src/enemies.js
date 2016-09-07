@@ -71,7 +71,7 @@ function createEnemy(values){
 function drawFace(xPath, yPath, size, index, color){
   ctx.beginPath();
   var value = 125-index*20;
-  ctx.fillStyle = 'rgba('+color+')';
+  setContextAtrribute(-1,1,'rgba('+color+')');
   path(xPath, yPath,size)
   ctx.closePath();
   ctx.fill()
@@ -93,9 +93,9 @@ for (var i = 0; i < 6; i++) {
 }
 function drawFlowerOfLife(enemy){
   var color = 'hsla('+enemy[3]*20+',50%,60%, 0.5)';
-  ctx.lineWidth=2; 
+  setContextAtrribute(-1,2,2);
   ctx.beginPath();
-  setColor(-1,0,enemy[4]>0?colors[3]:color);
+  setContextAtrribute(-1,0,enemy[4]>0?colors[3]:color);
   var relativeSize = enemy[2]/3.5;
   ctx.arc(0,0, relativeSize/2, 0, Math.PI*2, false);
   ctx.stroke();
@@ -144,7 +144,7 @@ for (var i = 0; i < 10000; i++) {
 function pathTotem(totem){
   var loading = (invocationTimes[totem[5]]-totem[9])/invocationTimes[totem[5]];
   var green = totem[4]>0?-55:~~(200*loading)*blinkValues[loading.toFixed(4)];
-  setColor(totem[4]>0?15:green==0?16:17)
+  setContextAtrribute(totem[4]>0?15:green==0?16:17)
   for(var i = 0; i < totem[7].length; i++){
     drawFace(totem[7][i], totem[8][i], totem[2], i, [80+totem[4],55+green,130+~~(green/2),totem[4]>0?0.9:0.4]);
   }
@@ -157,13 +157,13 @@ function drawEnemy(enemy){
   ctx.translate(offsetX, offsetY)
   ctx.beginPath();
   if(enemy[5]<10){
-    setColor(-1,0,'hsla('+enemy[5]*36+',50%,60%,0.8)');
-    ctx.lineWidth = 2;
+    setContextAtrribute(-1,0,'hsla('+enemy[5]*36+',50%,60%,0.8)');
+    setContextAtrribute(-1,2,2);
     pathEnemy(enemy);
   }else if(enemy[5]==14){
     drawFlowerOfLife(enemy);
   }else {
-    ctx.lineWidth = 2;
+    setContextAtrribute(-1,2,2);
     pathTotem(enemy);
   }
   ctx.closePath();

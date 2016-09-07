@@ -20,9 +20,9 @@ function die(killer){
 
 function drawPointer(){
   ctx.save();
-  ctx.lineWidth = 2;
+  setContextAtrribute(-1,2,2);
   ctx.translate(coords[0], coords[1]);
-  setColor(4);
+  setContextAtrribute(4);
   ctx.translate(-10, -10);
   crossLine(10,0,20);
   ctx.closePath();
@@ -147,9 +147,9 @@ function path(xpts, ypts, size){
 function draw(t){
   // draw map
   //some random points
-  ctx.fillStyle= 'rgba(0,0,0,0.1)';
+  setContextAtrribute(7,1);
   ctx.fillRect(0,0,FW, FH);
-  ctx.fillStyle = getRandomColor(180,0, 185,0,185,0,0,1);
+  setRandomColor(180,0, 185,0,185,0,0,1);
   for(var i=0;i<6;i++) ctx.fillRect(getRandomValue(800), getRandomValue(600), 2, 2)
   
   // draw map
@@ -157,18 +157,17 @@ function draw(t){
   var gridSize = H/mapSize
   ctx.beginPath();
   shakeScreen = !gameOver?[shake(coords[2], 2), shake(coords[2], 2)]:[0,0];
-  ctx.fillStyle = 'rgba(15,12,40,'+ (0.2-(hero[8]>0?0.1:0)) +')';
+  setContextAtrribute(-1,1,'rgba(15,12,40,'+ (0.2-(hero[8]>0?0.1:0)) +')');
   ctx.translate(viewPort[0]+shakeScreen[0], viewPort[1]+shakeScreen[1]);
   ctx.fillRect(0, 0, mapPixels, mapPixels);
-  //ctx.strokeStyle = 'rgba(190,46,92,0.3)'; 
-  //ctx.strokeStyle = 'rgba(50,46,92,0.8)'; 
-  setColor(1);
+
+  setContextAtrribute(1);
   for(var i = 0; i <= mapSize; i++){
     for(var j = 0; j <4; j+=2){
       crossLine(i*tileset-0.5+j, 0, mapPixels);
     }
   }
-  setColor(5);
+  setContextAtrribute(5);
   for(var i = 0; i <= mapSize; i++){
     crossLine(i*tileset-0.5, 0, mapPixels);
   }
@@ -179,8 +178,8 @@ function draw(t){
   // draw corruption 
   ctx.save();
   ctx.beginPath();
-  ctx.fillStyle='rgba(10,4,10,1)';
-  setColor(2);
+  setContextAtrribute(8,1);  //fillstyle
+  setContextAtrribute(2);    //stroke style
   for (var j = 0; j < mapSize; j++) {
     for (var i = 0; i < mapSize; i++) {
       if(map[j][i]==0) continue;
@@ -191,7 +190,7 @@ function draw(t){
   }
   ctx.stroke();
   ctx.beginPath();
-  setColor(2);
+  setContextAtrribute(2);
   for (var j = 0; j < mapSize; j++) {
     for (var i = 0; i < mapSize; i++) {
       if(map[j][i]==0) continue;
@@ -211,8 +210,8 @@ function draw(t){
   ctx.save();
   ctx.translate(hero[0] + viewPort[0] + shake(coords[2], 1), hero[1] + viewPort[1]+ shake(coords[2], 1));
   ctx.rotate(hero[3]+Math.PI/2);
-  ctx.lineWidth = 3;
-  setColor(6);
+  setContextAtrribute(-1,2,3);
+  setContextAtrribute(6);
   ctx.beginPath();
   path(heroShape[0], heroShape[1],hero[2]);
   ctx.closePath();
@@ -229,7 +228,7 @@ function draw(t){
 
   // draw bullets 
   ctx.save();
-  ctx.fillStyle = 'rgb(40,145,160)';
+  setContextAtrribute(9,1);//fill
   for (var i = 0; i < bullets.length; i++) {
     var bullet = bullets[i];
     if(bullet[0]+viewPort[0]<20||bullet[0]+viewPort[0]>W-20||bullet[1]+viewPort[1]<20||bullet[1]+viewPort[1]>H-20) continue
@@ -243,12 +242,12 @@ function draw(t){
 
   //draw particles 
   ctx.save();
-  ctx.fillStyle = getRandomColor(125,50, 125,50,125,50,0,1);
+  setRandomColor(125,50, 125,50,125,50,0,1);
   for (var i = 0; i < particles.length; i++) {
     var particle = particles[i];
     if(particle[0]+viewPort[0]<5||particle[0]+viewPort[0]>W-5||particle[1]+viewPort[1]<5||particle[1]+viewPort[1]>H-5) continue
     ctx.beginPath();
-    ctx.fillStyle = getRandomColor(125,0, 125,100,125,100,0,particle[3]/100);
+    setRandomColor(125,0, 125,100,125,100,0,particle[3]/100);
     ctx.arc(particle[0]+viewPort[0], particle[1]+viewPort[1], 2, 0, 2 * Math.PI, false);
     ctx.closePath();
     ctx.fill();
@@ -260,7 +259,7 @@ function draw(t){
   displayWord(message, 401, 501,14, [20,21]);
   //displayWord(viewPort[0]+' '+viewPort[1], 402, 100,14, '#D6AE45');
   if(gameOver){
-    ctx.fillStyle='rgba(0,0,0,0.71)';
+    setContextAtrribute(22,1);
     ctx.fillRect(0,0,mapPixels, mapPixels);
     if(newRecord){
       displayWord('-new record-', 400, 240,22, [10,18]);
@@ -323,7 +322,7 @@ function loop(t){
     init();
   }
   if(fade>0&&fade<1){
-    ctx.fillStyle= 'rgba(220,220,220,'+fade+')';
+    setContextAtrribute(-1,1,'rgba(220,220,220,'+fade+')');
     ctx.fillRect(0,0,FW, FH);
   }
 

@@ -25,7 +25,7 @@ function drawSummons(){
     var summon=summons[i];
     var percentage = easeOutQuad(summon[2], 1, -1, summon[3]);
     //var percentage = 1-summon[2]/summon[3];
-    setColor(-1,0,'rgba(38,82,255,'+percentage+')');
+    setContextAtrribute(-1,0,'rgba(38,82,255,'+percentage+')');
     ctx.fillRect(summon[0]+viewPort[0]+shakeScreen[0]-percentage*tileset/2, summon[1]+viewPort[1]+shakeScreen[1]-percentage*tileset/2, percentage*tileset, percentage*tileset);
   }
   ctx.closePath();

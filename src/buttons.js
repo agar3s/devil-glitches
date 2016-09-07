@@ -11,8 +11,8 @@ function drawButtons(){
     var button = buttons[i];
     if(!button[3]) continue;
     var colorIndex = button[7]?14:button[4];
-    setColor(colorIndex);
-    ctx.lineWidth=2;
+    setContextAtrribute(colorIndex);
+    setContextAtrribute(-1,2,2);
     ctx.strokeRect(button[0], button[1],button[2],42);
     displayWord(button[5], button[0]+button[2]/2, button[1]+9,12, [0,colorIndex]);
   }

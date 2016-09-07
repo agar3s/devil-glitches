@@ -21,35 +21,35 @@ function crossLine(x,y,width){
 function drawSplash(){
   ctx.save();
   ctx.beginPath();
-  ctx.fillStyle= 'rgba(5,4,13,1)';
+  setContextAtrribute(23,1);
   ctx.fillRect(0,0,FW, FH);
 
-  setColor(0)
+  setContextAtrribute(0);
 
   var halfHeight = FH/2;
   var horizon = distanceLine*2;
   for (var i = 0; i < halfHeight/distanceLine; i++){
     var dis = easeInQuad(i*distanceLine+animationLine, halfHeight+horizon, halfHeight, halfHeight);
-    setColor(1);
+    setContextAtrribute(1);
     drawLine(0,dis+0.5,FW);
-    setColor(2);
+    setContextAtrribute(2);
     drawLine(0,FH-dis-0.5,FW);
   }
   var limit = halfHeight-horizon;
-  setColor(2);
+  setContextAtrribute(2);
   drawLine(0,limit,FW)
   drawLine(FW/2,limit,-limit, true);
 
-  setColor(1);
+  setContextAtrribute(1);
   drawLine(0,FH-limit,FW)
   drawLine(FW/2,FH-limit, limit, true);
   for (var i = 1; i < FW/(distanceLine*2); i++) {
     var offset = i*i*5+25;
-    setColor(2);
+    setContextAtrribute(2);
     drawDiagonal(i*distanceLine+FW/2,limit,-limit,true,offset);
     drawDiagonal(-i*distanceLine+FW/2,limit,-limit,true,-offset);
 
-    setColor(1);
+    setContextAtrribute(1);
     drawDiagonal(i*distanceLine+FW/2,FH-limit,limit,true,offset);
     drawDiagonal(-i*distanceLine+FW/2,FH-limit,limit,true,-offset);
   }
