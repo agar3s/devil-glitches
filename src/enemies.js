@@ -150,10 +150,6 @@ function pathTotem(totem){
   }
 }
 
-function randomSign(){
-  return Math.random()>0.5?1:-1;
-}
-
 function drawEnemy(enemy){
   if(enemy[0]+viewPort[0]<20||enemy[0]+viewPort[0]>W-20||enemy[1]+viewPort[1]<20||enemy[1]+viewPort[1]>H-20) return;
   var offsetX = enemy[0]+viewPort[0]+shakeScreen[0]+randomSign()*enemy[4]/40; // 20 /2 width/2

@@ -18,6 +18,17 @@ function die(killer){
   checkRecord();
 }
 
+function drawPointer(){
+  ctx.save();
+  ctx.lineWidth = 2;
+  ctx.translate(coords[0], coords[1]);
+  ctx.strokeStyle = "#F952FF";
+  ctx.translate(-10, -10);
+  crossLine(10,0,20);
+  ctx.closePath();
+  ctx.restore();
+}
+
 function playerUdate(dt){
   
   // apply speed to hero movement
@@ -54,6 +65,9 @@ function playerUdate(dt){
   }
 
   hero[3] = getAngle([hero[0]+viewPort[0], hero[1]+viewPort[1]], coords);
+
+  hero[5]+=(t*25*(coords[2]*8+1))
+  hero[5]%=360
 
   var killer = collideElements(hero);
   if(killer)die(killer);
@@ -149,41 +163,20 @@ function draw(t){
   var gridSize = H/mapSize
   ctx.beginPath();
   shakeScreen = !gameOver?[shake(coords[2], 2), shake(coords[2], 2)]:[0,0];
-  ctx.translate(shakeScreen[0], shakeScreen[1]);
   ctx.fillStyle = 'rgba(15,12,40,'+ (0.2-(hero[8]>0?0.1:0)) +')';
-  ctx.translate(viewPort[0], viewPort[1]);
+  ctx.translate(viewPort[0]+shakeScreen[0], viewPort[1]+shakeScreen[1]);
   ctx.fillRect(0, 0, mapPixels, mapPixels);
   //ctx.strokeStyle = 'rgba(190,46,92,0.3)'; 
   //ctx.strokeStyle = 'rgba(50,46,92,0.8)'; 
-  ctx.strokeStyle = 'rgba(102,82,156,0.8)'; 
+  setGridColor();
   for(var i = 0; i <= mapSize; i++){
-  ctx.beginPath();
-    ctx.moveTo(i*tileset-0.5, 0);
-    ctx.lineTo(i*tileset-0.5, mapPixels);
-    ctx.stroke();
-  ctx.beginPath();
-    ctx.moveTo(0, i*tileset-0.5);
-    ctx.lineTo(mapPixels, i*tileset-0.5);
-    ctx.stroke();
-  ctx.beginPath();
-    ctx.moveTo(i*tileset+1.5, 0);
-    ctx.lineTo(i*tileset+1.5, mapPixels);
-    ctx.stroke();
-  ctx.beginPath();
-    ctx.moveTo(0, i*tileset+1.5);
-    ctx.lineTo(mapPixels, i*tileset+1.5);
-    ctx.stroke();
+    for(var j = 0; j <4; j+=2){
+      crossLine(i*tileset-0.5+j, 0, mapPixels);
+    }
   }
   ctx.strokeStyle = 'rgba(200,200,200,0.6)';
   for(var i = 0; i <= mapSize; i++){
-  ctx.beginPath();
-    ctx.moveTo(i*tileset+0.5, 0);
-    ctx.lineTo(i*tileset+0.5, mapPixels);
-    ctx.stroke();
-  ctx.beginPath();
-    ctx.moveTo(0, i*tileset+0.5);
-    ctx.lineTo(mapPixels, i*tileset+0.5);
-    ctx.stroke();
+    crossLine(i*tileset-0.5, 0, mapPixels);
   }
   ctx.closePath();
   ctx.stroke();
@@ -193,7 +186,7 @@ function draw(t){
   ctx.save();
   ctx.beginPath();
   ctx.fillStyle='rgba(10,4,10,1)';
-  ctx.strokeStyle = 'rgba(234,34,37,0.6)';
+  setGridColor(true);
   for (var j = 0; j < mapSize; j++) {
     for (var i = 0; i < mapSize; i++) {
       if(map[j][i]==0) continue;
@@ -268,50 +261,26 @@ function draw(t){
   }
   ctx.restore();
 
-  // cross  
-  ctx.save();
-  ctx.lineWidth = 2;
-  ctx.translate(coords[0], coords[1]);
-  ctx.strokeStyle = "#F952FF";
-  hero[5]+=(t*25*(coords[2]*8+1))
-  hero[5]%=360
-  ctx.translate(-10, -10);
-  ctx.beginPath();
-  ctx.moveTo(0, 10)
-  ctx.lineTo(20, 10)
-  ctx.moveTo(10, 0)
-  ctx.lineTo(10, 20)
-  ctx.closePath();
-  ctx.stroke();
-  ctx.restore();
-
   // ui 
   ctx.save();
-  drawWordCenter(message, 401, 501,14, '#90702F');
-  drawWordCenter(message, 402, 502,14, '#D6AE45');
-  //drawWordCenter(viewPort[0]+' '+viewPort[1], 402, 100,14, '#D6AE45');
+  displayWord(message, 401, 501,14, ['#90702F','#D6AE45']);
+  //displayWord(viewPort[0]+' '+viewPort[1], 402, 100,14, '#D6AE45');
   if(gameOver){
     ctx.fillStyle='rgba(0,0,0,0.71)';
     ctx.fillRect(0,0,mapPixels, mapPixels);
     if(newRecord){
-      drawWordCenter('-new record-', 400, 240,22, '#F66');
-      drawWordCenter('-new record-', 401, 240,22, '#F6F');
-      drawWordCenter('-share it-', 400, 400,14, '#F6F');
-      drawWordCenter('-share it-', 400, 400,14, '#F6F');
+      displayWord('-new record-', 400, 240,22, ['#F66','#F6F']);
+      displayWord('-share it-', 400, 400,14, ['#F6F','#F6F']);
     }else{
-      drawWordCenter('game over', 400, 240,20, '#FFF');
-      drawWordCenter('game over', 401, 240,20, '#2FF');
+      displayWord('game over', 400, 240,20, ['#FFF','#2FF']);
     }
-    drawWordCenter(score.toFixed(0), 400, 160,newRecord?20:16, '#2F2');
-    drawWordCenter(score.toFixed(0), 401, 161,newRecord?20:16, '#FFF');
+    displayWord(score.toFixed(0), 400, 160,newRecord?20:16, ['#2F2','#FFF']);
   }else{
     //score
-    drawWord(score.toFixed(0), 750, 60,18, '#2F2');
-    drawWord(score.toFixed(0), 751, 61,18, '#FFF');
+    displayWord(score.toFixed(0), 750, 60,18, ['#2F2','#FFF'],1);
     //record 
     var lrd = score>record?'record':record.toFixed(0);
-    drawWord(lrd, 750, 110,9, '#F22');
-    drawWord(lrd, 751, 111,9, '#FFF');
+    displayWord(lrd, 750, 110,9, ['#F22','#FFF'],1);
   }
   ctx.restore();
 
@@ -320,7 +289,7 @@ function draw(t){
 
 var lastTime;
 function loop(t){
-  // webgl postprocessing  
+  // webgl postprocessing
   if(DEBUG){
     _fps_.begin();
     _processing_.begin();
@@ -334,28 +303,47 @@ function loop(t){
   frame++;
 
   // update changes 
-  if(GLITCHS[6]<0)update(dt);
+  if(splashScreen)updateSplash(dt);
+  else if(GLITCHS[6]<0)update(dt);
   //update buttons
   updateButtons();
 
   // draw changes 
   ctx.save();
   // draw game
-  draw(dt);
+  if(splashScreen)drawSplash()
+  else draw(dt);
   // draw buttons
+  drawPointer();
+  ctx.save();
   drawButtons();
+  ctx.restore();
+  
+  if(fade>0){
+    fade+=0.05;
+    if(fade==0.51)play(gameStarts);
+  }
+  if(fade>1){
+    splashScreen=false;
+    fade=0;
+    init();
+  }
+  if(fade>0&&fade<1){
+    ctx.fillStyle= 'rgba(220,220,220,'+fade+')';
+    ctx.fillRect(0,0,FW, FH);
+  }
 
   ctx.restore();
 
   drawPostProcessing(~~(t));
-  if(!gameOver) score += dt*1000*(hero[8]>0?slowMotion:1);
+  if(!gameOver&&!splashScreen) score += dt*1000*(hero[8]>0?slowMotion:1);
 
   if(DEBUG){
     _fps_.end();
     _processing_.end();
     _memory_.end();
     _enemies_.end();
-    enemiesPanel.update( enemies.length, 1000);
+    enemiesPanel.update(enemies?enemies.length:0, 1000);
   }
   requestAnimationFrame(loop);
 }

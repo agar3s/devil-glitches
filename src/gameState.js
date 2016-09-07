@@ -1,4 +1,8 @@
-var spatialhashing,mapSize,tileset,gameOver,frame,mapPixels,map,slowMotion,viewPort,enemies,hero,heroShape,bullets,particles,message,particleZ,score,glitchTime,GLITCHS,glitchStoped,triggers,bigKiller,times,newRecord;
+var spatialhashing,mapSize,tileset,gameOver,mapPixels,map,slowMotion,viewPort,enemies,hero,heroShape,bullets,particles,message,particleZ,score,glitchStoped,triggers,bigKiller,times,newRecord;
+shakeScreen=[0,0];
+glitchTime = 0;
+frame=0;
+GLITCHS=[0,0,0,0,0,0,0];
 function init(){
   spatialhashing = {},
   mapSize = 21,
@@ -129,12 +133,9 @@ function init(){
   sequence3.stop();
   sequence4.stop();
   record = parseFloat(storage.getItem('agar3sjs13k-record')||0);
-  if(buttons&&buttons[0])buttons[0][3] = false;
-  if(buttons&&buttons[1])buttons[1][3] = false;
-  if(buttons&&buttons[2])buttons[2][3] = false;
+  for (var i = 0; buttons&&i < buttons.length; i++) {
+    buttons[i][3] = false;
+  }
   newRecord = false;
-  play(gameStarts);
-  var tempDuration = Math.random()*10+5;
-  GLITCHS=[tempDuration,tempDuration,tempDuration,tempDuration,tempDuration,tempDuration,0];
+  randomGlitch();
 }
-init();

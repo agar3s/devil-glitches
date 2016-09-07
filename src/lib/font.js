@@ -150,4 +150,13 @@ function drawWordLeft(word, x, y, size, color){
   x += (size+10)*word.length;
   drawWord(word, x, y, size, color)
 }
+var wordAligns=[drawWordCenter,drawWord];
 
+function displayWord(word, x, y, size, colors, side, width){
+  width = width||2;
+  side = side||0;
+
+  for (var i = 0; i < width; i++) {
+    wordAligns[side](word, x+i, y+i, size, colors[i]||colors[0]);
+  }
+}
