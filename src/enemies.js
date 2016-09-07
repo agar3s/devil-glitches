@@ -156,14 +156,13 @@ function randomSign(){
 
 function drawEnemy(enemy){
   if(enemy[0]+viewPort[0]<20||enemy[0]+viewPort[0]>W-20||enemy[1]+viewPort[1]<20||enemy[1]+viewPort[1]>H-20) return;
-  //ctx.rotate(enemy[2]);  
   var offsetX = enemy[0]+viewPort[0]+shakeScreen[0]+randomSign()*enemy[4]/40; // 20 /2 width/2
   var offsetY = enemy[1]+viewPort[1]+shakeScreen[1]+randomSign()*enemy[4]/40; //
   ctx.translate(offsetX, offsetY)
   ctx.beginPath();
-  if(enemy[5]<10){ 
-    ctx.strokeStyle = 'hsla('+enemy[5]*36+',50%,70%,0.6)';
-    ctx.lineWidth = 3;
+  if(enemy[5]<10){
+    ctx.strokeStyle = 'hsla('+enemy[5]*36+',50%,60%,0.8)';
+    ctx.lineWidth = 2;
     pathEnemy(enemy);
   }else if(enemy[5]==14){
     drawFlowerOfLife(enemy);

@@ -19,23 +19,19 @@ function shareTwitter(){
   window.open('https://twitter.com/home?status='+link);
 }
 function shareFacebook(){
-  uploadImgr();
   var link = encodeURIComponent(locationref)+'&description='+encodeURIComponent(baseMessage());
   window.open('https://www.facebook.com/sharer/sharer.php?u='+link);
 }
-
-function uploadImgr(){
-  authorization = 'Client-ID d65571b4543e280';
-
-  var r = new XMLHttpRequest();
-  r.open("POST", "https://api.imgur.com/3/image", true);
-  r.setRequestHeader('Authorization',authorization);
-  r.setRequestHeader('Accept','application/json')
-  r.onreadystatechange = function () {
-    if (r.readyState != 4 || r.status != 200) return;
-    alert("Success: " + r.responseText);
-  };
-  var data = JSON.stringify({image: c.toDataURL().replace("data:image/png;base64,", ""), type:'base64'});
-  r.send(data);
-  //window.location = 'https://imgur.com/gallery/' + id;
+var fullscreen = false;
+function toggleFullscreen(evt){
+  if (document.fullscreenEnabled) {
+    fullscreen?document.exitFullscreen():document.body.requestFullscreen();
+  } else if (document['webkitFullscreenEnabled']) {
+    fullscreen?document.webkitExitFullscreen():document.body.webkitRequestFullscreen();
+  } else if (document.mozFullScreenEnabled) {
+    fullscreen?document.mozCancelFullScreen():document.body.mozRequestFullScreen();
+  }
+  fullscreen=!fullscreen;
+  evt.preventDefault();
 }
+document.getElementById('f').onclick=toggleFullscreen;

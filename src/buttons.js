@@ -1,5 +1,5 @@
 // x, y, width, visible, color, message, clicked, hover, action 
-var buttons = [[240,320,300, false, '#F66', 'start again',false, false, init],
+var buttons = [[250,320,300, false, '#F66', 'start again',false, false, init],
                [120,460,250, false, '#69F', 'twitter',false, false, shareTwitter],
                [430,460,250, false, '#32F', 'facebook',false, false, shareFacebook]];
 function drawButtons(){

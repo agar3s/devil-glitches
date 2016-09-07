@@ -133,5 +133,8 @@ function init(){
   if(buttons&&buttons[1])buttons[1][3] = false;
   if(buttons&&buttons[2])buttons[2][3] = false;
   newRecord = false;
+  play(gameStarts);
+  var tempDuration = Math.random()*10+5;
+  GLITCHS=[tempDuration,tempDuration,tempDuration,tempDuration,tempDuration,tempDuration,0];
 }
 init();

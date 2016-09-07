@@ -29,24 +29,28 @@ function playerUdate(dt){
   }
   if(keyMap&keys[65]){
     hero[0]-=speed;
-    if(hero[0]<hero[2]) hero[0] = hero[2]; // hero limit on x left
+    if(hero[0]<hero[2]) hero[0] = hero[2]; // hero limit on x left 
     if(hero[0]>viewPort[2]&&hero[0]<mapPixels-viewPort[2]) viewPort[0]+=speed;
+    if(viewPort[0]>32)viewPort[0]=32;
   } 
   if(keyMap&keys[87]){
     hero[1]-=speed;
     if(hero[1]<hero[2]) hero[1] = hero[2];
     if(hero[1]>viewPort[3]&&hero[1]<mapPixels-viewPort[3]) viewPort[1]+=speed;
+    if(viewPort[1]>27)viewPort[1]=27;
   }
 
   if(keyMap&keys[83]){
     hero[1]+=speed;
     if(hero[1]>mapPixels - hero[2]) hero[1] = mapPixels - hero[2];
     if(hero[1]>viewPort[3]&&hero[1]<mapPixels-viewPort[3]) viewPort[1]-=speed;
+    if(viewPort[1]<-272)viewPort[1]=-272;
   }
   if(keyMap&keys[68]){
     hero[0]+=speed;
     if(hero[0]>mapPixels - hero[2]) hero[0] = mapPixels - hero[2];
     if(hero[0]>viewPort[2]&&hero[0]<mapPixels-viewPort[2]) viewPort[0]-=speed;
+    if(viewPort[0]<-67)viewPort[0]=-67;
   }
 
   hero[3] = getAngle([hero[0]+viewPort[0], hero[1]+viewPort[1]], coords);

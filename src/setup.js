@@ -22,8 +22,8 @@ if(DEBUG){
   document.body.appendChild(_enemies_.dom);
   console.log('new loaded', new Date())
 }
-
-var gl = c.getContext('webgl') || c.getContext('experimental-webgl'),
+var glprops = {preserveDrawingBuffer: true};
+var gl = c.getContext('webgl',glprops) || c.getContext('experimental-webgl', glprops),
   ctx = g.getContext('2d'),
   FW = 800,
   FH = 600,
