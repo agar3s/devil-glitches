@@ -5,7 +5,7 @@
 function die(killer){
   play(heroDie);
   for (var h = -10; h < 10; h++) {
-    particles.push([hero[0], hero[1], hero[2]+particleZ*h*Math.random(), 100]);
+    particles.push([hero[0], hero[1], getRandomValue(particleZ*h,hero[2]), 100]);
   }
   heroShape=[[], []]
   gameOver = true;
@@ -74,7 +74,7 @@ function playerUdate(dt){
   // if fire shots fire
   if(coords[2]&&hero[6]<=0&&hero[8]<=0){
     bullets.push([hero[0]+shake(1, 2+hero[7]/30), hero[1]+shake(1, 2+hero[7]/30), 2, hero[3]+shake(1, 0.05+0.001*hero[7])])
-    play(fireSounds[~~(Math.random()*fireSounds.length)]);
+    play(fireSounds[~~(getRandomValue(fireSounds.length))]);
     hero[6] = 1/hero[7]; //12bullets per second  
   }else{
     hero[6]-=dt;
@@ -107,15 +107,15 @@ function update(dt){
       --enemy[6];
       enemy[4]=200
       if(enemy[5]>5)
-      play(hitSounds[~~(Math.random()*hitSounds.length)]);
+      play(hitSounds[~~(getRandomValue(hitSounds.length))]);
     }
   }
 
   //update particles
   for(var i=0;i<particles.length;i++){
     var particle = particles[i];
-    particle[0] += Math.cos(particle[2])*(2+Math.random()*3);
-    particle[1] += Math.sin(particle[2])*(2+Math.random()*3);
+    particle[0] += Math.cos(particle[2])*getRandomValue(3,2);
+    particle[1] += Math.sin(particle[2])*getRandomValue(3,2);
     if(--particle[3]<0) particles.splice(i,1)
   }
 
@@ -129,7 +129,7 @@ function update(dt){
 }
 
 function shake(cond, val){
-  return cond?(Math.random()*val*2-val):0;
+  return cond?getRandomValue(val*2,-val):0;
 }
 
 /**
@@ -143,11 +143,6 @@ function path(xpts, ypts, size){
   ctx.lineTo(xpts[0]*size, ypts[0]*size);
 }
 
-/**enemies must have colors? */
-function getRandomColor(r,r2,g,g2,b,b2,a,a2){
-  return 'rgba('+(~~(Math.random()*r)+r2)+','+(~~(Math.random()*g)+g2)+','+(~~(Math.random()*b)+b2)+','+(~~(Math.random()*a)+a2)+')';
-}
-
 
 function draw(t){
   // draw map
@@ -155,7 +150,7 @@ function draw(t){
   ctx.fillStyle= 'rgba(0,0,0,0.1)';
   ctx.fillRect(0,0,FW, FH);
   ctx.fillStyle = getRandomColor(180,0, 185,0,185,0,0,1);
-  for(var i=0;i<6;i++) ctx.fillRect(Math.random()*800, Math.random()*600, 2, 2)
+  for(var i=0;i<6;i++) ctx.fillRect(getRandomValue(800), getRandomValue(600), 2, 2)
   
   // draw map
   ctx.save()
@@ -168,7 +163,7 @@ function draw(t){
   ctx.fillRect(0, 0, mapPixels, mapPixels);
   //ctx.strokeStyle = 'rgba(190,46,92,0.3)'; 
   //ctx.strokeStyle = 'rgba(50,46,92,0.8)'; 
-  setGridColor();
+  setStrokeStyle(1);
   for(var i = 0; i <= mapSize; i++){
     for(var j = 0; j <4; j+=2){
       crossLine(i*tileset-0.5+j, 0, mapPixels);
@@ -186,7 +181,7 @@ function draw(t){
   ctx.save();
   ctx.beginPath();
   ctx.fillStyle='rgba(10,4,10,1)';
-  setGridColor(true);
+  setStrokeStyle(2);
   for (var j = 0; j < mapSize; j++) {
     for (var i = 0; i < mapSize; i++) {
       if(map[j][i]==0) continue;

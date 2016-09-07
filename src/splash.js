@@ -17,9 +17,6 @@ function crossLine(x,y,width){
   drawLine(y,x,width);
 }
 
-function setGridColor(corruption){
-  ctx.strokeStyle = corruption?'rgba(234,34,37,0.6)':'rgba(102,82,156,0.8)';
-}
 
 function drawSplash(){
   ctx.save();
@@ -33,26 +30,26 @@ function drawSplash(){
   var horizon = distanceLine*2;
   for (var i = 0; i < halfHeight/distanceLine; i++){
     var dis = easeInQuad(i*distanceLine+animationLine, halfHeight+horizon, halfHeight, halfHeight);
-    setGridColor();
+    setStrokeStyle(1);
     drawLine(0,dis+0.5,FW);
-    setGridColor(true);
+    setStrokeStyle(2);
     drawLine(0,FH-dis-0.5,FW);
   }
   var limit = halfHeight-horizon;
-  setGridColor(true);
+  setStrokeStyle(2);
   drawLine(0,limit,FW)
   drawLine(FW/2,limit,-limit, true);
 
-  setGridColor();
+  setStrokeStyle(1);
   drawLine(0,FH-limit,FW)
   drawLine(FW/2,FH-limit, limit, true);
   for (var i = 1; i < FW/(distanceLine*2); i++) {
     var offset = i*i*5+25;
-    setGridColor(true);
+    setStrokeStyle(2);
     drawDiagonal(i*distanceLine+FW/2,limit,-limit,true,offset);
     drawDiagonal(-i*distanceLine+FW/2,limit,-limit,true,-offset);
 
-    setGridColor();
+    setStrokeStyle(1);
     drawDiagonal(i*distanceLine+FW/2,FH-limit,limit,true,offset);
     drawDiagonal(-i*distanceLine+FW/2,FH-limit,limit,true,-offset);
   }

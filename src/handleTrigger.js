@@ -65,7 +65,7 @@ function updateTrigger(){
     }
 
   }else if(times.length==0){  // to infinite mode 
-    triggers[score+7500] = [(Math.random()*21)*tileset,(Math.random()*21)*tileset,6]
+    triggers[score+7500] = [getRandomValue(21*tileset),getRandomValue(21*tileset),6]
     glitchTime = 5;
     times.push(score+7500)
   }

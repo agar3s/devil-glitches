@@ -268,7 +268,7 @@ function updateEnemy(enemy,index){
     enemies.splice(index,1);
     if(enemy[5]==5) return;
     for (var h = -10; h < 10; h++) {
-      particles.push([enemy[0], enemy[1], enemy[2]+particleZ*h*Math.random(), 100]);
+      particles.push([enemy[0], enemy[1], getRandomValue(particleZ*h,enemy[2]), 100]);
     }
     if(enemy[5]>9){
       removeCorruption(enemy[0], enemy[1], enemy[10]);

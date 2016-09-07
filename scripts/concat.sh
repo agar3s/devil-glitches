@@ -34,6 +34,7 @@ cd ..;
 # game
 
 cat src/setup.js
+cat src/colors.js
 cat src/effects.js
 cat src/clickEvents.js
 cat src/keyEvents.js
