@@ -22,7 +22,7 @@ function drawPointer(){
   ctx.save();
   ctx.lineWidth = 2;
   ctx.translate(coords[0], coords[1]);
-  ctx.strokeStyle = "#F952FF";
+  setColor(4);
   ctx.translate(-10, -10);
   crossLine(10,0,20);
   ctx.closePath();
@@ -154,7 +154,6 @@ function draw(t){
   
   // draw map
   ctx.save()
-  ctx.strokeStyle = 'rgb(51,193,178)';
   var gridSize = H/mapSize
   ctx.beginPath();
   shakeScreen = !gameOver?[shake(coords[2], 2), shake(coords[2], 2)]:[0,0];
@@ -163,13 +162,13 @@ function draw(t){
   ctx.fillRect(0, 0, mapPixels, mapPixels);
   //ctx.strokeStyle = 'rgba(190,46,92,0.3)'; 
   //ctx.strokeStyle = 'rgba(50,46,92,0.8)'; 
-  setStrokeStyle(1);
+  setColor(1);
   for(var i = 0; i <= mapSize; i++){
     for(var j = 0; j <4; j+=2){
       crossLine(i*tileset-0.5+j, 0, mapPixels);
     }
   }
-  ctx.strokeStyle = 'rgba(200,200,200,0.6)';
+  setColor(5);
   for(var i = 0; i <= mapSize; i++){
     crossLine(i*tileset-0.5, 0, mapPixels);
   }
@@ -181,7 +180,7 @@ function draw(t){
   ctx.save();
   ctx.beginPath();
   ctx.fillStyle='rgba(10,4,10,1)';
-  setStrokeStyle(2);
+  setColor(2);
   for (var j = 0; j < mapSize; j++) {
     for (var i = 0; i < mapSize; i++) {
       if(map[j][i]==0) continue;
@@ -192,7 +191,7 @@ function draw(t){
   }
   ctx.stroke();
   ctx.beginPath();
-  ctx.strokeStyle = 'rgba(231,197,11,0.3)';
+  setColor(2);
   for (var j = 0; j < mapSize; j++) {
     for (var i = 0; i < mapSize; i++) {
       if(map[j][i]==0) continue;
@@ -213,7 +212,7 @@ function draw(t){
   ctx.translate(hero[0] + viewPort[0] + shake(coords[2], 1), hero[1] + viewPort[1]+ shake(coords[2], 1));
   ctx.rotate(hero[3]+Math.PI/2);
   ctx.lineWidth = 3;
-  ctx.strokeStyle = "rgb(201,133,187)";
+  setColor(6);
   ctx.beginPath();
   path(heroShape[0], heroShape[1],hero[2]);
   ctx.closePath();
@@ -258,24 +257,24 @@ function draw(t){
 
   // ui 
   ctx.save();
-  displayWord(message, 401, 501,14, ['#90702F','#D6AE45']);
+  displayWord(message, 401, 501,14, [20,21]);
   //displayWord(viewPort[0]+' '+viewPort[1], 402, 100,14, '#D6AE45');
   if(gameOver){
     ctx.fillStyle='rgba(0,0,0,0.71)';
     ctx.fillRect(0,0,mapPixels, mapPixels);
     if(newRecord){
-      displayWord('-new record-', 400, 240,22, ['#F66','#F6F']);
-      displayWord('-share it-', 400, 400,14, ['#F6F','#F6F']);
+      displayWord('-new record-', 400, 240,22, [10,18]);
+      displayWord('-share it-', 400, 400,14, [18,18]);
     }else{
-      displayWord('game over', 400, 240,20, ['#FFF','#2FF']);
+      displayWord('game over', 400, 240,20, [0,13]);
     }
-    displayWord(score.toFixed(0), 400, 160,newRecord?20:16, ['#2F2','#FFF']);
+    displayWord(score.toFixed(0), 400, 160,newRecord?20:16, [0,19]);
   }else{
-    //score
-    displayWord(score.toFixed(0), 750, 60,18, ['#2F2','#FFF'],1);
+    //score 
+    displayWord(score.toFixed(0), 750, 60,18, [0,19],1);
     //record 
     var lrd = score>record?'record':record.toFixed(0);
-    displayWord(lrd, 750, 110,9, ['#F22','#FFF'],1);
+    displayWord(lrd, 750, 110,9, [10,0],1);
   }
   ctx.restore();
 

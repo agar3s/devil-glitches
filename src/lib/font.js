@@ -126,10 +126,10 @@ function drawLetter14Segments(letter, x, y, size){
     drawSegment(x+2, size*2+y-2,size24, -size+4);
   }
 }
-function drawWord(word, x, y, size, color){
+function drawWord(word, x, y, size, colorIndex){
   ctx.save();
   ctx.beginPath();
-  ctx.strokeStyle=color;
+  setColor(colorIndex);
   for (var i = 0; i < word.length; i++) {
     drawLetter14Segments(letters[mapLetters.indexOf(word[i])], shakeScreen[0]+x-(size+10)*(word.length-i), shakeScreen[1]+y, size);
   }
@@ -137,21 +137,21 @@ function drawWord(word, x, y, size, color){
   ctx.stroke();
   ctx.restore();
 }
-function drawWordCenter(word, x, y, size, color){
+function drawWordCenter(word, x, y, size, colorIndex){
   x += (size+10)*word.length/2
-  drawWord(word, x, y, size, color)
+  drawWord(word, x, y, size, colorIndex)
 }
-function drawWordLeft(word, x, y, size, color){
+function drawWordLeft(word, x, y, size, colorIndex){
   x += (size+10)*word.length;
-  drawWord(word, x, y, size, color)
+  drawWord(word, x, y, size, colorIndex)
 }
 var wordAligns=[drawWordCenter,drawWord];
 
-function displayWord(word, x, y, size, colors, side, width){
+function displayWord(word, x, y, size, colorIndexes, side, width){
   width = width||2;
   side = side||0;
 
   for (var i = 0; i < width; i++) {
-    wordAligns[side](word, x+i, y+i, size, colors[i]||colors[0]);
+    wordAligns[side](word, x+i, y+i, size, colorIndexes[i]||colorIndexes[0]);
   }
 }

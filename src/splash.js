@@ -24,47 +24,47 @@ function drawSplash(){
   ctx.fillStyle= 'rgba(5,4,13,1)';
   ctx.fillRect(0,0,FW, FH);
 
-  ctx.strokeStyle='#fff';
+  setColor(0)
 
   var halfHeight = FH/2;
   var horizon = distanceLine*2;
   for (var i = 0; i < halfHeight/distanceLine; i++){
     var dis = easeInQuad(i*distanceLine+animationLine, halfHeight+horizon, halfHeight, halfHeight);
-    setStrokeStyle(1);
+    setColor(1);
     drawLine(0,dis+0.5,FW);
-    setStrokeStyle(2);
+    setColor(2);
     drawLine(0,FH-dis-0.5,FW);
   }
   var limit = halfHeight-horizon;
-  setStrokeStyle(2);
+  setColor(2);
   drawLine(0,limit,FW)
   drawLine(FW/2,limit,-limit, true);
 
-  setStrokeStyle(1);
+  setColor(1);
   drawLine(0,FH-limit,FW)
   drawLine(FW/2,FH-limit, limit, true);
   for (var i = 1; i < FW/(distanceLine*2); i++) {
     var offset = i*i*5+25;
-    setStrokeStyle(2);
+    setColor(2);
     drawDiagonal(i*distanceLine+FW/2,limit,-limit,true,offset);
     drawDiagonal(-i*distanceLine+FW/2,limit,-limit,true,-offset);
 
-    setStrokeStyle(1);
+    setColor(1);
     drawDiagonal(i*distanceLine+FW/2,FH-limit,limit,true,offset);
     drawDiagonal(-i*distanceLine+FW/2,FH-limit,limit,true,-offset);
   }
 
   if(controlHelp){ 
-    displayWord('move: awsd', 400, 231,12, ['#FFF']);
-    displayWord('left click to fire', 400, 270,12, ['#FFF']);
-    displayWord('right click to warp', 400, 310,12, ['#FFF']);
+    displayWord('move: awsd', 400, 231,12, [0]);
+    displayWord('left click to fire', 400, 270,12, [0]);
+    displayWord('right click to warp', 400, 310,12, [0]);
   }else{
-    displayWord('winners don\'t use drugs', 401, 50,9, ['#FFF']);
-    displayWord('devil', 400, 250,20, ['#FFF']);
-    displayWord('glitches', 400, 310,20, ['#FFF']);
+    displayWord('winners don\'t use drugs', 401, 50,9, [0]);
+    displayWord('devil', 400, 250,20, [0]);
+    displayWord('glitches', 400, 310,20, [0]);
   }
 
-  displayWord('made by agar3s', 401, 520,9, ['#FFF','#F66']);
+  displayWord('made by agar3s', 401, 520,9, [0,10]);
 
   ctx.closePath();
   ctx.fill();

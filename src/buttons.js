@@ -1,23 +1,20 @@
 // x, y, width, visible, color, message, clicked, hover, action 
-var buttons = [[250,320,300, false, '#F66', 'start again',false, false, startGame],
-               [120,460,250, false, '#69F', 'twitter',false, false, shareTwitter],
-               [430,460,250, false, '#32F', 'facebook',false, false, shareFacebook],
-               [240,380,320, true, '#6FF', 'fire to start', false, false, startGame],
-               [280,440,240, true, '#6FF', 'controls', false, false, toggleControls]];
+var buttons = [[250,320,300, false,10, 'start again',false, false, startGame],
+               [120,460,250, false,11, 'twitter',false, false, shareTwitter],
+               [430,460,250, false,12, 'facebook',false, false, shareFacebook],
+               [240,380,320, true,13, 'fire to start', false, false, startGame],
+               [280,440,240, true,13, 'controls', false, false, toggleControls]];
 
 function drawButtons(){
   // absolute position
   for (var i = 0; i < buttons.length; i++) {
     var button = buttons[i];
     if(!button[3]) continue;
-    if(button[7]){
-      ctx.strokeStyle = '#066';
-    }else{
-      ctx.strokeStyle = button[4];
-    }
+    var colorIndex = button[7]?14:button[4];
+    setColor(colorIndex);
     ctx.lineWidth=2;
     ctx.strokeRect(button[0], button[1],button[2],42);
-    displayWord(button[5], button[0]+button[2]/2, button[1]+9,12, ['#FFF',button[5]]);
+    displayWord(button[5], button[0]+button[2]/2, button[1]+9,12, [0,colorIndex]);
   }
 }
 
