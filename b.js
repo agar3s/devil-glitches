@@ -1062,8 +1062,8 @@ if(DEBUG){
   document.body.appendChild(_enemies_.dom);
   console.log('new loaded', new Date())
 }
-
-var gl = c.getContext('webgl') || c.getContext('experimental-webgl'),
+var glprops = {preserveDrawingBuffer: true};
+var gl = c.getContext('webgl',glprops) || c.getContext('experimental-webgl', glprops),
   ctx = g.getContext('2d'),
   FW = 800,
   FH = 600,
@@ -1200,8 +1200,8 @@ c.onmouseup = function(e){
 
 c.onmousemove = function(e){
   if(GLITCHS[6]>0) return;
-  coords[0] = e.offsetX;
-  coords[1] = e.offsetY;
+  coords[0] = e.offsetX*FW/c.offsetWidth;
+  coords[1] = e.offsetY*FH/c.offsetHeight;
 }
 var keyMap = 0;
 var keys = {
@@ -1352,6 +1352,7 @@ function mutates(sound,mutations){
   return sounds;
 }
 
+var gameStarts = audio([3,0.2421,0.1876,0.1891,0.2844,0.5008,,-0.0619,0.2484,,0.0432,-0.7113,0.3743,0.007,0.0008,0.0474,-0.0023,0.705,0.7098,0.0034,0.011,0.0259,0.0005,0.42]);
 var baseFireSound = [0,,0.12,0.14,0.3,0.8,,-0.3399,0.04,,,-0.04,,0.51,-0.02,,-0.74,,0.21,0.24,,,0.02,0.41];
 var fireSounds = mutates(baseFireSound, 6);
 var totemAppears = audio([1,,0.38,,0.03,0.03,,0.8799,0.96,0.9411,0.9785,-0.9219,0.82,0.7513,0.6049,0.8,-0.6041,-0.8402,0.28,0.7,0.78,0.1423,-0.7585,0.5]);
@@ -1360,10 +1361,8 @@ var heroSpeedUp = audio([2,,0.09,0.06,0.45,0.27,0.02,-0.28,0.82,0.41,0.58,-0.88,
 var totemDestroyed = audio([3,0.002,0.6302,0.499,0.0804,0.5224,,-0.0324,0.0004,0.5448,,-0.7762,-0.1765,0.6762,-0.4386,0.7747,-0.0347,-0.2051,0.931,-0.0732,0.4693,0.1444,,0.42]);
 var heroDie = audio([1,0.145,0.2094,0.4645,0.4954,0.7134,,-0.1659,-0.8866,0.9733,,-0.572,-0.7927,-0.1186,0.4699,0.6044,0.4604,0.1762,0.9998,0.0236,0.1554,,0.659,0.42]);
 var glitchStop = audio([1,0.0076,0.66,,,0.09,,0.96,0.32,0.1,0.97,-1,,0.0615,-0.1587,1,,-0.02,0.83,0.12,0.23,0.0231,-0.02,0.96]);
-
 var baseEnemyHit = [3,0.0691,0.183,0.0949,0.5678,0.46,,-0.0001,,,,-0.542,-0.2106,-0.2402,-0.1594,,-0.3133,-0.0707,0.1592,-0.4479,0.5788,0.0169,-0.919,0.42];
 var hitSounds = mutates(baseEnemyHit,8)
-
 var spatialhashing,mapSize,tileset,gameOver,frame,mapPixels,map,slowMotion,viewPort,enemies,hero,heroShape,bullets,particles,message,particleZ,score,glitchTime,GLITCHS,glitchStoped,triggers,bigKiller,times,newRecord;
 function init(){
   spatialhashing = {},
@@ -1499,6 +1498,9 @@ function init(){
   if(buttons&&buttons[1])buttons[1][3] = false;
   if(buttons&&buttons[2])buttons[2][3] = false;
   newRecord = false;
+  play(gameStarts);
+  var tempDuration = Math.random()*10+5;
+  GLITCHS=[tempDuration,tempDuration,tempDuration,tempDuration,tempDuration,tempDuration,0];
 }
 init();
 function checkRecord(){
@@ -1522,28 +1524,23 @@ function shareTwitter(){
   window.open('https://twitter.com/home?status='+link);
 }
 function shareFacebook(){
-  uploadImgr();
   var link = encodeURIComponent(locationref)+'&description='+encodeURIComponent(baseMessage());
   window.open('https://www.facebook.com/sharer/sharer.php?u='+link);
 }
-
-function uploadImgr(){
-  authorization = 'Client-ID d65571b4543e280';
-
-  var r = new XMLHttpRequest();
-  r.open("POST", "https://api.imgur.com/3/image", true);
-  r.setRequestHeader('Authorization',authorization);
-  r.setRequestHeader('Accept','application/json')
-  r.onreadystatechange = function () {
-    if (r.readyState != 4 || r.status != 200) return;
-    alert("Success: " + r.responseText);
-  };
-  var data = JSON.stringify({image: c.toDataURL().replace("data:image/png;base64,", ""), type:'base64'});
-  r.send(data);
-  //window.location = 'https://imgur.com/gallery/' + id;
+var fullscreen = false;
+function toggleFullscreen(evt){
+  if (document.fullscreenEnabled) {
+    fullscreen?document.exitFullscreen():document.body.requestFullscreen();
+  } else if (document['webkitFullscreenEnabled']) {
+    fullscreen?document.webkitExitFullscreen():document.body.webkitRequestFullscreen();
+  } else if (document.mozFullScreenEnabled) {
+    fullscreen?document.mozCancelFullScreen():document.body.mozRequestFullScreen();
+  }
+  fullscreen=!fullscreen;
+  evt.preventDefault();
 }
-// x, y, width, visible, color, message, clicked, hover, action 
-var buttons = [[240,320,300, false, '#F66', 'start again',false, false, init],
+document.getElementById('f').onclick=toggleFullscreen;// x, y, width, visible, color, message, clicked, hover, action 
+var buttons = [[250,320,300, false, '#F66', 'start again',false, false, init],
                [120,460,250, false, '#69F', 'twitter',false, false, shareTwitter],
                [430,460,250, false, '#32F', 'facebook',false, false, shareFacebook]];
 function drawButtons(){
@@ -1833,14 +1830,13 @@ function randomSign(){
 
 function drawEnemy(enemy){
   if(enemy[0]+viewPort[0]<20||enemy[0]+viewPort[0]>W-20||enemy[1]+viewPort[1]<20||enemy[1]+viewPort[1]>H-20) return;
-  //ctx.rotate(enemy[2]);  
   var offsetX = enemy[0]+viewPort[0]+shakeScreen[0]+randomSign()*enemy[4]/40; // 20 /2 width/2
   var offsetY = enemy[1]+viewPort[1]+shakeScreen[1]+randomSign()*enemy[4]/40; //
   ctx.translate(offsetX, offsetY)
   ctx.beginPath();
-  if(enemy[5]<10){ 
-    ctx.strokeStyle = 'hsla('+enemy[5]*36+',50%,70%,0.6)';
-    ctx.lineWidth = 3;
+  if(enemy[5]<10){
+    ctx.strokeStyle = 'hsla('+enemy[5]*36+',50%,60%,0.8)';
+    ctx.lineWidth = 2;
     pathEnemy(enemy);
   }else if(enemy[5]==14){
     drawFlowerOfLife(enemy);
@@ -2071,24 +2067,28 @@ function playerUdate(dt){
   }
   if(keyMap&keys[65]){
     hero[0]-=speed;
-    if(hero[0]<hero[2]) hero[0] = hero[2]; // hero limit on x left
+    if(hero[0]<hero[2]) hero[0] = hero[2]; // hero limit on x left 
     if(hero[0]>viewPort[2]&&hero[0]<mapPixels-viewPort[2]) viewPort[0]+=speed;
+    if(viewPort[0]>32)viewPort[0]=32;
   } 
   if(keyMap&keys[87]){
     hero[1]-=speed;
     if(hero[1]<hero[2]) hero[1] = hero[2];
     if(hero[1]>viewPort[3]&&hero[1]<mapPixels-viewPort[3]) viewPort[1]+=speed;
+    if(viewPort[1]>27)viewPort[1]=27;
   }
 
   if(keyMap&keys[83]){
     hero[1]+=speed;
     if(hero[1]>mapPixels - hero[2]) hero[1] = mapPixels - hero[2];
     if(hero[1]>viewPort[3]&&hero[1]<mapPixels-viewPort[3]) viewPort[1]-=speed;
+    if(viewPort[1]<-272)viewPort[1]=-272;
   }
   if(keyMap&keys[68]){
     hero[0]+=speed;
     if(hero[0]>mapPixels - hero[2]) hero[0] = mapPixels - hero[2];
     if(hero[0]>viewPort[2]&&hero[0]<mapPixels-viewPort[2]) viewPort[0]-=speed;
+    if(viewPort[0]<-67)viewPort[0]=-67;
   }
 
   hero[3] = getAngle([hero[0]+viewPort[0], hero[1]+viewPort[1]], coords);
