@@ -14,6 +14,7 @@ function die(killer){
   buttons[0][3] = true;
   t = dt*30;
   checkRecord();
+  frame=0;
 }
 
 function drawPointer(){
@@ -219,7 +220,7 @@ function draw(t){
 
   // draw hero
   ctx.save();
-  ctx.translate(hero[0] + viewPort[0] +shakeScreen[0], hero[1] + viewPort[1]+ shakeScreen[1]);
+  ctx.translate(hero[0] + viewPort[0], hero[1] + viewPort[1]);
   ctx.rotate(hero[3]+Math.PI/2);
   // strokeWidth to 3
   setContextAtrribute(-1,2,2);
@@ -313,15 +314,32 @@ function loop(t){
   // update changes 
   if(splashScreen)updateSplash(dt);
   else if(GLITCHS[6]<0)update(dt);
+
+  if(splashScreen||gameOver){
+    switch(frame){
+      case 240:
+      case 280:
+      case 500:
+      randomGlitch();
+      play(openingGlitch);
+      break;
+      case 700:
+      frame=0;
+      break;
+    }
+  }
+
   //update buttons
   updateButtons();
 
   // draw changes 
   ctx.save();
   // draw game
-  if(splashScreen)drawSplash()
+  if(splashScreen)drawSplash();
+  else if(bannerScreen)drawBanner();
   else draw(dt);
-  // draw buttons
+
+  // draw buttons 
   drawPointer();
   ctx.save();
   drawButtons();
@@ -339,6 +357,10 @@ function loop(t){
   if(fade>0&&fade<1){
     setContextAtrribute(-1,1,'rgba(220,220,220,'+fade+')');
     ctx.fillRect(0,0,FW, FH);
+  }
+  bannerScreen = bannerCounter>0;
+  if(bannerScreen){
+    bannerCounter-=1;
   }
 
   ctx.restore();

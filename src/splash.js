@@ -70,13 +70,13 @@ function drawSplash(){
   ctx.stroke(); 
 
   if(controlHelp){ 
-    displayWord('move: awsd', 400, 231,12, [0]);
-    displayWord('left click to fire', 400, 270,12, [0]);
-    displayWord('right click to warp', 400, 310,12, [0]);
+    displayWord('move: awsd', 400, 231,12, [0,0]);
+    displayWord('left click to fire', 400, 270,12, [0,0]);
+    displayWord('right click to warp', 400, 310,12, [0,0]);
   }else{
-    displayWord('winners don\'t use drugs', 401, 50,9, [0]);
-    displayWord('devil', 400, 250-fade*50,20*(1+fade), [0]);
-    displayWord('glitches', 400, 310+fade*50,20*(1+fade), [0]);
+    displayWord('winners don\'t use drugs', 401, 50,9, [0,0]);
+    displayWord('devil', 400, 250-fade*50,20*(1+fade), [0,1,0]);
+    displayWord('glitches', 400, 310+fade*50,20*(1+fade), [0,1,0]);
   }
 
   displayWord('made by agar3s', 401, 520,9, [0,10]);
@@ -91,17 +91,6 @@ function updateSplash(){
   animationLine++;
   if(animationLine>distanceLine){
     animationLine=0;
-  }
-  switch(frame){
-    case 240:
-    case 280:
-    case 500:
-    randomGlitch();
-    play(openingGlitch);
-    break;
-    case 700:
-    frame=0;
-    break;
   }
 }
 

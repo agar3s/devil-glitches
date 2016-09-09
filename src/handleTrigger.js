@@ -63,7 +63,13 @@ function updateTrigger(){
         if(trigger[1]==138){trigger[0].stop();trigger[0].play()}
       break;
       case 5:
-        message = trigger[0]
+        message = trigger[0];
+      break;
+      case 6:
+        GLITCHS[6]=30;
+        bannerCounter=30;
+        glitchTime = 10;
+        bannerMessage = trigger[0];
       break;
     }
 

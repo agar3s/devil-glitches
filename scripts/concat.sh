@@ -42,6 +42,7 @@ cat src/music.js
 cat src/sounds.js
 cat src/gameState.js
 cat src/splash.js
+cat src/banner.js
 cat src/controllers.js
 cat src/buttons.js
 cat src/handleTrigger.js
