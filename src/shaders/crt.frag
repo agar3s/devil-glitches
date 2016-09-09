@@ -1,22 +1,23 @@
 precision highp float;
-
-uniform sampler2D t;
 uniform vec2 dim;
+uniform sampler2D tex;
 varying vec2 uv;
+uniform float time;
+uniform vec3 colors;
 
 void main() {
     vec2 coord = uv * dim;
-    coord -= dim/2.0;
+    coord -= dim/2.;
     float dis = length(coord);
-    if (dis < 600.0) {
-        float percent = dis / 600.0;
-        coord *= mix(1.0, smoothstep(0.0, 600.0 / dis, percent), 0.125);
+    if (dis < 600.) {
+        float percent = dis / 600.;
+        coord *= mix(1., smoothstep(0.0, 600. / dis, percent), .125);
     }
-    coord += dim/2.0;
-    vec4 color = texture2D(t, coord / dim);
+    coord += dim/2.;
+    vec4 color = texture2D(tex, coord / dim);
 
-    float dist = distance(uv, vec2(0.5, 0.5));
-    color.rgb *= smoothstep(0.8, 0.35 * 0.799, dist);
+    float dist = distance(uv, vec2(.5, .5));
+    color.rgb *= smoothstep(.8, .35 * .8, dist);
 
     gl_FragColor = color;
 

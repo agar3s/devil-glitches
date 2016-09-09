@@ -8,7 +8,6 @@ function glCreateShader (vert, frag) {
   gl.shaderSource(handle, src);
   gl.compileShader(handle);
   var vertex = handle;
-
   if (DEBUG) {
     if (!gl.getShaderParameter(handle, gl.COMPILE_STATUS))
       throw gl.getShaderInfoLog(handle);

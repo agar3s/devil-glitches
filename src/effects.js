@@ -2,54 +2,34 @@
 * original script from @gre
 * https://github.com/gre/behind-asteroids/blob/master/src/effects.sh
 */
+
+function setFrameBuffer(param1, param2, shader,time,colors){
+  glBindFBO(param1);
+  glBindShader(shader);
+  gl.uniform1i(glUniformLocation(shader, 'tex'), glBindTexture(param2, 0));
+  if(time!=undefined){
+    gl.uniform1f(glUniformLocation(shader, 'time'), time);
+  }
+  if(colors){
+    gl.uniform3fv(glUniformLocation(shader, 'colors'),colors);
+  }
+  gl.drawArrays(gl.TRIANGLES, 0, 6);  
+}
 function drawPostProcessing (time) {
   glSetTexture(textureGame, g);
   glitchTime--;
   for (var i = 0; i < GLITCHS.length; i++){GLITCHS[i]--;}
 
-  glBindFBO(fbo1);
-  glBindShader(badColorShader);
-  gl.uniform1i(glUniformLocation(badColorShader, 't'), glBindTexture(textureGame, 0));
-  gl.uniform1f(glUniformLocation(badColorShader, 'time'), (frame/60)%180);
-  gl.uniform3fv(glUniformLocation(badColorShader, 'colors'), [(glitchTime+1>0||GLITCHS[0]>0)?1:0,(glitchTime+2>0||GLITCHS[1]>0)?1:0,(glitchTime>0||GLITCHS[2]>0)?1:0]);
-  gl.drawArrays(gl.TRIANGLES, 0, 6);
+  setFrameBuffer(fbo1,textureGame, badColorShader, (frame/60)%180, [(glitchTime+1>0||GLITCHS[0]>0)?1:0,(glitchTime+2>0||GLITCHS[1]>0)?1:0,(glitchTime>0||GLITCHS[2]>0)?1:0]);
+  setFrameBuffer(fbo2,glGetFBOTexture(fbo1), cutShader, (glitchTime>0||GLITCHS[3]>0)?15:0);
 
-  glBindFBO(fbo2);
-  glBindShader(cutShader); 
-  gl.uniform1i(glUniformLocation(cutShader, 't'), glBindTexture(glGetFBOTexture(fbo1), 0));
-  gl.uniform1f(glUniformLocation(cutShader, 'time'), (glitchTime>0||GLITCHS[3]>0)?15:0); // instantes cortos 
-  gl.drawArrays(gl.TRIANGLES, 0, 6);
-
-  glBindFBO(fbo1);
-  glBindShader(twistShader);
-  gl.uniform1i(glUniformLocation(twistShader, 't'), glBindTexture(glGetFBOTexture(fbo2), 0));
-  gl.uniform1f(glUniformLocation(twistShader, 'time'), (glitchTime+1>0||GLITCHS[4]>0)?1:0); // instantes cortos 
-  gl.drawArrays(gl.TRIANGLES, 0, 6);
-
-// swell for effects
-  glBindFBO(fbo2);
-  glBindShader(swellShader);
-  gl.uniform1i(glUniformLocation(swellShader, 'tex'), glBindTexture(glGetFBOTexture(fbo1), 0));
-  gl.uniform1f(glUniformLocation(swellShader, 'rand'), -0.5); // instantes cortos
-  gl.drawArrays(gl.TRIANGLES, 0, 6);
-//
-  glBindFBO(fbo1);
-  glBindShader(slitShader);
-  gl.uniform1i(glUniformLocation(slitShader, 't'), glBindTexture(glGetFBOTexture(fbo2), 0));
-  gl.uniform1f(glUniformLocation(slitShader, 'slit_h'), (glitchTime>0||GLITCHS[5]>0)?9:1); //instantes cortos
-  gl.drawArrays(gl.TRIANGLES, 0, 6);
-
-  // glow 
-  glBindFBO(fbo2);
-  glBindShader(glowShader);
-  gl.uniform1i(glUniformLocation(glowShader, 't'), glBindTexture(glGetFBOTexture(fbo1), 0));
-  gl.uniform1f(glUniformLocation(glowShader, 'time'), (frame));
-  gl.drawArrays(gl.TRIANGLES, 0, 6);
-
-  glBindFBO(fbo1);
-  glBindShader(crtShader);
-  gl.uniform1i(glUniformLocation(crtShader, 't'), glBindTexture(glGetFBOTexture(fbo2), 0));
-  gl.drawArrays(gl.TRIANGLES, 0, 6);
+  setFrameBuffer(fbo1, glGetFBOTexture(fbo2), twistShader, (glitchTime+1>0||GLITCHS[4]>0)?1:0);
+  // swell free for effects
+  setFrameBuffer(fbo2, glGetFBOTexture(fbo1), swellShader);
+  setFrameBuffer(fbo1, glGetFBOTexture(fbo2),slitShader, (glitchTime>0||GLITCHS[5]>0)?9:1)
+  // glow
+  setFrameBuffer(fbo2, glGetFBOTexture(fbo1), glowShader, frame);
+  setFrameBuffer(fbo1,glGetFBOTexture(fbo2), crtShader);
 
  
   // Final draw

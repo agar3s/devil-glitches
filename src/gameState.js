@@ -31,23 +31,23 @@ function init(){
   glitchStoped = false,
   triggers = {
     /*
-  4000:[0,11.5*tileset,11.5*tileset,9], 
-  1100000:[0,12.5*tileset,6.5*tileset,6],
+  4000:[0,11,11,9], 
+  1100000:[0,12,6,6],
   */
-    //1st wave
+    //1st wave 
     500:[1,sequence4],
-    2500:[0,10.5*tileset,5.5*tileset,10],
+    2500:[0,10,5,10],
     //2st wave
     8999:[5,'what are you doing?'],
     10500:[1,sequence3],
-    11000:[0,5.5*tileset,5.5*tileset,10],
-    18000:[0,15.5*tileset,15.5*tileset,10],
+    11000:[0,5,5,10],
+    18000:[0,15,15,10],
     18001:[5,''],
-    25000:[0,15.5*tileset,5.5*tileset,10],
-    31000:[0,5.5*tileset,15.5*tileset,10],
-    37000:[0,10.5*tileset,11.5*tileset,11],
+    25000:[0,15,5,10],
+    31000:[0,5,15,10],
+    37000:[0,10,11,11],
     37500:[1,sequence1],
-    46000:[5,'you can\'t stop us!'],
+    46000:[5,'are you trying to stop us?'],
     // some broken in the matrix
     48500:[2, 10,0,0,0,10,10,10],
     49000:[2, 10,10,10,15,10,20,10],
@@ -60,53 +60,57 @@ function init(){
     51002:[4, sequence4, 138],
     51003:[5,'we are perfect!'],
     //3st wave
-    52000:[0,4.5*tileset,10.5*tileset,11],
-    53000:[0,14.5*tileset,10.5*tileset,10],
+    52000:[0,4,10,11],
+    53000:[0,14,10,10],
     55550:[5,''],
-    61000:[0,10.5*tileset,16.5*tileset,11],
-    63000:[0,10.5*tileset,6.5*tileset,10],
-    70000:[0,16.5*tileset,10.5*tileset,11],
-    72000:[0,6.5*tileset,10.5*tileset,10],
-    78000:[0,10.5*tileset,4.5*tileset,11],
+    61000:[0,10,16,11],
+    63000:[0,10,6,10],
+    70000:[0,16,10,11],
+    72000:[0,6,10,10],
+    78000:[0,10,4,11],
     // some cool effect for the summon in the middle 
     88501:[2, 1000,0,0,0,0,0,10],
-    92000:[0,10.5*tileset,9.5*tileset,12],
+    92000:[0,10,9,12],
     92500:[1,sequence2],
    108050:[5,'do you think we are an error?'],
    112050:[5,'you are a glitch!'],
     // some cool effect
     //4st wave 
-   115000:[0,10.5*tileset, 1.5*tileset,12],
-   120050:[5,''],
-   121000:[0,1.5*tileset, 10.5*tileset,12],
-   126000:[0,19.5*tileset, 10.5*tileset,12],
-   131000:[0,10.5*tileset, 19.5*tileset,12],
+   114950:[5,'and we will purge you!'],
+   115000:[0,10, 1,12],
+   118050:[5,''],
+   121000:[0,1, 10,12],
+   126000:[0,19, 10,12],
+   131000:[0,10, 19,12],
     // some cool effect
-   154499:[5,'your limited dimension...'],
+   154499:[5,'stop this nonsense!'],
    160001:[2, 100,100,50,20,20,100,10],
-   160500:[5,'is just a plane'],
+   160500:[5,'you\'re corrupting our sacred space'],
     //5st wave
-   164600:[0,10.5*tileset,15.5*tileset,10],
-   164601:[0,12.5*tileset,16.5*tileset,10],
-   164602:[0,12.5*tileset,18.5*tileset,10],
-   164603:[0,10.5*tileset,19.5*tileset,10],
-   164604:[0,8.5*tileset,18.5*tileset,10],
-   164605:[0,8.5*tileset,16.5*tileset,10],
-   180000:[0,10.5*tileset,17.5*tileset,13],//3
+   164600:[0,10,15,10],
+   164601:[0,12,16,10],
+   164602:[0,12,18,10],
+   164603:[0,10,19,10],
+   164604:[0,8,18,10],
+   164605:[0,8,16,10],
+   180000:[0,10,17,13],//3
+   205000:[5,'stop'],
+   205000:[5,'stop'],
+   206000:[5,'now'],
    //6th wave
-   210000:[0,10.5*tileset,10.5*tileset,14],
+   210000:[0,10,10,14],
     // summon
-  1100000:[0,12.5*tileset,6.5*tileset,10],
-    //200000:[15.5*tileset, 6.5*tileset,11]   
+  1100000:[0,12,6,10],
+    //200000:[15, 6,11]   
   /**/
   },
   bigKiller = undefined,  // reference for enemy followers
   // triggers = {
-  //  1000:[11.5*tileset,6.5*tileset,10], 
-  //  10000:[5.5*tileset,5.5*tileset,6],
-  //  18000:[16.5*tileset,16.5*tileset,6],
-  //  25000:[16.5*tileset,5.5*tileset,6],
-  //  31000:[5.5*tileset,16.5*tileset,6]
+  //  1000:[11,6,10], 
+  //  10000:[5,5,6],
+  //  18000:[16,16,6],
+  //  25000:[16,5,6],
+  //  31000:[5,16,6]
   // },
   times=Object.keys(triggers).map(function(element){return parseInt(element)});
 

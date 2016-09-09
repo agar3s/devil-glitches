@@ -15,3 +15,5 @@ compressed size: 12674bytes 12.37Kb 95.21%
 compressed size: 12701bytes 12.41kb 95.41%
 3rd change strokeStyle for custom function with indexes
 compressed size: 12695bytes 12.40kb 95.37%
+4th change compress image postprocessing
+compressed size: 12592bytes 12.30kb 94.60%

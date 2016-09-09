@@ -1,14 +1,15 @@
-precision mediump float;
+precision highp float;
 uniform vec2 dim;
-uniform sampler2D t;
+uniform sampler2D tex;
 varying vec2 uv;
-uniform float slit_h;
+uniform float time;
+uniform vec3 colors;
 
 // SlitScanFilter
-// play with slit_h
-void main (void){
+// play with time
+void main (){
    vec2 pos = uv * dim;
-   vec2 texCoord = vec2(3.0+floor(pos.x/slit_h)*slit_h ,pos.y);
-   vec4 col = texture2D(t, texCoord / dim);
+   vec2 texCoord = vec2(3.+floor(pos.x/time)*time ,pos.y);
+   vec4 col = texture2D(tex, texCoord / dim);
    gl_FragColor.rgba = col.rgba;
 } 

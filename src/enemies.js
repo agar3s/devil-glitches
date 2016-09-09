@@ -30,8 +30,8 @@ var necronomicon = [
 //prism solid 
 [tileset*0.8, 0, 0, 12, 15, [[-0.5,0,0.5,0],[-0.5,0,0],[0.5,0,0],[-0.5,0,0],[0.5,0,0]], [[-0.75,-1,-0.75,-0.5],[-0.75,-0.5,0.25],[-0.75,-0.5,0.25],[-0.75,-1.75,-0.5],[-0.75,-1.75,-0.5]], 0.9, 0,4,0.004],
 // st
-[tileset*1.2, 0, 0, 13, 30, [[0,-0.75,0],[0,0.75,0],[-0.75,0.75,0],[-0.75,0.75,0],[-0.35,0.35,0]], [[-1,0.5,0],[-1,0.5,0],[0.5,0.5,0],[-0.5,-0.5,1],[0.25,0.25,-0.5]], 0.9, 0,13,0.1],
-// flower of fucking life - summon counter=13
+[tileset*1.2, 0, 0, 13, 50, [[0,-0.75,0],[0,0.75,0],[-0.75,0.75,0],[-0.75,0.75,0],[-0.35,0.35,0]], [[-1,0.5,0],[-1,0.5,0],[0.5,0.5,0],[-0.5,-0.5,1],[0.25,0.25,-0.5]], 0.9, 0,13,0.1],
+// flower of fucking life - summon counter=13 
 [tileset*2.5, 0, 0, 14, 200, [], [], 0.9, 0,60,0.003, 1,0,[6,7,6,7,8]]
 ];
 
@@ -201,43 +201,16 @@ var spawns = {
       newEnemy[9] = enemy[3]+i*Math.PI;
       enemies.push(newEnemy);
     } 
-    enemy[9]=invocationTimes[12]; //crazy  0.3 
+    enemy[9]=invocationTimes[12]; //crazy  0.3
   },
   13: function(enemy){
     for (var i = 0; i < 6; i++) {
       var newEnemy = createEnemy([enemy[0],enemy[1], 5])
       newEnemy[9] = enemy[3]+(i-3)*Math.PI/3;
-      newEnemy[12]+=1.2;
+      newEnemy[12]+=0.5;
       enemies.push(newEnemy);
-    } 
-    //var newEnemy = createEnemy([enemy[0],enemy[1], 6])
-    //enemies.push(newEnemy); 
-    enemy[9]=100;
-    //enemy[9]=invocationTimes[12]; //crazy  0.3 
-/*    
-    if(enemy[6]>40){
-      for (var i = 0; i < 8; i++) {
-        var newEnemy = createEnemy([enemy[0],enemy[1], 5])
-        newEnemy[9] = ((~~(enemy[6]/10))%2==0?1:-1)*enemy[3]+(i-4)*Math.PI/4;
-        newEnemy[12] = 0.8;
-        enemies.push(newEnemy); 
-      }
-    }else if(enemy[6]>35){
-
-    }else if(enemy[6]>10){
-      var newEnemy = createEnemy([enemy[0],enemy[1], 5])
-      newEnemy[9] = getAngle(enemy, hero);
-      newEnemy[12] = 3;
-      enemies.push(newEnemy); 
-    }else{
-      summonGuardian(enemy, 0);
-      enemy[9]=120; //crazy  0.3
-      return;
     }
-
-    enemy[9]=32; //crazy  0.3 
-    //enemy[12]-=0.0003;
-*/
+    enemy[9]=45;
   },
   14:function(enemy){
     for (var i = 0; i < 6; i++) {
@@ -287,19 +260,6 @@ function updateEnemy(enemy,index){
     if(enemy[10]*(enemy[9]-enemy[3])>0){
       if(enemy[5]==2){//follower 
         enemy[3] = getAngle(enemy, bigKiller||[0,0]);
-      // }else if(enemy[5]==6&&enemy[6]%2==0){
-      //   var clone1 = enemy.slice();
-      //   clone1[2]= enemy[2]-2;
-      //   clone1[6]=enemy[6]-1;
-      //   clone1[12]+=0.1;
-      //   var clone2 = enemy.slice();
-      //   clone2[2]= enemy[2]-2;
-      //   clone2[12]+=0.1;
-      //   clone2[6]=enemy[6]-1;
-      //   enemies.push(clone1);
-      //   enemies.push(clone2);
-      //   enemies.splice(index, 1);
-      //   return;
       }else if(enemy[5]==4){
         enemy[3]+=enemy[9]+enemy[11];
       }else{

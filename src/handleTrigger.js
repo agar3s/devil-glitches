@@ -44,6 +44,8 @@ function updateTrigger(){
     var type = trigger.splice(0,1)[0];
     switch(type){
       case 0:
+        trigger[0]=(trigger[0]+0.5)*tileset;
+        trigger[1]=(trigger[1]+0.5)*tileset;
         scheduleSummon(trigger[0], trigger[1], 1, trigger);
       break;
       case 1:
