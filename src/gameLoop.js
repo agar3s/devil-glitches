@@ -4,9 +4,7 @@
 
 function die(killer){
   play(heroDie);
-  for (var h = -10; h < 10; h++) {
-    particles.push([hero[0], hero[1], getRandomValue(particleZ*h,hero[2]), 100]);
-  }
+  createParticles(hero[0], hero[1], hero[2], 10, 80,6);
   heroShape=[[], []]
   gameOver = true;
   sequence1.stop();
@@ -20,11 +18,13 @@ function die(killer){
 
 function drawPointer(){
   ctx.save();
+  ctx.beginPath();
   setContextAtrribute(-1,2,2);
   ctx.translate(coords[0], coords[1]);
   setContextAtrribute(4);
   ctx.translate(-10, -10);
   crossLine(10,0,20);
+  ctx.stroke();
   ctx.closePath();
   ctx.restore();
 }
@@ -103,10 +103,12 @@ function update(dt){
 
     var enemy = collideElements(bullet);
     if(enemy){
+      if(--enemy[6]>0){
+        createParticles(bullet[0], bullet[1], -bullet[3], 2,10,9);
+      }
       bullets.splice(i,1);
-      --enemy[6];
       enemy[4]=200
-      if(enemy[5]>5)
+      if(enemy[5]>9)
       play(hitSounds[~~(getRandomValue(hitSounds.length))]);
     }
   }
@@ -144,6 +146,12 @@ function path(xpts, ypts, size){
   ctx.lineTo(xpts[0]*size, ypts[0]*size);
 }
 
+function createParticles(x, y, angle, many, life, color){
+  for (var h = -many; h < many; h++) {
+    particles.push([x, y, getRandomValue(particleZ*h,angle), life||60, color]);
+  }
+}
+
 
 function draw(t){
   // draw map
@@ -163,16 +171,18 @@ function draw(t){
   ctx.fillRect(0, 0, mapPixels, mapPixels);
 
   setContextAtrribute(1);
+  ctx.beginPath();
   for(var i = 0; i <= mapSize; i++){
     for(var j = 0; j <4; j+=2){
       crossLine(i*tileset-0.5+j, 0, mapPixels);
     }
   }
+  ctx.stroke();
+  ctx.beginPath();
   setContextAtrribute(5);
   for(var i = 0; i <= mapSize; i++){
     crossLine(i*tileset+0.5, 0, mapPixels);
   }
-  ctx.closePath();
   ctx.stroke();
   ctx.restore();
 
@@ -245,13 +255,15 @@ function draw(t){
 
   //draw particles 
   ctx.save();
-  setRandomColor(125,50, 125,50,125,50,0,1);
+  //setRandomColor(125,50, 125,50,125,50,0,1);
+//  setContextAtrribute(1)
   for (var i = 0; i < particles.length; i++) {
     var particle = particles[i];
     if(particle[0]+viewPort[0]<5||particle[0]+viewPort[0]>W-5||particle[1]+viewPort[1]<5||particle[1]+viewPort[1]>H-5) continue
     ctx.beginPath();
-    setRandomColor(125,0, 125,100,125,100,0,particle[3]/100);
-    ctx.arc(particle[0]+viewPort[0], particle[1]+viewPort[1], 2, 0, 2 * Math.PI, false);
+    setContextAtrribute(particle[4],1);
+    //setRandomColor(125,particle[4], 125,particle[5],125,particle[6],0,particle[3]/100);
+    ctx.arc(particle[0]+viewPort[0]+shakeScreen[0], particle[1]+viewPort[1]+shakeScreen[1], 2, 0, 2 * Math.PI, false);
     ctx.closePath();
     ctx.fill();
   }

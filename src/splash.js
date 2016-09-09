@@ -4,10 +4,8 @@ var distanceLine = 30;
 var controlHelp = false;
 var fade = 0;
 function drawDiagonal(x, y, width, vertical, offset){
-  ctx.beginPath();
   ctx.moveTo(x,y);
   ctx.lineTo(x+(vertical?offset:width),y+(vertical?width:offset));
-  ctx.stroke(); 
 }
 function drawLine(x,y,width, vertical){
   drawDiagonal(x,y,width,vertical,0);
@@ -28,31 +26,48 @@ function drawSplash(){
   //
   var halfHeight = FH/2;
   var horizon = distanceLine*2;
+  ctx.beginPath();
   for (var i = 0; i < halfHeight/distanceLine; i++){
     var dis = easeInQuad(i*distanceLine+animationLine, halfHeight+horizon, halfHeight, halfHeight);
     setContextAtrribute(1);
     drawLine(0,dis+0.5,FW);
+  }
+  ctx.stroke(); 
+  ctx.beginPath();
+  for (var i = 0; i < halfHeight/distanceLine; i++){
+    var dis = easeInQuad(i*distanceLine+animationLine, halfHeight+horizon, halfHeight, halfHeight);
     setContextAtrribute(2);
     drawLine(0,FH-dis-0.5,FW);
   }
+  ctx.stroke(); 
   var limit = halfHeight-horizon;
   setContextAtrribute(2);
+  ctx.beginPath();
   drawLine(0,limit,FW)
   drawLine(FW/2,limit,-limit, true);
+  ctx.stroke(); 
 
   setContextAtrribute(1);
+  ctx.beginPath();
   drawLine(0,FH-limit,FW)
   drawLine(FW/2,FH-limit, limit, true);
+  ctx.stroke(); 
+  ctx.beginPath();
   for (var i = 1; i < FW/(distanceLine*2); i++) {
     var offset = i*i*5+25;
     setContextAtrribute(2);
     drawDiagonal(i*distanceLine+FW/2,limit,-limit,true,offset);
     drawDiagonal(-i*distanceLine+FW/2,limit,-limit,true,-offset);
-
+  }
+  ctx.stroke(); 
+  ctx.beginPath();
+  for (var i = 1; i < FW/(distanceLine*2); i++) {
+    var offset = i*i*5+25;
     setContextAtrribute(1);
     drawDiagonal(i*distanceLine+FW/2,FH-limit,limit,true,offset);
     drawDiagonal(-i*distanceLine+FW/2,FH-limit,limit,true,-offset);
   }
+  ctx.stroke(); 
 
   if(controlHelp){ 
     displayWord('move: awsd', 400, 231,12, [0]);

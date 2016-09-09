@@ -23,8 +23,13 @@ var colors = [
 '#90702F',//20 message color1
 '#D6AE45',//21 message color1,
 'rgba(0,0,0,0.71)',//22 darken
-'rgb(5,4,13,1)',//23 splash background
+'rgb(5,4,13,1)'//23 splash background
 ];
+//temp color for enemies 
+for (var i = 0; i < 14; i++) {
+  colors.push('hsla('+i*36+',50%,60%,0.8)');
+}
+
 function setContextAtrribute(index,attribute, custom){
   ctx[['strokeStyle','fillStyle','lineWidth'][attribute||0]] = custom||colors[index];
 }

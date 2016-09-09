@@ -160,7 +160,8 @@ function drawEnemy(enemy){
   ctx.translate(offsetX, offsetY);
   ctx.beginPath();
   if(enemy[5]<10){
-    setContextAtrribute(-1,0,'hsla('+enemy[5]*36+',50%,60%,0.8)');
+    setContextAtrribute(enemy[5]+24);//temporal
+    //setContextAtrribute(-1,0,'hsla('+enemy[5]*36+',50%,60%,0.8)');
     setContextAtrribute(-1,2,2);
     pathEnemy(enemy);
   }else if(enemy[5]==14){
@@ -243,12 +244,10 @@ function updateEnemy(enemy,index){
   if(enemy[6]<=0){
     enemies.splice(index,1);
     if(enemy[5]==5) return;
-    for (var h = -10; h < 10; h++) {
-      particles.push([enemy[0], enemy[1], getRandomValue(particleZ*h,enemy[2]), 100]);
-    }
+    createParticles(enemy[0], enemy[1], enemy[2], necronomicon[enemy[5]][0],necronomicon[enemy[5]][0]*2,enemy[5]+24);
     if(enemy[5]>9){
       removeCorruption(enemy[0], enemy[1], enemy[10]);
-      totemDieShakes = 5;
+      totemDieShakes=4;
       play(totemDestroyed);
     }else{
       play(enemyDie);
