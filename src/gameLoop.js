@@ -120,6 +120,7 @@ function update(dt){
   }
 
   // update enemies 
+  if(totemDieShakes>0)totemDieShakes-=0.1;
   spatialhashing = {};
   for (var i = enemies.length-1; i >=0; i--) {
     updateEnemy(enemies[i], i);
@@ -152,11 +153,11 @@ function draw(t){
   setRandomColor(180,0, 185,0,185,0,0,1);
   for(var i=0;i<6;i++) ctx.fillRect(getRandomValue(800), getRandomValue(600), 2, 2)
   
-  // draw map
+  // draw map 
   ctx.save()
   var gridSize = H/mapSize
   ctx.beginPath();
-  shakeScreen = !gameOver?[shake(coords[2], 2), shake(coords[2], 2)]:[0,0];
+  shakeScreen = !gameOver?[shake(coords[2]||totemDieShakes>0, totemDieShakes+2), shake(coords[2]||totemDieShakes>0, totemDieShakes+2)]:[0,0];
   setContextAtrribute(-1,1,'rgba(15,12,40,'+ (0.2-(hero[8]>0?0.1:0)) +')');
   ctx.translate(viewPort[0]+shakeScreen[0], viewPort[1]+shakeScreen[1]);
   ctx.fillRect(0, 0, mapPixels, mapPixels);
@@ -169,7 +170,7 @@ function draw(t){
   }
   setContextAtrribute(5);
   for(var i = 0; i <= mapSize; i++){
-    crossLine(i*tileset-0.5, 0, mapPixels);
+    crossLine(i*tileset+0.5, 0, mapPixels);
   }
   ctx.closePath();
   ctx.stroke();
@@ -208,9 +209,11 @@ function draw(t){
 
   // draw hero
   ctx.save();
-  ctx.translate(hero[0] + viewPort[0] + shake(coords[2], 1), hero[1] + viewPort[1]+ shake(coords[2], 1));
+  ctx.translate(hero[0] + viewPort[0] +shakeScreen[0], hero[1] + viewPort[1]+ shakeScreen[1]);
   ctx.rotate(hero[3]+Math.PI/2);
-  setContextAtrribute(-1,2,3);
+  // strokeWidth to 3
+  setContextAtrribute(-1,2,2);
+  // strokeStyle to colors[6]
   setContextAtrribute(6);
   ctx.beginPath();
   path(heroShape[0], heroShape[1],hero[2]);

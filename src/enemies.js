@@ -42,6 +42,8 @@ var invocationTimes={
   13:200
 }
 
+var totemDieShakes = 0;
+
 function summonGuardian(enemy, j){
   var newEnemy = createEnemy([enemy[0]+Math.cos(Math.PI*j/3)*10,enemy[1]+Math.sin(Math.PI*j/3)*10, 4])
   newEnemy[13] = enemy;
@@ -153,8 +155,9 @@ function pathTotem(totem){
 function drawEnemy(enemy){
   if(enemy[0]+viewPort[0]<20||enemy[0]+viewPort[0]>W-20||enemy[1]+viewPort[1]<20||enemy[1]+viewPort[1]>H-20) return;
   var offsetX = enemy[0]+viewPort[0]+shakeScreen[0]+randomSign()*enemy[4]/40; // 20 /2 width/2
-  var offsetY = enemy[1]+viewPort[1]+shakeScreen[1]+randomSign()*enemy[4]/40; //
-  ctx.translate(offsetX, offsetY)
+  var value = (enemy[5]>9?Math.sin((frame/50)%(Math.PI*2))*5+5:0);
+  var offsetY = enemy[1]+viewPort[1]+shakeScreen[1]+randomSign()*enemy[4]/40-value;
+  ctx.translate(offsetX, offsetY);
   ctx.beginPath();
   if(enemy[5]<10){
     setContextAtrribute(-1,0,'hsla('+enemy[5]*36+',50%,60%,0.8)');
@@ -245,6 +248,7 @@ function updateEnemy(enemy,index){
     }
     if(enemy[5]>9){
       removeCorruption(enemy[0], enemy[1], enemy[10]);
+      totemDieShakes = 5;
       play(totemDestroyed);
     }else{
       play(enemyDie);
@@ -271,7 +275,7 @@ function updateEnemy(enemy,index){
     var otherEnemy = collideElements(enemy);
     if(enemy[5]==4){
       enemy[9] +=enemy[10]*t;
-    }else if(enemy[5]!=3||(otherEnemy&&otherEnemy[5]==3)){  // type 3 dont collide with followers and collide with himself
+    }else if(enemy[5]!=3||(otherEnemy&&otherEnemy[5]==3)){  //type 3 dont collide with followers and collide with himself
       enemy[9] +=(otherEnemy?-1:1)*enemy[10];
     }else{
       enemy[9] +=enemy[10];

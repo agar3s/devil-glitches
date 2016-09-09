@@ -17,3 +17,6 @@ compressed size: 12701bytes 12.41kb 95.41%
 compressed size: 12695bytes 12.40kb 95.37%
 4th change compress image postprocessing
 compressed size: 12592bytes 12.30kb 94.60%
+5th modify shaders
+compressed size: 12562bytes 12.27kb 94.37%
+compressed size: 12606bytes 12.27kb 94.37%

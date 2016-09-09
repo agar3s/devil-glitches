@@ -25,7 +25,7 @@ function drawSplash(){
   ctx.fillRect(0,0,FW, FH);
 
   setContextAtrribute(0);
-
+  //
   var halfHeight = FH/2;
   var horizon = distanceLine*2;
   for (var i = 0; i < halfHeight/distanceLine; i++){
@@ -60,8 +60,8 @@ function drawSplash(){
     displayWord('right click to warp', 400, 310,12, [0]);
   }else{
     displayWord('winners don\'t use drugs', 401, 50,9, [0]);
-    displayWord('devil', 400, 250,20, [0]);
-    displayWord('glitches', 400, 310,20, [0]);
+    displayWord('devil', 400, 250-fade*50,20*(1+fade), [0]);
+    displayWord('glitches', 400, 310+fade*50,20*(1+fade), [0]);
   }
 
   displayWord('made by agar3s', 401, 520,9, [0,10]);

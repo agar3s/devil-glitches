@@ -23,10 +23,11 @@ function drawSummons(){
   ctx.beginPath();
   for (var i = 0; i < summons.length; i++) {
     var summon=summons[i];
+    var enemyType = summon[4][2];
+    var size = necronomicon[enemyType][0];
     var percentage = easeOutQuad(summon[2], 1, -1, summon[3]);
-    //var percentage = 1-summon[2]/summon[3];
     setContextAtrribute(-1,0,'rgba(38,82,255,'+percentage+')');
-    ctx.fillRect(summon[0]+viewPort[0]+shakeScreen[0]-percentage*tileset/2, summon[1]+viewPort[1]+shakeScreen[1]-percentage*tileset/2, percentage*tileset, percentage*tileset);
+    ctx.fillRect(summon[0]+viewPort[0]+shakeScreen[0]-percentage*size, summon[1]+viewPort[1]+shakeScreen[1]-percentage*size, percentage*size*2, percentage*size*2);
   }
   ctx.closePath();
   ctx.fill();
