@@ -1551,7 +1551,7 @@ function drawSplash(){
   ctx.fillRect(0,0,FW, FH);
 
   setContextAtrribute(0);
-
+  //
   var halfHeight = FH/2;
   var horizon = distanceLine*2;
   for (var i = 0; i < halfHeight/distanceLine; i++){
@@ -1586,8 +1586,8 @@ function drawSplash(){
     displayWord('right click to warp', 400, 310,12, [0]);
   }else{
     displayWord('winners don\'t use drugs', 401, 50,9, [0]);
-    displayWord('devil', 400, 250,20, [0]);
-    displayWord('glitches', 400, 310,20, [0]);
+    displayWord('devil', 400, 250-fade*50,20*(1+fade), [0]);
+    displayWord('glitches', 400, 310+fade*50,20*(1+fade), [0]);
   }
 
   displayWord('made by agar3s', 401, 520,9, [0,10]);
@@ -1670,6 +1670,7 @@ function randomGlitch(){
 }
 
 function toggleControls(){
+  play(heroSpeedUp);
   controlHelp = !controlHelp;
   buttons[3][3] = !controlHelp;
   buttons[4][5] = controlHelp?'go back':'controls';
@@ -1733,10 +1734,11 @@ function drawSummons(){
   ctx.beginPath();
   for (var i = 0; i < summons.length; i++) {
     var summon=summons[i];
+    var enemyType = summon[4][2];
+    var size = necronomicon[enemyType][0];
     var percentage = easeOutQuad(summon[2], 1, -1, summon[3]);
-    //var percentage = 1-summon[2]/summon[3];
     setContextAtrribute(-1,0,'rgba(38,82,255,'+percentage+')');
-    ctx.fillRect(summon[0]+viewPort[0]+shakeScreen[0]-percentage*tileset/2, summon[1]+viewPort[1]+shakeScreen[1]-percentage*tileset/2, percentage*tileset, percentage*tileset);
+    ctx.fillRect(summon[0]+viewPort[0]+shakeScreen[0]-percentage*size, summon[1]+viewPort[1]+shakeScreen[1]-percentage*size, percentage*size*2, percentage*size*2);
   }
   ctx.closePath();
   ctx.fill();
@@ -1851,6 +1853,8 @@ var invocationTimes={
   13:200
 }
 
+var totemDieShakes = 0;
+
 function summonGuardian(enemy, j){
   var newEnemy = createEnemy([enemy[0]+Math.cos(Math.PI*j/3)*10,enemy[1]+Math.sin(Math.PI*j/3)*10, 4])
   newEnemy[13] = enemy;
@@ -1962,8 +1966,9 @@ function pathTotem(totem){
 function drawEnemy(enemy){
   if(enemy[0]+viewPort[0]<20||enemy[0]+viewPort[0]>W-20||enemy[1]+viewPort[1]<20||enemy[1]+viewPort[1]>H-20) return;
   var offsetX = enemy[0]+viewPort[0]+shakeScreen[0]+randomSign()*enemy[4]/40; // 20 /2 width/2
-  var offsetY = enemy[1]+viewPort[1]+shakeScreen[1]+randomSign()*enemy[4]/40; //
-  ctx.translate(offsetX, offsetY)
+  var value = (enemy[5]>9?Math.sin((frame/50)%(Math.PI*2))*5+5:0);
+  var offsetY = enemy[1]+viewPort[1]+shakeScreen[1]+randomSign()*enemy[4]/40-value;
+  ctx.translate(offsetX, offsetY);
   ctx.beginPath();
   if(enemy[5]<10){
     setContextAtrribute(-1,0,'hsla('+enemy[5]*36+',50%,60%,0.8)');
@@ -2054,6 +2059,7 @@ function updateEnemy(enemy,index){
     }
     if(enemy[5]>9){
       removeCorruption(enemy[0], enemy[1], enemy[10]);
+      totemDieShakes = 5;
       play(totemDestroyed);
     }else{
       play(enemyDie);
@@ -2080,7 +2086,7 @@ function updateEnemy(enemy,index){
     var otherEnemy = collideElements(enemy);
     if(enemy[5]==4){
       enemy[9] +=enemy[10]*t;
-    }else if(enemy[5]!=3||(otherEnemy&&otherEnemy[5]==3)){  // type 3 dont collide with followers and collide with himself
+    }else if(enemy[5]!=3||(otherEnemy&&otherEnemy[5]==3)){  //type 3 dont collide with followers and collide with himself
       enemy[9] +=(otherEnemy?-1:1)*enemy[10];
     }else{
       enemy[9] +=enemy[10];
@@ -2249,6 +2255,7 @@ function update(dt){
   }
 
   // update enemies 
+  if(totemDieShakes>0)totemDieShakes-=0.1;
   spatialhashing = {};
   for (var i = enemies.length-1; i >=0; i--) {
     updateEnemy(enemies[i], i);
@@ -2281,11 +2288,11 @@ function draw(t){
   setRandomColor(180,0, 185,0,185,0,0,1);
   for(var i=0;i<6;i++) ctx.fillRect(getRandomValue(800), getRandomValue(600), 2, 2)
   
-  // draw map
+  // draw map 
   ctx.save()
   var gridSize = H/mapSize
   ctx.beginPath();
-  shakeScreen = !gameOver?[shake(coords[2], 2), shake(coords[2], 2)]:[0,0];
+  shakeScreen = !gameOver?[shake(coords[2]||totemDieShakes>0, totemDieShakes+2), shake(coords[2]||totemDieShakes>0, totemDieShakes+2)]:[0,0];
   setContextAtrribute(-1,1,'rgba(15,12,40,'+ (0.2-(hero[8]>0?0.1:0)) +')');
   ctx.translate(viewPort[0]+shakeScreen[0], viewPort[1]+shakeScreen[1]);
   ctx.fillRect(0, 0, mapPixels, mapPixels);
@@ -2298,7 +2305,7 @@ function draw(t){
   }
   setContextAtrribute(5);
   for(var i = 0; i <= mapSize; i++){
-    crossLine(i*tileset-0.5, 0, mapPixels);
+    crossLine(i*tileset+0.5, 0, mapPixels);
   }
   ctx.closePath();
   ctx.stroke();
@@ -2337,9 +2344,11 @@ function draw(t){
 
   // draw hero
   ctx.save();
-  ctx.translate(hero[0] + viewPort[0] + shake(coords[2], 1), hero[1] + viewPort[1]+ shake(coords[2], 1));
+  ctx.translate(hero[0] + viewPort[0] +shakeScreen[0], hero[1] + viewPort[1]+ shakeScreen[1]);
   ctx.rotate(hero[3]+Math.PI/2);
-  setContextAtrribute(-1,2,3);
+  // strokeWidth to 3
+  setContextAtrribute(-1,2,2);
+  // strokeStyle to colors[6]
   setContextAtrribute(6);
   ctx.beginPath();
   path(heroShape[0], heroShape[1],hero[2]);
