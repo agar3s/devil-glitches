@@ -8,7 +8,7 @@ var colors = [
 'rgba(0,77,153,0.6)',//5 soft  white line to glow 
 'rgb(72,255,206)',//6 hero
 'rgba(0,0,0,0.1)',//7f screen cleaner
-'rgba(21,24,21,0.2)',// 8f corruption background
+'rgba(7,8,12,0.2)',// 8f corruption background
 'rgb(40,145,160)',//9f bullet color
 '#F66', //10 button start again
 '#69F', //11 button twitter
@@ -23,7 +23,7 @@ var colors = [
 '#000',//20 message color1 
 '#973',//21 message color1,
 'rgba(0,0,0,0.71)',//22 darken
-'rgb(5,6,10)',//23 splash background
+'rgb(2,1,2)',//23 splash background
 'rgba(255,102,192,0.8)',//24 enemy 1
 'rgba(255,102,102,0.8)',//25 enemy 2
 //'rgba(235,118,71,0.8)',//25 enemy 2

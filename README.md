@@ -7,6 +7,6 @@ building system
 processing and rendering shaders
 
 
-compressed size: 12339bytes 12.05Kb 92.69%
+compressed size: 12325bytes 12.04Kb 92.59%
 
-.\advzip.exe -z -4 -i 10000 .\target.zip
+.\advzip.exe -z -4 -i 1000 .\target.zip

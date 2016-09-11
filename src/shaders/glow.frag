@@ -39,7 +39,7 @@ void main (){
    vec2 pos2 = uv*sin(time);
    float r = fract(sin(dot(pos2.xy ,vec2(12.,78.))) * 43758.);
    vec3 noise = vec3(r);
-   col.rgb = mix(col.rgb, noise, .08);
+   col.rgb = mix(col.rgb, noise, .015);
 
 
 

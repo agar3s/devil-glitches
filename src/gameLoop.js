@@ -167,7 +167,7 @@ function draw(t){
   var gridSize = H/mapSize
   ctx.beginPath();
   shakeScreen = !gameOver?[shake(coords[2]||totemDieShakes>0, totemDieShakes+2), shake(coords[2]||totemDieShakes>0, totemDieShakes+2)]:[0,0];
-  setContextAtrribute(-1,1,'rgba(21,24,41,'+ (0.2-(hero[8]>0?0.1:0)) +')');
+  setContextAtrribute(-1,1,'rgba(7,8,12,'+ (0.2-(hero[8]>0?0.1:0)) +')');
   ctx.translate(viewPort[0]+shakeScreen[0], viewPort[1]+shakeScreen[1]);
   ctx.fillRect(0, 0, mapPixels, mapPixels);
 

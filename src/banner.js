@@ -3,7 +3,7 @@ var bannerMessage;
 var bannerCounter = 0;
 
 function drawBanner(){
-  var widthSequence = [8,8,8,8,8,8,8,8,8,8,8,8];
+  var widthSequence = [38,38,38,38,38,38,38,38,38,38,38,38];
   ctx.save();
   ctx.beginPath();
   setContextAtrribute(2,1);
