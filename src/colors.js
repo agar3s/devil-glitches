@@ -20,8 +20,8 @@ var colors = [
 '#559',  //17 enemy stroke charging,
 '#F6F', //18 colors glow ,
 '#2F2', //19 score color,
-'#90702F',//20 message color1
-'#D6AE45',//21 message color1,
+'#000',//20 message color1 
+'#973',//21 message color1,
 'rgba(0,0,0,0.71)',//22 darken
 'rgb(5,4,13,1)'//23 splash background
 ];

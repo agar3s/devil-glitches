@@ -272,7 +272,7 @@ function draw(t){
 
   // ui 
   ctx.save();
-  displayWord(message, 401, 501,14, [20,21]);
+  displayWord(message, 401, 501,14, [20,21,21]);
   //displayWord(viewPort[0]+' '+viewPort[1], 402, 100,14, '#D6AE45');
   if(gameOver){
     setContextAtrribute(22,1);

@@ -1,0 +1,86 @@
+todo
+----- efecto raro en el siguiente boss, aplicacion de filtermode en la textura
+	+--- technologic song from daft punk idea to make glitches
+	---- falta un summon bacano del ultimo enemigo... o algo como un fade o algo...
+!----- seleccionar colores para enemigos y ui
+	--- el enemigo bala se confunde con las balas de uno....
+el color de las particulas no me termina de convencer...
+
++--- glitch en gameover
+- Vería si hay alguna lib que pueda inclinar un poco la pantalla (que la angule un poco sobre el eje Z)
+----- sacar un listado de nombres y hacer un cuestionario
+-- mejorar beats y frequencia de la musica
+-- mejorar el sonido de explosion
+- soporte de gamepad por favorrrrrrrrrrrrrrrrr
+- save statitics
+
+----- server mode
+	-- multiplayer leaderboard
+	--- server para highscore global
+
++--- un ding de audio o un flash en el enemigo cuando le pegas para los que requieren mas de un disparo
++----- clickeable content // buttons
++---- highscore
++---- listado de record y current score,
++---- cuando new record share on twitter
++---- share highscore
+
++----- pantalla de inicio
+	+- hacer el logo con algo como: https://www.youtube.com/watch?v=y8brTm5aslo
+	+--- hacer un estilo para el intro
+	+-- shader para el intro: https://www.shadertoy.com/view/MslGWN
++---- incluí si o si un "fire to start"
++---- los controles sean dibujitos de como funcionan
+	--- dejar claro el warp space powerup
++!--- refactoring to reduce space
++----- summon animation proportional to the enemy size
++---- animar totems
++---- small particles when hit but not kill
++---- greater particles when enemy is harder
++---- when kill totem shakes screen harder
++-- animar summon con la silueta de lo que aparecera y con el tamanio de lo que aparecera //nop
++---- fullscreen
++---- enemigos de colores
++!---- imgr https://github.com/eirikb/gifie/commit/3ca5219deb272d8edf12dd0d5cdb830a25cdc27c
++---- client id d65571b4543e280
++---- click en vez de f5
++--- quizas darle un poco mas de tiempo a los summons...
++--- lso summons deberian tener el tamanio y ojala el shap del enemigo nop
++- use ease functions for blink//nop
+
++--- save last 6 frames before death and post to imgr
++!--- problemas de rendimiento en firefox?
++-- aviso webgl not available
++--- efecto vhs cuando este en el inicio o algo asi... // no se pudo
++- mejorar glow?
+
++-- mejorar los tiempos antes de empezar
++--- si podes poner un previo de un micro segundo atnes de que se muestra ayuda
++-- stop music on gameover
++-- reasignar posiciones de enemigos
++!---- summon warning
+	---- summon totem
+	-- summon enemy
++---- los guardians deben aparecer desde el centro.
++---- hit en enemy more notorio
++---- enemigo enjambre? // maybe not
++---- enemigo penultimo, movimiento y spawn
++---- enemigo ultimo, disenio y todo
++- Las letras glitcheadas en la pestaña es un detalle increible.
++- Cuando le disparo al triangulo no tiene feedback de si lo estoy dañando o no.
++- El score me parece raro pq suma todo el tiempo. Si es tiempo me copa tiempo, si es puntaje pq me lo gane por matar que sea puntaje.
++- La estetica me gustwwwa!
++- Ponele musica!
++- Hay un momento que parece que esta narrando algo donde no spawnean enemigos, es aburrido
++- Proba cambiandole el pitch rando a cada sonido de disparo para que no sea tan monotono
++- El sonido de la explosion de los enemigos es mas largo que el feedback visual.
++- El left button parece un slow motion mas que un speed up
++- me paso con uno que le disparaba, no hacia nada y pense que era un pick up
++- muy lindo el efecto de pantalla de tubo :slightly_smiling_face:
++- Me encanta la estetica! :clap: 
++- Musica ftw, te va a cambiar todo. 
++- En la version que probé recien no vendria mal un countdown o un poquito de preparacion antes de que se me vengan encima :stuck_out_tongue: Le agarro la mano igual despues de un par de veces, pero es medio abrupto.
++-- Me resulta medio incomodo que deje de disparar despues de mandar el slow `motion`.
++-- Para alguien que no desarrolla NADA en web, en que lo hiciste? Que usaste?
++-- Tambien estaria bueno tener un toque de anticipacion cuando los triangulos locos van a largar enemigos. Como un shake o algo asi. Esas cosas me ponen nervioso y suman.
++-- y en una me acerque mucho a un triangulo y me spawneo los bichos y fue un insta death

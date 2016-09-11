@@ -70,13 +70,13 @@ function drawSplash(){
   ctx.stroke(); 
 
   if(controlHelp){ 
-    displayWord('move: awsd', 400, 231,12, [0,0]);
-    displayWord('left click to fire', 400, 270,12, [0,0]);
-    displayWord('right click to warp', 400, 310,12, [0,0]);
+    displayWord('move             awsd', 400, 251,12, [0,0]);
+    displayWord('fire       left click', 400, 290,12, [0,0]);
+    displayWord('warptime  right click', 400, 330,12, [0,0]);
   }else{
     displayWord('winners don\'t use drugs', 401, 50,9, [0,0]);
-    displayWord('devil', 400, 250-fade*50,20*(1+fade), [0,1,0]);
-    displayWord('glitches', 400, 310+fade*50,20*(1+fade), [0,1,0]);
+    displayWord('evil glitch', 400, 270-fade*50,30*(1+fade), [0,1,0,1]);
+    //displayWord('glitch', 400, 310+fade*50,20*(1+fade), [0,1,0]); 
   }
 
   displayWord('made by agar3s', 401, 520,9, [0,10]);

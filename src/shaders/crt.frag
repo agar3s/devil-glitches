@@ -17,7 +17,7 @@ void main() {
     vec4 color = texture2D(tex, coord / dim);
 
     float dist = distance(uv, vec2(.5, .5));
-    color.rgb *= smoothstep(.8, .35 * .8, dist);
+    color.rgb *= smoothstep(.8, .2*.8, dist);
 
     gl_FragColor = color;
 
