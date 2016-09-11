@@ -271,24 +271,24 @@ function draw(t){
 
   // ui 
   ctx.save();
-  displayWord(message, 401, 501,14, [20,21,21]);
+  displayWord(message, 401, 501,14, [26,21,21]);
   //displayWord(viewPort[0]+' '+viewPort[1], 402, 100,14, '#D6AE45');
   if(gameOver){
     setContextAtrribute(22,1);
     ctx.fillRect(0,0,mapPixels, mapPixels);
     if(newRecord){
       displayWord('-new record-', 400, 240,22, [10,18]);
-      displayWord('-share it-', 400, 400,14, [18,18]);
+      displayWord('-share it-', 400, 400,14, [24,18]);
     }else{
       displayWord('game over', 400, 240,20, [0,13]);
     }
     displayWord(score.toFixed(0), 400, 160,newRecord?20:16, [0,19]);
   }else{
     //score 
-    displayWord(score.toFixed(0), 750, 60,18, [0,19],1);
+    displayWord(score.toFixed(0), 750, 60,18, [32,19],1);
     //record 
     var lrd = score>record?'record':record.toFixed(0);
-    displayWord(lrd, 750, 110,9, [10,0],1);
+    displayWord(lrd, 750, 110,9, [24,10],1);
   }
   ctx.restore();
 

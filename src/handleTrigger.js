@@ -19,15 +19,43 @@ function updateSummons(){
   }
 }
 
+function drawSummonBoss(x,y,percentage, size){
+  ctx.translate(x,y);
+  ctx.beginPath();
+  setContextAtrribute(-1,1,'rgba(210,0,0,0.9)')
+  ctx.arc(0,0,mapPixels*(1-percentage),0, Math.PI*2);
+  ctx.stroke();
+  ctx.fill();
+  ctx.beginPath();
+  setContextAtrribute(0);
+  if(percentage<0.3){
+    ctx.moveTo(-size*percentage/0.3,0);
+    ctx.lineTo(size*percentage/0.3,0);
+  }else{
+    setContextAtrribute(0,1);
+    ctx.bezierCurveTo(-size, 0, 0, -size*percentage/2, size, 0);
+    ctx.bezierCurveTo(size, 0, 0, size*percentage/2, -size, 0);
+    ctx.fill();
+  }
+  ctx.closePath();
+  ctx.translate(-x,-y);
+}
+
 function drawSummons(){
   ctx.beginPath();
   for (var i = 0; i < summons.length; i++) {
     var summon=summons[i];
     var enemyType = summon[4][2];
     var size = necronomicon[enemyType][0];
-    var percentage = easeOutQuad(summon[2], 1, -1, summon[3]);
+    var percentage = easeOutQuad(summon[2],1,-1, summon[3]);
+    var x = summon[0]+viewPort[0]+shakeScreen[0];
+    var y = summon[1]+viewPort[1]+shakeScreen[1];
+    if(enemyType==14){
+      drawSummonBoss(x, y,percentage, size);
+      continue
+    }
     setContextAtrribute(-1,0,'rgba(38,82,255,'+percentage+')');
-    ctx.fillRect(summon[0]+viewPort[0]+shakeScreen[0]-percentage*size, summon[1]+viewPort[1]+shakeScreen[1]-percentage*size, percentage*size*2, percentage*size*2);
+    ctx.fillRect(x-percentage*size, y-percentage*size, percentage*size*2, percentage*size*2);
   }
   ctx.closePath();
   ctx.fill();
@@ -35,6 +63,10 @@ function drawSummons(){
 }
 
 function scheduleSummon(x,y,time, element){
+  if(element[2]==14){
+    time *=2;
+    play(bossSummon);
+  }
   summons.push([x, y, time, time, element])
 }
 
@@ -70,6 +102,9 @@ function updateTrigger(){
         bannerCounter=30;
         glitchTime = 10;
         bannerMessage = trigger[0];
+      break;
+      case 7:
+        trigger[0].stop()
       break;
     }
 

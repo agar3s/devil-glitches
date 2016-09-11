@@ -24,9 +24,9 @@ function drawPostProcessing (time) {
   setFrameBuffer(fbo2,glGetFBOTexture(fbo1), cutShader, (glitchTime>0||GLITCHS[3]>0)?15:0);
 
   setFrameBuffer(fbo1, glGetFBOTexture(fbo2), twistShader, (glitchTime+1>0||GLITCHS[4]>0)?1:0);
-  // swell free for effects
-  setFrameBuffer(fbo2, glGetFBOTexture(fbo1), swellShader);
-  setFrameBuffer(fbo1, glGetFBOTexture(fbo2),slitShader, (glitchTime>0||GLITCHS[5]>0)?9:1)
+  // swell free for effects 
+  setFrameBuffer(fbo2, glGetFBOTexture(fbo1), swellShader, (GLITCHS[7]>0&&frame%3==0)?0:1);
+  setFrameBuffer(fbo1, glGetFBOTexture(fbo2),slitShader, (glitchTime>0||GLITCHS[5]>0)?9:1);
   // glow
   setFrameBuffer(fbo2, glGetFBOTexture(fbo1), glowShader, frame);
   setFrameBuffer(fbo1,glGetFBOTexture(fbo2), crtShader);

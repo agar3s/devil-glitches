@@ -123,7 +123,6 @@ function drawFlowerOfLife(enemy){
     ctx.moveTo(x*relativeSize*2,y*relativeSize*2);
     ctx.lineTo(relativeSize*2*flowerOfpoints[(i*2+2)%12],relativeSize*2*flowerOfpoints[(i*2+3)%12]);
     ctx.lineTo(relativeSize*2*flowerOfpoints[(i*2+6)%12],relativeSize*2*flowerOfpoints[(i*2+7)%12]);
-    
     ctx.stroke();
   }
   ctx.beginPath();
@@ -166,7 +165,7 @@ function drawEnemy(enemy){
     setContextAtrribute(-1,2,2);
     pathEnemy(enemy);
   }else if(enemy[5]==14){
-    drawFlowerOfLife(enemy);
+    drawFlowerOfLife(enemy,1);
   }else {
     setContextAtrribute(-1,2,2);
     pathTotem(enemy);
