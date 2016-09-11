@@ -22,7 +22,7 @@ function drawPointer(){
   ctx.beginPath();
   setContextAtrribute(-1,2,2);
   ctx.translate(coords[0], coords[1]);
-  setContextAtrribute(4);
+  setContextAtrribute(6);
   ctx.translate(-10, -10);
   crossLine(10,0,20);
   ctx.stroke();
@@ -167,16 +167,14 @@ function draw(t){
   var gridSize = H/mapSize
   ctx.beginPath();
   shakeScreen = !gameOver?[shake(coords[2]||totemDieShakes>0, totemDieShakes+2), shake(coords[2]||totemDieShakes>0, totemDieShakes+2)]:[0,0];
-  setContextAtrribute(-1,1,'rgba(15,12,40,'+ (0.2-(hero[8]>0?0.1:0)) +')');
+  setContextAtrribute(-1,1,'rgba(21,24,41,'+ (0.2-(hero[8]>0?0.1:0)) +')');
   ctx.translate(viewPort[0]+shakeScreen[0], viewPort[1]+shakeScreen[1]);
   ctx.fillRect(0, 0, mapPixels, mapPixels);
 
   setContextAtrribute(1);
   ctx.beginPath();
   for(var i = 0; i <= mapSize; i++){
-    for(var j = 0; j <4; j+=2){
-      crossLine(i*tileset-0.5+j, 0, mapPixels);
-    }
+    crossLine(i*tileset-0.5, 0, mapPixels);
   }
   ctx.stroke();
   ctx.beginPath();
@@ -197,7 +195,7 @@ function draw(t){
       if(map[j][i]==0) continue;
       ctx.fillRect(i*tileset+viewPort[0]+shakeScreen[0], j*tileset+viewPort[1]+shakeScreen[1], tileset, tileset);
       ctx.strokeRect(i*tileset+viewPort[0]+shakeScreen[0]-0.5, j*tileset+viewPort[1]+shakeScreen[1]-0.5, tileset+2, tileset+2);
-      ctx.strokeRect(i*tileset+viewPort[0]+shakeScreen[0]+1.5, j*tileset+viewPort[1]+shakeScreen[1]+1.5, tileset-2, tileset-2);
+      //ctx.strokeRect(i*tileset+viewPort[0]+shakeScreen[0]+1.5, j*tileset+viewPort[1]+shakeScreen[1]+1.5, tileset-2, tileset-2);
     }
   }
   ctx.stroke();
@@ -262,6 +260,7 @@ function draw(t){
     var particle = particles[i];
     if(particle[0]+viewPort[0]<5||particle[0]+viewPort[0]>W-5||particle[1]+viewPort[1]<5||particle[1]+viewPort[1]>H-5) continue
     ctx.beginPath();
+    //ctx.globalAlpha = particle[3]/100;
     setContextAtrribute(particle[4],1);
     //setRandomColor(125,particle[4], 125,particle[5],125,particle[6],0,particle[3]/100);
     ctx.arc(particle[0]+viewPort[0]+shakeScreen[0], particle[1]+viewPort[1]+shakeScreen[1], 2, 0, 2 * Math.PI, false);

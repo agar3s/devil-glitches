@@ -146,9 +146,10 @@ for (var i = 0; i < 10000; i++) {
 function pathTotem(totem){
   var loading = (invocationTimes[totem[5]]-totem[9])/invocationTimes[totem[5]];
   var green = totem[4]>0?-55:~~(200*loading)*blinkValues[loading.toFixed(4)];
-  setContextAtrribute(totem[4]>0?15:green==0?16:17)
+  //setContextAtrribute(totem[4]>0?15:green==0?16:17)
+  setContextAtrribute(16)
   for(var i = 0; i < totem[7].length; i++){
-    drawFace(totem[7][i], totem[8][i], totem[2], i, [80+totem[4],55+green,130+~~(green/2),totem[4]>0?0.9:0.4]);
+    drawFace(totem[7][i], totem[8][i], totem[2], i, [80+totem[4],55+green,130+~~(green/2),totem[4]>0?0.9:0.2]);
   }
 }
 
