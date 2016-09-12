@@ -1,4 +1,7 @@
-# The Evil glitch
+# Evil glitch
+![alt text](https://raw.githubusercontent.com/agar3s/devil-glitches/master/screenshots/EvilGlitchLogo.jpg "logo")
+====
+
 Stranger glitches appear in your dimension, could you stop them to assimilate your world?
 
 Compressed size: 13225bytes 12.92Kb 99.35% // thanks advzip
@@ -6,6 +9,8 @@ Compressed size: 13225bytes 12.92Kb 99.35% // thanks advzip
 I had this obsession about creating a game with sprites like neon, finally using webgl I found a way to made it.
 
 The game is an arcade shoot 'em up 2d with a retro aesthetics inspired in 80's media, lore and enemies are inspired in the crazy sacred geometry stuff.
+
+![alt text](https://raw.githubusercontent.com/agar3s/devil-glitches/master/screenshots/bigScreenshot-min.png "screenshot")
 
 
 ## Acknowledgments
@@ -42,7 +47,7 @@ Comunidad de desarrolladores de Videojuegos: https://www.facebook.com/groups/com
 JuegosIndies group on facebook: https://www.facebook.com/groups/juegosindies
 
 
-Devil Daggers - http://devildaggers.com/ : the game inspire me to create the same sensation to beat the game to all cost.
+Devil Daggers - http://devildaggers.com/ : that game inspires me to create the same sensation to beat the game to all cost.
 
 ## References from:
 
@@ -114,6 +119,10 @@ Personal channel(spanish) https://www.youtube.com/channel/UCw7MCnJ_p1aGZ-eAVeXJm
 PlayList with progression of the game.
 
 https://www.youtube.com/watch?v=mmoZVpAYpAI&list=PL7SN2wN7O0VlwpIBY0TX0hx4aGU7gVNVT
+
+## Spolier Alert!
+You can watch full gameplay in :
+https://www.youtube.com/watch?v=eBC8ThmHZms
 
 
 Personal devblog(english) http://agares.tumblr.com/
