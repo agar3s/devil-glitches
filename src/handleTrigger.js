@@ -70,6 +70,8 @@ function scheduleSummon(x,y,time, element){
   summons.push([x, y, time, time, element])
 }
 
+var alSequence=[10,10,11,11,11,12,12,10,10,11,13,10,11,12,12];
+var alIndex =0;
 
 function updateTrigger(){
   if(times.length>0&&score>times[0]){
@@ -98,19 +100,21 @@ function updateTrigger(){
         message = trigger[0];
       break;
       case 6:
-        GLITCHS[6]=30;
-        bannerCounter=30;
-        glitchTime = 10;
-        bannerMessage = trigger[0];
+        launchBanner(trigger[0]);
       break;
       case 7:
         trigger[0].stop()
       break;
+      case 8:
+        wave = trigger[0]
+      break;
     }
 
   }else if(times.length==0){  // to infinite mode 
-    triggers[score+7500] = [getRandomValue(21*tileset),getRandomValue(21*tileset),6]
-    glitchTime = 5;
-    times.push(score+7500)
+    if(alIndex++>=alSequence.length){
+      alIndex=0;
+    }
+    triggers[score+5000] = [0,~~(getRandomValue(21)),~~(getRandomValue(21)),alSequence[alIndex]]
+    times.push(score+5000)
   }
 }

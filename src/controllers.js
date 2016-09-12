@@ -8,10 +8,10 @@ function checkRecord(){
 }
 
 //temp
-var locationref = window.location.href||'http://js13kgames.com/entries/';
+var locationref = 'http://js13kgames.com/entries/evil-glitch';
 
 function baseMessage(){
-  return 'I reached '+score.toFixed()+' points in devilGlitches #js13k #js13kgames ';
+  return 'I reached '+score.toFixed()+' '+(godMode?'#godMode ':'')+'points in #evilGlitch #js13k #js13kgames by @agar3s ';
 }
 function shareTwitter(){
   var message = baseMessage()+locationref;
@@ -37,7 +37,7 @@ function toggleFullscreen(evt){
 document.getElementById('f').onclick=toggleFullscreen;
 
 function getRandomValue(value, offset){
-  return Math.random()*(value||1) +offset||0;
+  return Math.random()*(value||1) + (offset||0);
 }
 function randomSign(){
   return getRandomValue()>0.5?1:-1;

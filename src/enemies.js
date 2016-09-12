@@ -238,12 +238,16 @@ var spawns = {
     enemy[13]++;
   }
 }
+
 // update methods   
 function updateEnemy(enemy,index){
   // have zero life
   if(enemy[6]<=0){
     enemies.splice(index,1);
     if(enemy[5]==5) return;
+    if(enemy[5]==14){
+      bannerEndMessage = true;
+    }
     createParticles(enemy[0], enemy[1], enemy[2], necronomicon[enemy[5]][0],necronomicon[enemy[5]][0]*2,enemy[5]+24);
     if(enemy[5]>9){
       removeCorruption(enemy[0], enemy[1], enemy[10]);
@@ -288,7 +292,6 @@ function updateEnemy(enemy,index){
       enemy[13]-=dt;
       if(enemy[13]<0){ 
         var coords = [(~~(enemy[0]/tileset)+0.5)*tileset, (~~(enemy[1]/tileset)+0.5)*tileset,enemy[5]+4];
-        console.log(coords);
         scheduleSummon(coords[0], coords[1], 1, coords);
         enemies.splice(index,1);
         return;

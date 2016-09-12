@@ -38,7 +38,8 @@ var colors = [
 'hsla(360,50%, 60%, 0.88)',//34 enemy 11
 'hsla(10,50%, 60%, 0.88)',//35 enemy 12
 'hsla(20,50%, 60%, 0.88)',//36 enemy 13
-'hsla(30,50%, 60%, 0.88)'//37 enemy 14
+'hsla(30,50%, 60%, 0.88)',//37 enemy 14
+'rgba(7,8,12,0.2)'  //38
 ];
 
 function setContextAtrribute(index,attribute, custom){

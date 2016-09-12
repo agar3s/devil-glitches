@@ -156,11 +156,12 @@ function createParticles(x, y, angle, many, life, color){
 
 function draw(t){
   // draw map
-  //some random points
+  //some random points 
   setContextAtrribute(7,1);
   ctx.fillRect(0,0,FW, FH);
   setRandomColor(180,0, 185,0,185,0,0,1);
-  for(var i=0;i<6;i++) ctx.fillRect(getRandomValue(800), getRandomValue(600), 2, 2)
+  for(var i=0;i<6;i++)
+    ctx.fillRect(~~(getRandomValue(800)), ~~(getRandomValue(600)), 2, 2);
   
   // draw map 
   ctx.save()
@@ -276,19 +277,24 @@ function draw(t){
   if(gameOver){
     setContextAtrribute(22,1);
     ctx.fillRect(0,0,mapPixels, mapPixels);
+    if(godMode){
+      displayWord('god mode', 400, 80,22, [0,9]);
+    }
     if(newRecord){
       displayWord('-new record-', 400, 240,22, [10,18]);
       displayWord('-share it-', 400, 400,14, [24,18]);
     }else{
       displayWord('game over', 400, 240,20, [0,13]);
     }
-    displayWord(score.toFixed(0), 400, 160,newRecord?20:16, [0,19]);
+    displayWord(score.toFixed(0), 400, 160,newRecord?20:16, [0,9]);
   }else{
+    //wave 
+    displayWord(wave>6?'god':(wave+'/6'), 400, 60,9, [0,3]);
     //score 
-    displayWord(score.toFixed(0), 750, 60,18, [32,19],1);
+    displayWord(score.toFixed(0), 750, 60,18, [32,9],1);
     //record 
     var lrd = score>record?'record':record.toFixed(0);
-    displayWord(lrd, 750, 110,9, [24,10],1);
+    displayWord(lrd, 750, 110,9, [24,3],1);
   }
   ctx.restore();
 
@@ -312,6 +318,7 @@ function loop(t){
 
   // update changes 
   if(splashScreen)updateSplash(dt);
+  else if(bannerEndMessage)updateEnds();
   else if(GLITCHS[6]<0)update(dt);
 
   if(splashScreen||gameOver){
@@ -335,14 +342,15 @@ function loop(t){
   ctx.save();
   // draw game
   if(splashScreen)drawSplash();
-  else if(bannerScreen)drawBanner();
-  else draw(dt);
+  else if(!bannerScreen) draw(dt);
 
   // draw buttons 
-  drawPointer();
+  if(!bannerScreen&&!bannerEndMessage)drawPointer();
   ctx.save();
   drawButtons();
   ctx.restore();
+  if(bannerScreen)drawBanner();
+  else if(bannerEndMessage)drawBannerEnds();
   
   if(fade>0){
     fade+=0.05;
@@ -361,6 +369,7 @@ function loop(t){
   if(bannerScreen){
     bannerCounter-=1;
   }
+
 
   ctx.restore();
 

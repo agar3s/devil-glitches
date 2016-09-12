@@ -37,7 +37,8 @@ var gl = c.getContext('webgl',glprops) || c.getContext('experimental-webgl', glp
   shakeScreen=[0,0],
   glitchTime = 0,
   frame=0,
-  GLITCHS=[0,0,0,0,0,0,0];
+  GLITCHS=[0,0,0,0,0,0,0],
+  godMode = false;
 
 
 // DOM setup 
