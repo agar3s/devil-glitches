@@ -1,14 +1,21 @@
 todo
------ efecto raro en el siguiente boss, aplicacion de filtermode en la textura
+
+--- save god mode in localstorage
++----- efecto raro en el siguiente boss, aplicacion de filtermode en la textura
 	+--- technologic song from daft punk idea to make glitches
-	---- falta un summon bacano del ultimo enemigo... o algo como un fade o algo...
-!----- seleccionar colores para enemigos y ui
+	+---- falta un summon bacano del ultimo enemigo... o algo como un fade o algo...
+	+---- spetial summon
++---- muerte del final boss
+
++!----- seleccionar colores para enemigos y ui
 	--- el enemigo bala se confunde con las balas de uno....
-el color de las particulas no me termina de convencer...
++--el color de las particulas no me termina de convencer...
 
 +--- glitch en gameover
-- Vería si hay alguna lib que pueda inclinar un poco la pantalla (que la angule un poco sobre el eje Z)
------ sacar un listado de nombres y hacer un cuestionario
++- Vería si hay alguna lib que pueda inclinar un poco la pantalla (que la angule un poco sobre el eje Z)
++----- sacar un listado de nombres y hacer un cuestionario
++--- wave number
++--- god mode
 -- mejorar beats y frequencia de la musica
 -- mejorar el sonido de explosion
 - soporte de gamepad por favorrrrrrrrrrrrrrrrr
