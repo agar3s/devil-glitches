@@ -3,7 +3,8 @@ var buttons = [[250,320,300, false,10, 'start again',false, false, startGame],
                [120,460,250, false,11, 'twitter',false, false, shareTwitter],
                [430,460,250, false,12, 'facebook',false, false, shareFacebook],
                [240,380,320, true,13, 'fire to start', false, false, startGame],
-               [280,440,240, true,13, 'controls', false, false, toggleControls]];
+               [280,440,240, true,13, 'controls', false, false, toggleControls],
+               [280,130,240, godModeAvailable,16,'evil mode', false, false, startGodMode]];
 
 function drawButtons(){
   // absolute position

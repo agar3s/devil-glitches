@@ -11,7 +11,7 @@ function checkRecord(){
 var locationref = 'http://js13kgames.com/entries/evil-glitch';
 
 function baseMessage(){
-  return 'I reached '+score.toFixed()+' '+(godMode?'#godMode ':'')+'points in #evilGlitch #js13k #js13kgames by @agar3s ';
+  return 'I reached '+score.toFixed()+' '+(godMode?'#evilMode ':'')+'points in #evilGlitch #js13k #js13kgames by @agar3s ';
 }
 function shareTwitter(){
   var message = baseMessage()+locationref;
@@ -51,5 +51,6 @@ function toggleControls(){
   play(heroSpeedUp);
   controlHelp = !controlHelp;
   buttons[3][3] = !controlHelp;
+  buttons[5][3] = !controlHelp&&godModeAvailable;
   buttons[4][5] = controlHelp?'go back':'controls';
 }

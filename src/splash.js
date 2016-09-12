@@ -70,12 +70,13 @@ function drawSplash(){
   ctx.stroke(); 
 
   if(controlHelp){ 
+    displayWord('controls', 400, 130,12, [0,16]);
     displayWord('move             awsd', 400, 251,12, [0,0]);
     displayWord('fire       left click', 400, 290,12, [0,0]);
     displayWord('warptime  right click', 400, 330,12, [0,0]);
   }else{
     displayWord('winners don\'t use drugs', 401, 50,9, [0,0]);
-    displayWord('evil glitch', 400, 270-fade*50,30*(1+fade), [0,1,0,1]);
+    displayWord('evil glitch', 400, 270-fade*50,30*(1+fade), [0,9,0,9]);
     //displayWord('glitch', 400, 310+fade*50,20*(1+fade), [0,1,0]); 
   }
 
@@ -96,5 +97,11 @@ function updateSplash(){
 
 function startGame(){
   fade=0.01;
+}
+
+function startGodMode(){
+  startFromGodMode = true;
+  godMode = true;
+  startGame();
 }
 init();

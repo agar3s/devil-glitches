@@ -188,4 +188,13 @@ function loadGod(){
     hero[2]=20;
     hero[7]=22;
   }
+  if(startFromGodMode){
+    score = 300000;
+    wave = 7;
+    for (var i = times.length-1; i>=0; i--) {
+      if(times[i]<300000){
+        times.splice(i,1);
+      }
+    }
+  }
 }

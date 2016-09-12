@@ -33,8 +33,8 @@ function drawSummonBoss(x,y,percentage, size){
     ctx.lineTo(size*percentage/0.3,0);
   }else{
     setContextAtrribute(0,1);
-    ctx.bezierCurveTo(-size, 0, 0, -size*percentage/2, size, 0);
-    ctx.bezierCurveTo(size, 0, 0, size*percentage/2, -size, 0);
+    ctx.bezierCurveTo(-size, 0, 0, -size*percentage/3.5, size, 0);
+    ctx.bezierCurveTo(size, 0, 0, size*percentage/3.5, -size, 0);
     ctx.fill();
   }
   ctx.closePath();

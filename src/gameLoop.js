@@ -278,7 +278,7 @@ function draw(t){
     setContextAtrribute(22,1);
     ctx.fillRect(0,0,mapPixels, mapPixels);
     if(godMode){
-      displayWord('god mode', 400, 80,22, [0,9]);
+      displayWord('evil mode', 400, 80,22, [0,16]);
     }
     if(newRecord){
       displayWord('-new record-', 400, 240,22, [10,18]);
@@ -289,7 +289,7 @@ function draw(t){
     displayWord(score.toFixed(0), 400, 160,newRecord?20:16, [0,9]);
   }else{
     //wave 
-    displayWord(wave>6?'god':(wave+'/6'), 400, 60,9, [0,3]);
+    displayWord(wave>6?'evil':(wave+'/6'), 400, 60,9, [0,3]);
     //score 
     displayWord(score.toFixed(0), 750, 60,18, [32,9],1);
     //record 

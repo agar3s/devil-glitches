@@ -80,6 +80,7 @@ function updateEnds(){
     enemies = [];
     bullets=[];
     godMode = true;
+    storage.setItem('agar3sjs13k-gm', 'qyui');
     loadGod();
   }
   endBannerCounter++;
