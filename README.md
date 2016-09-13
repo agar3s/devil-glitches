@@ -2,7 +2,11 @@
 ![alt text](https://raw.githubusercontent.com/agar3s/devil-glitches/master/screenshots/EvilGlitchLogo.jpg "logo")
 ====
 
+Play it now: http://js13kgames.com/entries/evil-glitch
+
 Stranger glitches appear in your dimension, could you stop them to assimilate your world?
+
+![alt text](https://pbs.twimg.com/tweet_video/CsMcqY2XEAA1wHM.mp4 "logo")
 
 Compressed size: 13225bytes 12.92Kb 99.35% // thanks advzip
 
