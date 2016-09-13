@@ -6,7 +6,7 @@ Play it now: http://js13kgames.com/entries/evil-glitch
 
 Stranger glitches appear in your dimension, could you stop them to assimilate your world?
 
-![alt text](https://pbs.twimg.com/tweet_video/CsMcqY2XEAA1wHM.mp4 "logo")
+[![smallgiffdemo.gif](https://s10.postimg.org/ha1vbgkbd/smallgiffdemo.gif)](https://postimg.org/image/a6tzvuevp/)
 
 Compressed size: 13225bytes 12.92Kb 99.35% // thanks advzip
 
@@ -15,6 +15,7 @@ I had this obsession about creating a game with sprites like neon, finally using
 The game is an arcade shoot 'em up 2d with a retro aesthetics inspired in 80's media, lore and enemies are inspired in the crazy sacred geometry stuff.
 
 ![alt text](https://raw.githubusercontent.com/agar3s/devil-glitches/master/screenshots/bigScreenshot-min.png "screenshot")
+
 
 
 ## Acknowledgments
