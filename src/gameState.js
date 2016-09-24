@@ -73,7 +73,7 @@ function init(){
     83000:[0,10,9,12],
     83500:[1,sequence2],
     95050:[5,'you must stop this'],
-    99950:[5,'is inevitable!'],
+    99950:[5,'it\'s inevitable!'],
     99980:[8,4],
    100000:[0,10, 1,12],
    103050:[5,''],
