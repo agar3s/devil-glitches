@@ -109,7 +109,7 @@ https://www.youtube.com/watch?v=BP1C-W8A69s Neo-Tokyo
 
 Code not writed by me has comments on the file's header.
 
-I took the 2016 1st place winner code https://github.com/gre/behind-asteroids as a template for my entry, removing the game itself and keeping only the bootstrap part.
+I took the 2015 1st place winner code https://github.com/gre/behind-asteroids as a template for my entry, removing the game itself and keeping only the bootstrap part.
 building system
 processing and rendering shaders
 
