@@ -3,6 +3,7 @@
 ====
 
 Play it now: http://js13kgames.com/entries/evil-glitch
+Recent Arcade Version with Global Scores: http://evilglitch.io
 
 Stranger glitches appear in your dimension, could you stop them to assimilate your world?
 
