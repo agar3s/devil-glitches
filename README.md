@@ -53,7 +53,7 @@ Comunidad de desarrolladores de Videojuegos: https://www.facebook.com/groups/com
 JuegosIndies group on facebook: https://www.facebook.com/groups/juegosindies
 
 
-Devil Daggers - http://devildaggers.com/ : that game inspires me to create the same sensation to beat the game to all cost.
+Devil Daggers - http://devildaggers.com/ : that game inspires me to create the same sensation of beating the game at all costs.
 
 ## References from:
 
@@ -119,6 +119,8 @@ processing and rendering shaders
 
 https://twitter.com/agar3s
 
+https://agar3s.itch.io
+
 Personal channel(spanish) https://www.youtube.com/channel/UCw7MCnJ_p1aGZ-eAVeXJm9g
 
 
@@ -130,5 +132,3 @@ https://www.youtube.com/watch?v=mmoZVpAYpAI&list=PL7SN2wN7O0VlwpIBY0TX0hx4aGU7gV
 You can watch full gameplay in :
 https://www.youtube.com/watch?v=eBC8ThmHZms
 
-
-Personal devblog(english) http://agares.tumblr.com/
